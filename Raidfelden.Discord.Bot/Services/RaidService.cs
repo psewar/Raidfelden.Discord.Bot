@@ -19,12 +19,14 @@ namespace Raidfelden.Discord.Bot.Services
 
     public class RaidService : IRaidService
     {
+        protected Hydro74000Context Context { get; }
         protected IGymService GymService { get; }
         protected IPokemonService PokemonService { get; }
         protected IRaidbossService RaidbossService { get; }
 
-        public RaidService(IGymService gymService, IPokemonService pokemonService, IRaidbossService raidbossService)
+        public RaidService(Hydro74000Context context, IGymService gymService, IPokemonService pokemonService, IRaidbossService raidbossService)
         {
+            Context = context;
             GymService = gymService;
             PokemonService = pokemonService;
             RaidbossService = raidbossService;
@@ -66,22 +68,16 @@ namespace Raidfelden.Discord.Bot.Services
 
         private async Task<ServiceResponse> AddResolveGymAsync(string gymName, byte level, IPokemon pokemon, IRaidboss raidboss, DateTime startEndTime, int interactiveLimit, IEnumerable<FenceConfiguration> fences)
         {
-            using (var context = new Hydro74000Context())
-            {
-                var gymResponse = await GymService.GetGymAsync(context, gymName, interactiveLimit, (selectedGymId) => AddResolveGymAsync(selectedGymId, level, pokemon, raidboss, startEndTime, interactiveLimit, fences), fences);
-                if (!gymResponse.IsSuccess) { return gymResponse; }
+            var gymResponse = await GymService.GetGymAsync(Context, gymName, interactiveLimit, (selectedGymId) => AddResolveGymAsync(selectedGymId, level, pokemon, raidboss, startEndTime, interactiveLimit, fences), fences);
+            if (!gymResponse.IsSuccess) { return gymResponse; }
 
-                return await AddSaveAsync(context, gymResponse.Result, level, pokemon, raidboss, startEndTime);
-            }
+            return await AddSaveAsync(Context, gymResponse.Result, level, pokemon, raidboss, startEndTime);
         }
 
         private async Task<ServiceResponse> AddResolveGymAsync(int gymId, byte level, IPokemon pokemon, IRaidboss raidboss, DateTime startEndTime, int interactiveLimit, IEnumerable<FenceConfiguration> fences)
         {
-            using (var context = new Hydro74000Context())
-            {
-                var gym = await context.Forts.SingleAsync(e => e.Id == gymId);
-                return await AddSaveAsync(context, gym, level, pokemon, raidboss, startEndTime);
-            }
+            var gym = await Context.Forts.SingleAsync(e => e.Id == gymId);
+            return await AddSaveAsync(Context, gym, level, pokemon, raidboss, startEndTime);
         }
 
         private async Task<ServiceResponse> AddSaveAsync(Hydro74000Context context, Forts gym, byte level, IPokemon pokemon, IRaidboss raidboss, DateTime startEndTime)
@@ -174,22 +170,16 @@ namespace Raidfelden.Discord.Bot.Services
 
         public async Task<ServiceResponse> HatchResolveGymAsync(string gymName, IPokemon pokemon, IRaidboss raidboss, int interactiveLimit, IEnumerable<FenceConfiguration> fences)
         {
-            using (var context = new Hydro74000Context())
-            {
-                var gymResponse = await GymService.GetGymAsync(context, gymName, interactiveLimit, (selectedGymId) => HatchResolveGymWithIdAsync(selectedGymId, pokemon, raidboss, interactiveLimit), fences);
-                if (!gymResponse.IsSuccess) { return gymResponse; }
+            var gymResponse = await GymService.GetGymAsync(Context, gymName, interactiveLimit, (selectedGymId) => HatchResolveGymWithIdAsync(selectedGymId, pokemon, raidboss, interactiveLimit), fences);
+            if (!gymResponse.IsSuccess) { return gymResponse; }
 
-                return await HatchSaveAsync(context, gymResponse.Result, pokemon, raidboss, interactiveLimit);
-            }
+            return await HatchSaveAsync(Context, gymResponse.Result, pokemon, raidboss, interactiveLimit);
         }
 
         public async Task<ServiceResponse> HatchResolveGymWithIdAsync(int gymId, IPokemon pokemon, IRaidboss raidboss, int interactiveLimit)
         {
-            using (var context = new Hydro74000Context())
-            {
-                var gym = await context.Forts.SingleAsync(e => e.Id == gymId);
-                return await HatchSaveAsync(context, gym, pokemon, raidboss, interactiveLimit);
-            }
+            var gym = await Context.Forts.SingleAsync(e => e.Id == gymId);
+            return await HatchSaveAsync(Context, gym, pokemon, raidboss, interactiveLimit);
         }
 
         public async Task<ServiceResponse> HatchSaveAsync(Hydro74000Context context, Forts gym, IPokemon pokemon, IRaidboss raidboss, int interactiveLimit)

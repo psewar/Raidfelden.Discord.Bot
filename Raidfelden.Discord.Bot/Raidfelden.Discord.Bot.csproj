@@ -40,6 +40,9 @@
     <None Update="bosses.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="geofences.txt.example">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="geofences.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

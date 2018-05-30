@@ -20,6 +20,9 @@ namespace Raidfelden.Discord.Bot.Monocle
         public virtual DbSet<Spawnpoints> Spawnpoints { get; set; }
         public virtual DbSet<Weather> Weather { get; set; }
 
+        public Hydro74000Context(DbContextOptions options) :base(options)
+        { }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Accounts>(entity =>

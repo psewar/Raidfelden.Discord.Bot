@@ -17,6 +17,8 @@ using System.Linq;
 using Raidfelden.Discord.Bot.Resources;
 using Raidfelden.Discord.Bot.Configuration.Providers.Fences.Novabot;
 using Discord.Addons.Interactive;
+using Raidfelden.Discord.Bot.Monocle;
+using Microsoft.EntityFrameworkCore;
 
 namespace Raidfelden.Discord.Bot
 {
@@ -55,6 +57,7 @@ namespace Raidfelden.Discord.Bot
             _client = new DiscordSocketClient();
 			_commands = new CommandService();
 
+            var connectionString = Configuration.GetConnectionString("ScannerDatabase");
             var fencesSection = Configuration.GetSection("FencesConfiguration");
             var fences = new FencesConfiguration();
             fencesSection.Bind(fences);
@@ -64,6 +67,7 @@ namespace Raidfelden.Discord.Bot
                 .AddSingleton(configuration)
                 .AddSingleton(fences)
                 .AddEntityFrameworkMySql()
+                .AddDbContext<Hydro74000Context>(options => options.UseMySql(connectionString))
                 .AddSingleton(_client)
                 .AddSingleton(_commands)
                 .AddSingleton<IPokemonService, PokemonService>()
