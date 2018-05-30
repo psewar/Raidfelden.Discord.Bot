@@ -290,3 +290,4 @@ __pycache__/
 
 # Discord Bot Files
 settings.json
+geofences.txt

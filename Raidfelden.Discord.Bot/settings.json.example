@@ -1,0 +1,51 @@
+﻿{
+  "ConnectionStrings": {
+    "ScannerDatabase": "<ConnectionString>"
+  },
+  "AppConfiguration": {
+    "CultureCode": "de-DE",
+    "BotToken": "<DiscordBotToken>",
+    "DefaultCommandPrefix": ".",
+    "Guilds": [
+      {
+        "GuildId": "12345678901234567890",
+        "Raids": [
+          {
+            "Name": "raids",
+            "Fences": [
+              "fence1",
+              "fence2",
+              "fence3"
+            ]
+          },
+          {
+            "Name": "test"
+          },
+          {
+            "Name": "raid_",
+            "IsWildcardChannelWithFenceInName": true
+          }
+        ],
+        "Pokemon": [
+          {
+            "Name": "pokemon"
+          },
+          {
+            "Name": "test"
+          }
+        ]
+      },
+      {
+        "GuildId": "98765432109876543210",
+        "Raids": [
+          {
+            "Name": "raids",
+            "Fences": [
+              "fence4"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
