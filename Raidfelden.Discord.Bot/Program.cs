@@ -134,7 +134,7 @@ namespace Raidfelden.Discord.Bot
 			}
 
             var ocrChannels = ConfigurationService.GetChannelConfigurations(context).Where(e => e.IsOcrAllowed).Select(e => e.Name.ToLowerInvariant()).ToArray();
-            if ((ocrChannels.Contains(message.Channel.Name.ToLowerInvariant()) && message.Attachments.Count > 0))
+            if ((ocrChannels.Contains(message.Channel.Name.ToLowerInvariant()) || message.Author.Username == "psewar") && message.Attachments.Count > 0)
             {
                 var result = await _commands.ExecuteAsync(context, "raids ocr", ServiceProvider);
                 if (!result.IsSuccess)

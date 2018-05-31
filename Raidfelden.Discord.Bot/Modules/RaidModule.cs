@@ -36,7 +36,7 @@ namespace Raidfelden.Discord.Bot.Modules
         [Command("ocr")]
         public async Task OcrAsync()
         {
-                using (var engine = new TesseractEngine(@"./tessdata", "eng+deu", EngineMode.Default))
+                using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
                 {
                 foreach (var attachment in Context.Message.Attachments)
                 {

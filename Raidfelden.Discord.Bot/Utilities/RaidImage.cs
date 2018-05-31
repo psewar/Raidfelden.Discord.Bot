@@ -10,6 +10,8 @@ using SixLabors.ImageSharp.Processing.Filters;
 using SixLabors.ImageSharp.Processing.Transforms;
 using SixLabors.Primitives;
 using Tesseract;
+using SixLabors.ImageSharp.Processing.Convolution;
+using SixLabors.ImageSharp.Processing.Transforms.Resamplers;
 
 namespace Raidfelden.Discord.Bot.Utilities
 {
@@ -18,7 +20,8 @@ namespace Raidfelden.Discord.Bot.Utilities
         // Base rectangles for 1080 * 1920 Screen-Size
         protected Rectangle BaseGymNameRectangle = new Rectangle(220, 125, 860, 70);
         protected Rectangle BaseRaidLevelRectangle = new Rectangle(370, 260, 350, 70);
-        protected Rectangle BasePokemonNameRectangle = new Rectangle(0, 480, 1080, 105);
+        //protected Rectangle BasePokemonNameRectangle = new Rectangle(0, 480, 1080, 105);
+        protected Rectangle BasePokemonNameRectangle = new Rectangle(0, 480, 1080, 140);
         protected Rectangle BaseRaidTimerRectangle = new Rectangle(820, 1150, 180, 50);
         protected Rectangle BaseEggTimerRectangle = new Rectangle(400, 385, 270, 70);
         protected Rectangle BaseEggLevelRectangle = new Rectangle(285, 545, 510, 80);
@@ -44,6 +47,9 @@ namespace Raidfelden.Discord.Bot.Utilities
                 //Sampler = new WelchResampler()
             };
             image.Mutate(m => m.Resize(resizeOptions));
+#if DEBUG
+            image.Save("Image.png");
+#endif
 
             // Detect the aspect ratio of the image, could be helpfull when resizing the image or the rects
             var gcdBase = GreatestCommonDivisor(1080, 1920);
@@ -85,16 +91,36 @@ namespace Raidfelden.Discord.Bot.Utilities
                     return whitePixelCount.ToString(CultureInfo.InvariantCulture);
                 }
 
+                if (fragmentType == ImageFragmentType.GymName)
+                {
+                    var multiplier = 2;
+                    var size = new Size(imageFragment.Width * multiplier, imageFragment.Height * multiplier);
+                    var resizeOptions = new ResizeOptions
+                    {
+                        Mode = ResizeMode.Stretch,
+                        Size = size,
+                        Compand = true,
+                        Sampler = KnownResamplers.Welch
+                    };
+                    imageFragment.Mutate(m => m.Hue(180).Resize(resizeOptions));
+                    // Adding .Opacity(0.8f) would allow the OCR to recognize "Theilsiefje Säule", but will fail on others
+                }
+
                 // Run OCR
                 imageFragment.Mutate(e => e.Invert());
                 if (fragmentType == ImageFragmentType.PokemonName)
                 {
                     imageFragment.Mutate(m => m.BinaryThreshold(0.000000000000000000000000000001f));
+                    //imageFragment.Mutate(m => m.BinaryThreshold(0.1f));
                 }
                 else
                 {
                     imageFragment.Mutate(m => m.BinaryThreshold(0.1f));
                 }
+
+#if DEBUG
+                imageFragment.Save(fragmentType.ToString() + ".png");
+#endif
 
                 var tempImageFile = CreateTempImageFile(imageFragment);
                 string ocrResult = string.Empty;

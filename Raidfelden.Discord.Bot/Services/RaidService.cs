@@ -84,7 +84,7 @@ namespace Raidfelden.Discord.Bot.Services
         {
             var localDateTime = new LocalDateTime(startEndTime.Year, startEndTime.Month, startEndTime.Day, startEndTime.Hour, startEndTime.Minute, startEndTime.Second);
             var expiry = new ZonedDateTime(localDateTime, DateTimeZone.Utc, Offset.Zero).ToInstant();
-
+            expiry = expiry.Minus(Duration.FromHours(2)); //UTC Time Hotfix
             // Create the raid entry
             var isNewRaid = false;
             var beforeSpawnTime = SystemClock.Instance.GetCurrentInstant().Minus(Duration.FromMinutes(90)).ToUnixTimeSeconds();
@@ -108,7 +108,7 @@ namespace Raidfelden.Discord.Bot.Services
                 raid.TimeSpawn = (int)expiry.Minus(Duration.FromMinutes(60)).ToUnixTimeSeconds();
                 raid.TimeBattle = (int)expiry.ToUnixTimeSeconds();
                 raid.TimeEnd = (int)expiry.Plus(Duration.FromMinutes(45)).ToUnixTimeSeconds();
-                message = $"Neuer Level {level} Raid an {gym.Name} (beginnt ca um {expiry.ToString("HH:mm:ss", CultureInfo.InvariantCulture)}) eingetragen.";
+                message = $"Neuer Level {level} Raid an {gym.Name} (beginnt ca um {expiry.Plus(Duration.FromHours(2)).ToString("HH:mm:ss", CultureInfo.InvariantCulture)}) eingetragen.";
             }
             else
             {
@@ -119,11 +119,11 @@ namespace Raidfelden.Discord.Bot.Services
                 raid.TimeEnd = (int)expiry.ToUnixTimeSeconds();
                 if (isNewRaid)
                 {
-                    message = $"Neuer Raidboss {pokemon.Name} an {gym.Name} (endet ca um {expiry.ToString("HH:mm:ss", CultureInfo.InvariantCulture)}) eingetragen.";
+                    message = $"Neuer Raidboss {pokemon.Name} an {gym.Name} (endet ca um {expiry.Plus(Duration.FromHours(2)).ToString("HH:mm:ss", CultureInfo.InvariantCulture)}) eingetragen.";
                 }
                 else
                 {
-                    message = $"Raidboss {pokemon.Name} an {gym.Name} (endet ca um {expiry.ToString("HH:mm:ss", CultureInfo.InvariantCulture)} verändert.";
+                    message = $"Raidboss {pokemon.Name} an {gym.Name} (endet ca um {expiry.Plus(Duration.FromHours(2)).ToString("HH:mm:ss", CultureInfo.InvariantCulture)} verändert.";
                 }
             }
 

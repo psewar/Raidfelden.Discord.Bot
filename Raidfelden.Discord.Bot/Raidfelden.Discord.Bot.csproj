@@ -58,7 +58,7 @@
     <None Update="settings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="tessdata\configs\bazzar">
+    <None Update="tessdata\configs\bazaar">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="tessdata\deu.traineddata">
@@ -144,7 +144,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="tessdata\configs\" />
     <Folder Include="x86\" />
     <Folder Include="x64\" />
     <Folder Include="Properties\" />
