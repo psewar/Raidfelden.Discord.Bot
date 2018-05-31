@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Processing.Binarization;
@@ -11,7 +12,11 @@ using SixLabors.ImageSharp.Processing.Transforms;
 using SixLabors.Primitives;
 using Tesseract;
 using SixLabors.ImageSharp.Processing.Convolution;
+using SixLabors.ImageSharp.Processing.Drawing;
+using SixLabors.ImageSharp.Processing.Drawing.Brushes;
 using SixLabors.ImageSharp.Processing.Transforms.Resamplers;
+
+using CoreBrushes = SixLabors.ImageSharp.Processing.Drawing.Brushes.Brushes;
 
 namespace Raidfelden.Discord.Bot.Utilities
 {
@@ -48,7 +53,7 @@ namespace Raidfelden.Discord.Bot.Utilities
             };
             image.Mutate(m => m.Resize(resizeOptions));
 #if DEBUG
-            image.Save("Image.png");
+            image.Save("_Image.png");
 #endif
 
             // Detect the aspect ratio of the image, could be helpfull when resizing the image or the rects
@@ -73,7 +78,11 @@ namespace Raidfelden.Discord.Bot.Utilities
 
         public string GetFragmentString(TesseractEngine engine, ImageFragmentType fragmentType)
         {
-            using (var imageFragment = Image.Clone(e => e.Crop(FragmentLocations[fragmentType])))
+	        bool saveTestImages = false;
+#if DEBUG
+	        saveTestImages = true;
+#endif
+			using (var imageFragment = Image.Clone(e => e.Crop(FragmentLocations[fragmentType])))
             {
                 if (fragmentType == ImageFragmentType.EggLevel)
                 {
@@ -93,6 +102,10 @@ namespace Raidfelden.Discord.Bot.Utilities
 
                 if (fragmentType == ImageFragmentType.GymName)
                 {
+	                if (saveTestImages)
+	                {
+		                imageFragment.Save("_" + fragmentType + "_BeforeResize.png");
+	                }
                     var multiplier = 2;
                     var size = new Size(imageFragment.Width * multiplier, imageFragment.Height * multiplier);
                     var resizeOptions = new ResizeOptions
@@ -102,9 +115,47 @@ namespace Raidfelden.Discord.Bot.Utilities
                         Compand = true,
                         Sampler = KnownResamplers.Welch
                     };
+
                     imageFragment.Mutate(m => m.Hue(180).Resize(resizeOptions));
-                    // Adding .Opacity(0.8f) would allow the OCR to recognize "Theilsiefje Säule", but will fail on others
-                }
+					// if the image is a bit dark apply a bit of brightness to get a better readable Text after the BinaryThreshold
+					var pixelData = GetPixelArray(imageFragment);
+					var avgColor = pixelData.Average(e => e.Average(f => f.R + f.G + f.B));
+					var averageColor = new Rgb24(80, 80, 80);
+					if (avgColor < (averageColor.R + averageColor.G + averageColor.B))
+	                {
+		                imageFragment.Mutate(m => m.Brightness(2f));
+						// Perhaps use .Opacity(0.8f) as it also allowed the OCR to recognize "Theilsiefje Säule"
+					}
+					if (saveTestImages)
+					{
+						imageFragment.Save("_" + fragmentType + "_AfterResize.png");
+					}
+				}
+
+	            if (fragmentType == ImageFragmentType.PokemonName)
+	            {
+					if (saveTestImages)
+					{
+						imageFragment.Save("_" + fragmentType + "_BeforeResize.png");
+					}
+
+					var pixelData = GetPixelArray(imageFragment);
+					var avgColor = pixelData.Average(e => e.Average(f => f.R + f.G + f.B));
+					var averageColor = new Rgb24(235, 235, 235);
+					if (avgColor > (averageColor.R + averageColor.G + averageColor.B))
+					{
+						// Brightness(0.5f) == Brightness -200 in paint.net
+						//imageFragment.Mutate(m => m.GaussianBlur().Brightness(0.5f).Contrast(200f));
+						imageFragment.Mutate(m => m.GaussianBlur().BinaryThreshold(0.9f).Invert().Fill(CoreBrushes.BackwardDiagonal(Rgba32.White) as IBrush<TPixel>));
+						//imageFragment.Mutate(x => x.Fill(CoreBrushes.BackwardDiagonal(Rgba32.HotPink) as IBrush<TPixel>));
+
+					}
+					//imageFragment.Mutate(m => m.Brightness(0.9f));
+					if (saveTestImages)
+					{
+						imageFragment.Save("_" + fragmentType + "_AfterResize.png");
+					}
+				}
 
                 // Run OCR
                 imageFragment.Mutate(e => e.Invert());
@@ -118,11 +169,12 @@ namespace Raidfelden.Discord.Bot.Utilities
                     imageFragment.Mutate(m => m.BinaryThreshold(0.1f));
                 }
 
-#if DEBUG
-                imageFragment.Save(fragmentType.ToString() + ".png");
-#endif
+	            if (saveTestImages)
+	            {
+		            imageFragment.Save("_" + fragmentType.ToString() + ".png");
+	            }
 
-                var tempImageFile = CreateTempImageFile(imageFragment);
+	            var tempImageFile = CreateTempImageFile(imageFragment);
                 string ocrResult = string.Empty;
                 using (var tempImage = Pix.LoadFromFile(tempImageFile))
                 {

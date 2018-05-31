@@ -84,14 +84,13 @@ namespace Raidfelden.Discord.Bot.Services
         {
             var localDateTime = new LocalDateTime(startEndTime.Year, startEndTime.Month, startEndTime.Day, startEndTime.Hour, startEndTime.Minute, startEndTime.Second);
             var expiry = new ZonedDateTime(localDateTime, DateTimeZone.Utc, Offset.Zero).ToInstant();
-            expiry = expiry.Minus(Duration.FromHours(2)); //UTC Time Hotfix
+            var expiryUtc = expiry.Minus(Duration.FromHours(2)); //UTC Time Hotfix
+
             // Create the raid entry
-            var isNewRaid = false;
             var beforeSpawnTime = SystemClock.Instance.GetCurrentInstant().Minus(Duration.FromMinutes(90)).ToUnixTimeSeconds();
             var raid = context.Raids.FirstOrDefault(e => e.FortId == gym.Id && e.TimeSpawn > beforeSpawnTime);
             if (raid == null)
             {
-                isNewRaid = true;
                 raid = new Raids
                 {
                     ExternalId = ThreadLocalRandom.NextLong(),
@@ -105,26 +104,19 @@ namespace Raidfelden.Discord.Bot.Services
             if (raidboss == null)
             {
                 raid.Level = level;
-                raid.TimeSpawn = (int)expiry.Minus(Duration.FromMinutes(60)).ToUnixTimeSeconds();
-                raid.TimeBattle = (int)expiry.ToUnixTimeSeconds();
-                raid.TimeEnd = (int)expiry.Plus(Duration.FromMinutes(45)).ToUnixTimeSeconds();
-                message = $"Neuer Level {level} Raid an {gym.Name} (beginnt ca um {expiry.Plus(Duration.FromHours(2)).ToString("HH:mm:ss", CultureInfo.InvariantCulture)}) eingetragen.";
+                raid.TimeSpawn = (int)expiryUtc.Minus(Duration.FromMinutes(60)).ToUnixTimeSeconds();
+                raid.TimeBattle = (int)expiryUtc.ToUnixTimeSeconds();
+                raid.TimeEnd = (int)expiryUtc.Plus(Duration.FromMinutes(45)).ToUnixTimeSeconds();
+                message = $"Level {level} Raid an der Arena \"{gym.Name}\", Start um {expiry.ToString("HH:mm:ss", CultureInfo.InvariantCulture)}";
             }
             else
             {
                 raid.PokemonId = (short)raidboss.Id;
                 raid.Level = level;
-                raid.TimeSpawn = (int)expiry.Minus(Duration.FromMinutes(105)).ToUnixTimeSeconds();
-                raid.TimeBattle = (int)expiry.Minus(Duration.FromMinutes(45)).ToUnixTimeSeconds();
-                raid.TimeEnd = (int)expiry.ToUnixTimeSeconds();
-                if (isNewRaid)
-                {
-                    message = $"Neuer Raidboss {pokemon.Name} an {gym.Name} (endet ca um {expiry.Plus(Duration.FromHours(2)).ToString("HH:mm:ss", CultureInfo.InvariantCulture)}) eingetragen.";
-                }
-                else
-                {
-                    message = $"Raidboss {pokemon.Name} an {gym.Name} (endet ca um {expiry.Plus(Duration.FromHours(2)).ToString("HH:mm:ss", CultureInfo.InvariantCulture)} verändert.";
-                }
+                raid.TimeSpawn = (int)expiryUtc.Minus(Duration.FromMinutes(105)).ToUnixTimeSeconds();
+                raid.TimeBattle = (int)expiryUtc.Minus(Duration.FromMinutes(45)).ToUnixTimeSeconds();
+                raid.TimeEnd = (int)expiryUtc.ToUnixTimeSeconds();
+				message = $"{pokemon.Name} an der Arena \"{gym.Name}\", Ende um {expiry.ToString("HH:mm:ss", CultureInfo.InvariantCulture)}";
             }
 
             await context.SaveChangesAsync();

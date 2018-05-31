@@ -65,6 +65,8 @@ namespace Raidfelden.Discord.Bot.Modules
             var result = await interactiveCallback();
             if (result.IsSuccess)
             {
+				var messageBuilder = new StringBuilder($"Vielen Dank {Context.Message.Author.Mention} ich habe die Information wie folgt eingetragen:");
+	            messageBuilder.Append(result.Message);
                 await ReplySuccessAsync(titleSuccess, result.Message);
             }
             else

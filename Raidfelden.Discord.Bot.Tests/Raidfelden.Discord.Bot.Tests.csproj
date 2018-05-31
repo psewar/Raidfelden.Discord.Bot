@@ -26,6 +26,9 @@
     <None Update="Ressources\Pictures\Raids\Absol-Theilsiefje.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Ressources\Pictures\Raids\Gundeldinger Grippe - Ho-Oh.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Ressources\Pictures\Raids\RaidLevel1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
