@@ -30,8 +30,8 @@ namespace Raidfelden.Discord.Bot.Tests
                 Assert.AreEqual(".raids add \"Bahnhof Graffiti Seebach\" \"4\" 48:34", text, true);
 
 				// Raidboss blocks part of the name
-				//text = GetRaidText(basePath + "Gundeldinger Krippe - Ho-Oh.png", engine);
-				//Assert.AreEqual(".raids add \"Gundeldinger Krippe\" \"Ho-Oh\" 2:43", text, true);
+				text = GetRaidText(basePath + "Gundeldinger Krippe - Ho-Oh.png", engine);
+				Assert.AreEqual(".raids add \"Gundeldinger Krippe\" \"Ho-Oh\" 2:43", text, true);
 
 				text = GetRaidText(basePath + "Absol-Theilsiefje.png", engine);
                 Assert.AreEqual(".raids add \"Theilsiefje Säule\" \"Absol\" 44:24", text, true);

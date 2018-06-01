@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Raidfelden.Discord.Bot.Extensions.ImageSharp;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
@@ -41,10 +42,20 @@ namespace Raidfelden.Discord.Bot.Utilities
 
         public Image<TPixel> Image { get; }
 
-        public RaidImage(Image<TPixel> image)
+	    public Dictionary<ImageFragmentType, Dictionary<string, string>> CommonDetectionErrorCorrections { get; }
+
+	    public RaidImage(Image<TPixel> image)
         {
             Image = image;
-            var resizeOptions = new ResizeOptions
+	        CommonDetectionErrorCorrections = new Dictionary<ImageFragmentType, Dictionary<string, string>>();
+	        var cdec = CommonDetectionErrorCorrections;
+	        cdec.Add(ImageFragmentType.PokemonName, new Dictionary<string, string>()
+	        {
+		        {"HoliO h", "Ho-Oh"},
+		        {"Absal", "Absol"}
+	        });
+
+			var resizeOptions = new ResizeOptions
             {
                 Mode = ResizeMode.Pad,
                 Size = new Size(1080, 1920),
@@ -139,17 +150,59 @@ namespace Raidfelden.Discord.Bot.Utilities
 						imageFragment.Save("_" + fragmentType + "_BeforeResize.png");
 					}
 
-					var pixelData = GetPixelArray(imageFragment);
-					var avgColor = pixelData.Average(e => e.Average(f => f.R + f.G + f.B));
-					var averageColor = new Rgb24(235, 235, 235);
-					if (avgColor > (averageColor.R + averageColor.G + averageColor.B))
-					{
-						// Brightness(0.5f) == Brightness -200 in paint.net
-						//imageFragment.Mutate(m => m.GaussianBlur().Brightness(0.5f).Contrast(200f));
-						imageFragment.Mutate(m => m.GaussianBlur().BinaryThreshold(0.9f).Invert().Fill(CoreBrushes.BackwardDiagonal(Rgba32.White) as IBrush<TPixel>));
-						//imageFragment.Mutate(x => x.Fill(CoreBrushes.BackwardDiagonal(Rgba32.HotPink) as IBrush<TPixel>));
-
+					var floodFillLetters = new QueueLinearFloodFiller();
+					floodFillLetters.Bitmap = imageFragment as Image<Rgba32>;
+					floodFillLetters.FillColor = Rgba32.Black;
+					floodFillLetters.Tolerance[0] = 10;
+					floodFillLetters.Tolerance[1] = 10;
+					floodFillLetters.Tolerance[2] = 10;
+					var borderColor = new Rgba32(168, 185, 189, 255);
+					foreach (var encapsulatedPixel in GetEncapsulatedPixels(imageFragment as Image<Rgba32>, Rgba32.White, borderColor, 20))
+		            {
+						floodFillLetters.FloodFill(encapsulatedPixel);
 					}
+
+					imageFragment.Save("_" + fragmentType + "_AfterFloodFillLetters.png");
+
+					imageFragment.Mutate(m => m.BinaryThreshold(0.01f));
+
+					imageFragment.Save("_" + fragmentType + "_AfterFloodFillLetters_Binary.png");
+
+					imageFragment.Mutate(m => m.Invert());
+					//var pixelData = GetPixelArray(imageFragment);
+					//var avgColor = pixelData.Average(e => e.Average(f => f.R + f.G + f.B));
+					//var averageColor = new Rgb24(235, 235, 235);
+					//if (avgColor > (averageColor.R + averageColor.G + averageColor.B))
+					//{
+					//	// Brightness(0.5f) == Brightness -200 in paint.net
+					//	imageFragment.Mutate(m => m.GaussianBlur().BinaryThreshold(0.9f));
+					//	//imageFragment.Mutate(m => m.GaussianBlur().Brightness(0.5f).Contrast(200f));
+					//	//imageFragment.Mutate(m => m.GaussianBlur().BinaryThreshold(0.9f).Invert().Fill(CoreBrushes.BackwardDiagonal(Rgba32.White) as IBrush<TPixel>));
+					//	//imageFragment.Mutate(x => x.Fill(CoreBrushes.BackwardDiagonal(Rgba32.HotPink) as IBrush<TPixel>));
+					//	var floodFill = new QueueLinearFloodFiller();
+					//	floodFill.Bitmap = imageFragment as Image<Rgba32>;
+					//	floodFill.FillColor = Rgba32.Black;
+					//	floodFill.FloodFill(new Point(0, 0));
+					//	floodFill.FloodFill(new Point(imageFragment.Width-1, imageFragment.Height-1));
+					//}
+
+					//FloodFill Regions of the image which got a black entry from the border
+					if (saveTestImages)
+					{
+						imageFragment.Save("_" + fragmentType + "_BeforeFloodFill.png");
+					}
+					var floodFillBorders = new QueueLinearFloodFiller();
+					floodFillBorders.Bitmap = imageFragment as Image<Rgba32>;
+					floodFillBorders.FillColor = Rgba32.Black;
+					floodFillBorders.Tolerance[0] = 1;
+					floodFillBorders.Tolerance[1] = 1;
+					floodFillBorders.Tolerance[2] = 1;
+					foreach (var point in PixelsWithColorAtBorder(imageFragment as Image<Rgba32>, Rgba32.White))
+					{
+						floodFillBorders.FloodFill(point);
+					}
+					//imageFragment.Mutate(m => m.Invert());
+
 					//imageFragment.Mutate(m => m.Brightness(0.9f));
 					if (saveTestImages)
 					{
@@ -181,6 +234,14 @@ namespace Raidfelden.Discord.Bot.Utilities
                     using (var page = engine.Process(tempImage))
                     {
                         ocrResult = RemoveUnwantedCharacters(page.GetText());
+	                    if (CommonDetectionErrorCorrections.ContainsKey(fragmentType))
+	                    {
+							var errorCorrection = CommonDetectionErrorCorrections[fragmentType];
+		                    if (errorCorrection.ContainsKey(ocrResult))
+		                    {
+			                    return errorCorrection[ocrResult];
+		                    }
+						}
                     }
                 }
                 System.IO.File.Delete(tempImageFile);
@@ -188,7 +249,93 @@ namespace Raidfelden.Discord.Bot.Utilities
             }
         }
 
-        private static string CreateTempImageFile<TPixel>(Image<TPixel> image) where TPixel : struct, IPixel<TPixel>
+	    private static IEnumerable<Point> PixelsWithColorAtBorder(Image<Rgba32> image, Rgba32 color)
+	    {
+			var imageHeight = image.Height;
+			var imageWidth = image.Width;
+		    for (int y = 0; y < imageHeight; y++)
+		    {
+			    if (y > 0 && y < (imageHeight - 1))
+			    {
+				    if (image[0, y] == color)
+				    {
+					    yield return new Point(0, y);
+				    }
+					if (image[imageWidth-1, y] == color)
+					{
+						yield return new Point(imageWidth-1, y);
+					}
+
+				    continue;
+			    }
+
+				for (int x = 0; x < imageWidth; x++)
+				{
+					if (image[x, y] == color)
+					{
+						yield return new Point(x, y);
+					}
+				}
+			}
+	    }
+
+	    private static IEnumerable<Point> GetEncapsulatedPixels(Image<Rgba32> image, Rgba32 color, Rgba32 borderColor, int? maxDistanceToSearch = null)
+	    {
+		    int colorTolerance = 30;
+			var imageHeight = image.Height;
+			var imageWidth = image.Width;
+			for (int y = 0; y < imageHeight; y++)
+			{
+				for (int x = 0; x < imageWidth; x++)
+				{
+					if (image[x, y] == color)
+					{
+						var leftBorderFound = false;
+						var rightBorderFound = false;
+						// Ok we found a pixel with the given color, let's check if it's encapsulated
+						var maxDistance = maxDistanceToSearch ?? Math.Max(x, imageWidth - x);
+						for (int increment = 1; increment < maxDistance; increment++)
+						{
+							// Check left
+							var xLeft = x - increment;
+							if (xLeft >= 0 && !leftBorderFound)
+							{
+								if (IsColorWithTolerance(image[xLeft, y], borderColor, colorTolerance))
+								{
+									leftBorderFound = true;
+								}
+							}
+
+							// Check right
+							var xRight = x + increment;
+							if (xRight <= (imageWidth -1) && !rightBorderFound)
+							{
+								if (IsColorWithTolerance(image[xRight, y], borderColor, colorTolerance))
+								{
+									rightBorderFound = true;
+								}
+							}
+
+							if (leftBorderFound && rightBorderFound)
+							{
+								yield return new Point(x, y);
+								// We do not have to check more pixels as they lay within the same border
+								x = xRight;
+							}
+						}
+					}
+				}
+			}
+		}
+
+	    private static bool IsColorWithTolerance(Rgba32 pixel, Rgba32 color, int tolerance)
+	    {
+			return ((pixel.R >= color.R - tolerance) && (pixel.R <= color.R + tolerance) &&
+					(pixel.G >= color.G - tolerance) && (pixel.G <= color.G + tolerance) &&
+					(pixel.G >= color.B - tolerance) && (pixel.B <= color.B + tolerance));
+		}
+
+		private static string CreateTempImageFile<TPixel>(Image<TPixel> image) where TPixel : struct, IPixel<TPixel>
         {
             var tempImageFile = System.IO.Path.GetTempFileName() + ".png";
             image.Save(tempImageFile);
@@ -197,13 +344,16 @@ namespace Raidfelden.Discord.Bot.Utilities
 
         private static string RemoveUnwantedCharacters(string input)
         {
+	        //return input;
             input = input.Replace("—", "-");
             var arr = input.ToCharArray();
 
             arr = Array.FindAll(arr, (c => (char.IsLetterOrDigit(c)
                                          || char.IsWhiteSpace(c)
-                                         || c == '-')
-                                         || c == ':'));
+                                         || c == '.'
+										 || c == '\''
+										 || c == '-'
+										 || c == ':')));
             return new string(arr).TrimEnd('\n').Trim();
         }
 
