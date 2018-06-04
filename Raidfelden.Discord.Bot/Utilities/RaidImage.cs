@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Raidfelden.Discord.Bot.Configuration;
 using Raidfelden.Discord.Bot.Extensions.ImageSharp;
+using Raidfelden.Discord.Bot.Monocle;
+using Raidfelden.Discord.Bot.Services;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.PixelFormats;
@@ -24,7 +27,7 @@ namespace Raidfelden.Discord.Bot.Utilities
     public class RaidImage<TPixel> : IDisposable where TPixel : struct, IPixel<TPixel>
     {
         // Base rectangles for 1080 * 1920 Screen-Size
-        protected Rectangle BaseGymNameRectangle = new Rectangle(220, 125, 860, 70);
+        protected Rectangle BaseGymNameRectangle = new Rectangle(220, 115, 860, 90);
         protected Rectangle BaseRaidLevelRectangle = new Rectangle(370, 260, 350, 70);
         //protected Rectangle BasePokemonNameRectangle = new Rectangle(0, 480, 1080, 105);
         protected Rectangle BasePokemonNameRectangle = new Rectangle(0, 480, 1080, 140);
@@ -42,18 +45,14 @@ namespace Raidfelden.Discord.Bot.Utilities
 
         public Image<TPixel> Image { get; }
 
-	    public Dictionary<ImageFragmentType, Dictionary<string, string>> CommonDetectionErrorCorrections { get; }
+		protected IGymService GymService { get; }
+		protected IPokemonService PokemonService { get; }
 
-	    public RaidImage(Image<TPixel> image)
+	    public RaidImage(Image<TPixel> image, IGymService gymService, IPokemonService pokemonService)
         {
             Image = image;
-	        CommonDetectionErrorCorrections = new Dictionary<ImageFragmentType, Dictionary<string, string>>();
-	        var cdec = CommonDetectionErrorCorrections;
-	        cdec.Add(ImageFragmentType.PokemonName, new Dictionary<string, string>()
-	        {
-		        {"HoliO h", "Ho-Oh"},
-		        {"Absal", "Absol"}
-	        });
+	        GymService = gymService;
+			PokemonService = pokemonService;
 
 			var resizeOptions = new ResizeOptions
             {
@@ -87,7 +86,7 @@ namespace Raidfelden.Discord.Bot.Utilities
             Level4Points = BaseLevel4Points.Select(e => ResizePointToImage(e, image)).ToList();
         }
 
-        public string GetFragmentString(TesseractEngine engine, ImageFragmentType fragmentType)
+        public string GetFragmentString(TesseractEngine engine, ImageFragmentType fragmentType, Hydro74000Context context, FenceConfiguration[] fences = null)
         {
 	        bool saveTestImages = false;
 #if DEBUG
@@ -234,14 +233,17 @@ namespace Raidfelden.Discord.Bot.Utilities
                     using (var page = engine.Process(tempImage))
                     {
                         ocrResult = RemoveUnwantedCharacters(page.GetText());
-	                    if (CommonDetectionErrorCorrections.ContainsKey(fragmentType))
+	                    switch (fragmentType)
 	                    {
-							var errorCorrection = CommonDetectionErrorCorrections[fragmentType];
-		                    if (errorCorrection.ContainsKey(ocrResult))
-		                    {
-			                    return errorCorrection[ocrResult];
-		                    }
-						}
+							case ImageFragmentType.GymName:
+			                    var similarGym = GymService.GetSimilarGymsByNameAsync(context, ocrResult, fences, 1).Result;
+								ocrResult = similarGym.First().Key.Name;
+								break;
+							case ImageFragmentType.PokemonName:
+								var similarPokemon = PokemonService.GetSimilarPokemonByNameAsync(ocrResult, 1).Result;
+								ocrResult = similarPokemon.First().Key.Name;
+								break;
+	                    }
                     }
                 }
                 System.IO.File.Delete(tempImageFile);

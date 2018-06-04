@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using SimMetrics.Net.Metric;
 
 namespace Raidfelden.Discord.Bot.Services
 {
@@ -19,6 +20,7 @@ namespace Raidfelden.Discord.Bot.Services
 		IPokemon GetPokemonByName(string name);
 		Task<ServiceResponse<IPokemon>> GetPokemonAsync(string name, int interactiveLimit, Func<string, Task<ServiceResponse>> interactiveCallbackAction);
         Task<ServiceResponse<KeyValuePair<IPokemon, IRaidboss>>> GetPokemonAndRaidbossAsync(string name, int interactiveLimit, Func<string, Task<ServiceResponse>> interactiveCallbackAction);
+	    Task<Dictionary<IPokemon, double>> GetSimilarPokemonByNameAsync(string name, int limit = int.MaxValue);
     }
 
 	public class PokemonService : IPokemonService
@@ -89,7 +91,7 @@ namespace Raidfelden.Discord.Bot.Services
         public async Task<ServiceResponse<KeyValuePair<IPokemon, IRaidboss>>> GetPokemonAndRaidbossAsync(string name, int interactiveLimit, Func<string, Task<ServiceResponse>> interactiveCallback)
         {
             return await InteractiveServiceHelper.GenericGetEntityWithCallback(
-                GetPossibleRaidbossPokemon(name),
+				GetPossibleRaidbossPokemonAsync(name),
                 list => list.Where(e => e.Key.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).ToList(),
                 interactiveLimit,
                 interactiveCallback,
@@ -102,14 +104,25 @@ namespace Raidfelden.Discord.Bot.Services
             );
         }
 
-        public async Task<List<KeyValuePair<IPokemon, IRaidboss>>> GetPossibleRaidbossPokemon(string name)
+        public async Task<List<KeyValuePair<IPokemon, IRaidboss>>> GetPossibleRaidbossPokemonAsync(string name)
         {
             var pokemon = Pokemon.Where(e => e.Name.ToLowerInvariant().Contains(name.ToLowerInvariant()));
             var pokemonAndRaidboss = pokemon.Select(e => new KeyValuePair<IPokemon, IRaidboss>(e, RaidbossService.GetRaidbossOrDefaultById(e.Id)));
             pokemonAndRaidboss = pokemonAndRaidboss.Where(e => e.Value != null);
             return await Task.FromResult(pokemonAndRaidboss.ToList());
         }
-    }
+
+		public async Task<Dictionary<IPokemon, double>> GetSimilarPokemonByNameAsync(string name, int limit = int.MaxValue)
+		{
+			var algorithm = new Levenstein();
+			var rankedList =
+				Pokemon.Select(e => new {Pokemon = e, Rank = algorithm.GetSimilarity(e.Name, name)})
+					   .OrderByDescending(e => e.Rank)
+					   .Where(e => e.Rank > 0.1f)
+					   .Take(limit);
+			return await Task.FromResult(rankedList.ToDictionary(k => k.Pokemon, v => v.Rank));
+		}
+	}
 
 	public class Pokemon : IPokemon
 	{

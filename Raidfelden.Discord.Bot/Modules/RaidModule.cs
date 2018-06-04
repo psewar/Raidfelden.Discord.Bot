@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Raidfelden.Discord.Bot.Monocle;
 using Tesseract;
 
 namespace Raidfelden.Discord.Bot.Modules
@@ -18,16 +19,20 @@ namespace Raidfelden.Discord.Bot.Modules
     public class RaidModule : BaseModule<SocketCommandContext, RaidChannel>
     {
         protected IRaidService RaidService { get; }
-        private readonly IRaidbossService _raidbossService;
+	    private readonly Hydro74000Context _context;
+	    private readonly IGymService _gymService;
+	    private readonly IRaidbossService _raidbossService;
         private readonly IPokemonService _pokemonService;
         private readonly IEmojiService _emojiService;
         private readonly IConfigurationService _configurationService;
 
-        public RaidModule(IRaidService raidService, IRaidbossService raidbossService, IPokemonService pokemonService, IEmojiService emojiService, IConfigurationService configurationService)
+        public RaidModule(Hydro74000Context context, IRaidService raidService, IGymService gymService, IRaidbossService raidbossService, IPokemonService pokemonService, IEmojiService emojiService, IConfigurationService configurationService)
             : base(configurationService, emojiService)
         {
             RaidService = raidService;
-            _raidbossService = raidbossService;
+	        _context = context;
+	        _gymService = gymService;
+	        _raidbossService = raidbossService;
             _pokemonService = pokemonService;
             _emojiService = emojiService;
             _configurationService = configurationService;
@@ -36,60 +41,61 @@ namespace Raidfelden.Discord.Bot.Modules
         [Command("ocr")]
         public async Task OcrAsync()
         {
-                using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
-                {
-                foreach (var attachment in Context.Message.Attachments)
-                {
-                    if (IsImageUrl(attachment.Url))
-                    {
-                        string tempImageFile = string.Empty;
-                        try
-                        {
-                            tempImageFile = Path.GetTempFileName() + "." + attachment.Url.Split('.').Last();
-                            await DownloadAsync(new Uri(attachment.Url), tempImageFile);
-                            using (var image = Image.Load(tempImageFile))
-                            {
-                                using (var raidImage = new RaidImage<Rgba32>(image))
-                                {
+	        using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
+	        {
+		        foreach (var attachment in Context.Message.Attachments)
+		        {
+			        if (IsImageUrl(attachment.Url))
+			        {
+				        string tempImageFile = string.Empty;
+				        try
+				        {
+					        tempImageFile = Path.GetTempFileName() + "." + attachment.Url.Split('.').Last();
+					        await DownloadAsync(new Uri(attachment.Url), tempImageFile);
+					        using (var image = Image.Load(tempImageFile))
+					        {
+						        using (var raidImage = new RaidImage<Rgba32>(image, _gymService, _pokemonService))
+						        {
 
-                                    var gymName = raidImage.GetFragmentString(engine, ImageFragmentType.GymName);
-                                    var timerValue = raidImage.GetFragmentString(engine, ImageFragmentType.EggTimer);
-                                    var isRaidboss = string.IsNullOrWhiteSpace(timerValue);
-                                    if (isRaidboss)
-                                    {
-                                        var pokemonName = raidImage.GetFragmentString(engine, ImageFragmentType.PokemonName);
-                                        timerValue = raidImage.GetFragmentString(engine, ImageFragmentType.RaidTimer);
-                                        var timer = TimeSpan.Parse(timerValue);
-                                        await ReplySuccessAsync("Wär ich nicht ein Test, würde ich folgendes ausführen:", $".raids add \"{gymName}\" \"{pokemonName}\" {string.Concat(timer.Minutes, ":", timer.Seconds)} ");
-                                    }
-                                    else
-                                    {
-                                        var eggLevel = raidImage.GetFragmentString(engine, ImageFragmentType.EggLevel);
-                                        var timer = TimeSpan.Parse(timerValue);
-                                        await ReplySuccessAsync("Wär ich nicht ein Test, würde ich folgendes ausführen:", $".raids add \"{gymName}\" \"{eggLevel}\" {string.Concat(timer.Minutes, ":", timer.Seconds)} ");
-                                    }
-                                }
-                            }
-                        }
-                        finally
-                        {
-                            try
-                            {
-                                if (File.Exists(tempImageFile))
-                                {
-                                    File.Delete(tempImageFile);
-                                }
-                            }
-                            catch (Exception)
-                            {
-                                // Ignore
-                            }
-                        }
-                    }
-                }
-                
-            }
-            await ReplySuccessAsync("Ocr erfolgreich", "Yeah man!");
+							        var gymName = raidImage.GetFragmentString(engine, ImageFragmentType.GymName, _context, Fences);
+							        var timerValue = raidImage.GetFragmentString(engine, ImageFragmentType.EggTimer, _context, Fences);
+							        var isRaidboss = string.IsNullOrWhiteSpace(timerValue);
+							        if (isRaidboss)
+							        {
+								        var pokemonName = raidImage.GetFragmentString(engine, ImageFragmentType.PokemonName, _context, Fences);
+								        timerValue = raidImage.GetFragmentString(engine, ImageFragmentType.RaidTimer, _context, Fences);
+								        var timer = TimeSpan.Parse(timerValue);
+								        await ReplySuccessAsync("Wär ich nicht ein Test, würde ich folgendes ausführen:",
+									        $".raids add \"{gymName}\" \"{pokemonName}\" {string.Concat(timer.Minutes, ":", timer.Seconds)} ");
+							        }
+							        else
+							        {
+								        var eggLevel = raidImage.GetFragmentString(engine, ImageFragmentType.EggLevel, _context, Fences);
+								        var timer = TimeSpan.Parse(timerValue);
+								        await ReplySuccessAsync("Wär ich nicht ein Test, würde ich folgendes ausführen:",
+									        $".raids add \"{gymName}\" \"{eggLevel}\" {string.Concat(timer.Minutes, ":", timer.Seconds)} ");
+							        }
+						        }
+					        }
+				        }
+				        finally
+				        {
+					        try
+					        {
+						        if (File.Exists(tempImageFile))
+						        {
+							        File.Delete(tempImageFile);
+						        }
+					        }
+					        catch (Exception)
+					        {
+						        // Ignore
+					        }
+				        }
+			        }
+		        }
+	        }
+	        await ReplySuccessAsync("Ocr erfolgreich", "Yeah man!");
         }
 
         private bool IsImageUrl(string url)
