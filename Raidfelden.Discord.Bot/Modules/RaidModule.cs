@@ -6,9 +6,11 @@ using Raidfelden.Discord.Bot.Utilities;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Raidfelden.Discord.Bot.Monocle;
 using Tesseract;
@@ -130,7 +132,8 @@ namespace Raidfelden.Discord.Bot.Modules
                     return;
                 }
 
-                var response = RaidService.AddAsync(gymName, pokemonNameOrRaidLevel, timeLeft, 4, Fences);
+				Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
+				var response = RaidService.AddAsync(gymName, pokemonNameOrRaidLevel, timeLeft, 4, Fences);
                 await ReplyWithInteractive(() => response, "Raid erfolgreich eingetragen");
             }
             catch (Exception ex)
@@ -151,7 +154,9 @@ namespace Raidfelden.Discord.Bot.Modules
                     return;
                 }
 
-                var response = RaidService.HatchAsync(gymName, pokemonName, 4, Fences);
+
+				Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");				
+				var response = RaidService.HatchAsync(gymName, pokemonName, 4, Fences);
                 await ReplyWithInteractive(() => response, "Raid erfolgreich erweitert");
             }
             catch (Exception ex)

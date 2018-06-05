@@ -10,7 +10,8 @@ namespace Raidfelden.Discord.Bot.Services
     {
         IRaidboss GetRaidbossById(int id);
         IRaidboss GetRaidbossOrDefaultById(int id);
-    }
+		List<IRaidboss> Raidbosses { get; }
+	}
 
 	public class RaidbossService : IRaidbossService
 	{
@@ -26,7 +27,7 @@ namespace Raidfelden.Discord.Bot.Services
             }
         }
 
-        protected List<IRaidboss> Raidbosses { get; set; }
+        public List<IRaidboss> Raidbosses { get; set; }
 
         public IRaidboss GetRaidbossById(int id)
         {

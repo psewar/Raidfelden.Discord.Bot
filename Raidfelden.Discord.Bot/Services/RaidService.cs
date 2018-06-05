@@ -8,6 +8,7 @@ using Raidfelden.Discord.Bot.Monocle;
 using Raidfelden.Discord.Bot.Models;
 using Raidfelden.Discord.Bot.Configuration;
 using System.Collections.Generic;
+using Raidfelden.Discord.Bot.Resources;
 
 namespace Raidfelden.Discord.Bot.Services
 {
@@ -37,7 +38,7 @@ namespace Raidfelden.Discord.Bot.Services
         public async Task<ServiceResponse> AddAsync(string gymName, string pokemonNameOrLevel, string timeLeft, int interactiveLimit, FenceConfiguration[] fences)
         {
             var startEndTime = GetStartEndDateTime(timeLeft);
-            if (!startEndTime.HasValue) { return new ServiceResponse(false, "Die Restzeit muss im Format mm oder mm:ss angegeben werden."); }
+            if (!startEndTime.HasValue) { return new ServiceResponse(false, i18n.RaidService_Add_Error_TimeFormat); }
 
             return await AddResolvePokemonOrLevelAsync(gymName, pokemonNameOrLevel, startEndTime.Value, interactiveLimit, fences);
         }

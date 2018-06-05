@@ -132,4 +132,7 @@
   <data name="ModuleRaidsIdentifier" xml:space="preserve">
     <value>raids</value>
   </data>
+  <data name="RaidService_Add_Error_TimeFormat" xml:space="preserve">
+    <value>The remaining time must be specified in mm or mm:ss format.</value>
+  </data>
 </root>

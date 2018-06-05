@@ -104,5 +104,14 @@ namespace Raidfelden.Discord.Bot.Resources {
                 return ResourceManager.GetString("ModuleRaidsIdentifier", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The remaining time must be specified in mm or mm:ss format..
+        /// </summary>
+        internal static string RaidService_Add_Error_TimeFormat {
+            get {
+                return ResourceManager.GetString("RaidService_Add_Error_TimeFormat", resourceCulture);
+            }
+        }
     }
 }

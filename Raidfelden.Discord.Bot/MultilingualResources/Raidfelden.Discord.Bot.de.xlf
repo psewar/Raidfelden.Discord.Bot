@@ -26,6 +26,10 @@
           <source>raids</source>
           <target state="final">raids</target>
         </trans-unit>
+        <trans-unit id="RaidService_Add_Error_TimeFormat" translate="yes" xml:space="preserve">
+          <source>The remaining time must be specified in mm or mm:ss format.</source>
+          <target state="final">Die Restzeit muss im Format mm oder mm:ss angegeben werden.</target>
+        </trans-unit>
       </group>
     </body>
   </file>
