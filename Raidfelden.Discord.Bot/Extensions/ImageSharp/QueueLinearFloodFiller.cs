@@ -5,10 +5,11 @@ using SixLabors.Primitives;
 
 namespace Raidfelden.Discord.Bot.Extensions.ImageSharp
 {
-	/// <summary>
-	/// Implements the QueueLinear flood fill algorithm using array-based pixel manipulation.
-	/// </summary>
-	public class QueueLinearFloodFiller : AbstractFloodFiller
+    /// <summary>
+    /// Implements the QueueLinear flood fill algorithm using array-based pixel manipulation.
+    /// Source: https://www.codeproject.com/Articles/16405/Queue-Linear-Flood-Fill-A-Fast-Flood-Fill-Algorith
+    /// </summary>
+    public class QueueLinearFloodFiller : AbstractFloodFiller
 	{
 
 		//Queue of floodfill ranges. We use our own class to increase performance.

@@ -11,6 +11,7 @@ using Raidfelden.Discord.Bot.Configuration.Providers.Fences.Novabot;
 using Raidfelden.Discord.Bot.Monocle;
 using Raidfelden.Discord.Bot.Services;
 using Tesseract;
+using SixLabors.Primitives;
 
 namespace Raidfelden.Discord.Bot.Tests
 {
@@ -120,7 +121,7 @@ namespace Raidfelden.Discord.Bot.Tests
 	    }
 
 		[TestMethod]
-		public void HuaweiBlackbarCorrection()
+		public void GalaxyS9WithMenuCorrection()
 		{
 			var gymService = new GymService();
 			var pokemonService = new PokemonService(new RaidbossService());
@@ -129,9 +130,9 @@ namespace Raidfelden.Discord.Bot.Tests
 				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
 				{
 					var basePath = @"Ressources\Pictures\Raids\";
-					var text = GetRaidText(basePath + "HuawaiBlackBar.png", engine, gymService, pokemonService, context);
-					Assert.AreEqual(".raids add \"Jeckenbrunnen\" \"5\" 12:11", text, true);
-				}
+                    var text = GetRaidText(basePath + "GalaxyS9WithMenu.jpg", engine, gymService, pokemonService, context);
+                    Assert.AreEqual(".raids add \"Einheitskreis Skulptur\" \"Amonitas\" 27:5", text, true);
+                }
 			}
 		}
 
@@ -143,20 +144,36 @@ namespace Raidfelden.Discord.Bot.Tests
                 {
                     var gymName = raidImage.GetFragmentString(engine, ImageFragmentType.GymName, context);
                     var timerValue = raidImage.GetFragmentString(engine, ImageFragmentType.EggTimer, context);
-                    var isRaidboss = string.IsNullOrWhiteSpace(timerValue);
+                    var isRaidboss = !TimeSpan.TryParse(timerValue, out TimeSpan timer);
                     if (isRaidboss)
                     {
                         var pokemonName = raidImage.GetFragmentString(engine, ImageFragmentType.PokemonName, context);
                         timerValue = raidImage.GetFragmentString(engine, ImageFragmentType.RaidTimer, context);
-                        var timer = TimeSpan.Parse(timerValue);
+                        timer = TimeSpan.Parse(timerValue);
                         return $".raids add \"{gymName}\" \"{pokemonName}\" {string.Concat(timer.Minutes, ":", timer.Seconds)}";
                     }
                     else
                     {
                         var eggLevel = raidImage.GetFragmentString(engine, ImageFragmentType.EggLevel, context);
-                        var timer = TimeSpan.Parse(timerValue);
+                        //var timer = TimeSpan.Parse(timerValue);
                         return $".raids add \"{gymName}\" \"{eggLevel}\" {string.Concat(timer.Minutes, ":", timer.Seconds)}";
                     }
+                }
+            }
+        }
+
+        [TestMethod]
+        public void GalaxyS9PlusImageSize()
+        {
+            var gymService = new GymService();
+            var pokemonService = new PokemonService(new RaidbossService());
+            using (var context = new Hydro74000Context(ContextOptions))
+            {
+                using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
+                {
+                    var basePath = @"Ressources\Pictures\Raids\";
+                    var text = GetRaidText(basePath + "ZurLandskrone-Karpador.jpg", engine, gymService, pokemonService, context);
+                    Assert.AreEqual(".raids add \"Zur Landskron\" \"Karpador\" 10:1", text, true);
                 }
             }
         }

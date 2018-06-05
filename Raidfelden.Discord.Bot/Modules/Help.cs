@@ -62,10 +62,8 @@ namespace Raidfelden.Discord.Bot.Modules
                         Description = "Ermöglicht das hinzufügen von Pokemon auf der https://pg.festzeit.ch Karte",
                         Examples = new Dictionary<string, string>
                         {
-                            { "Raid in Ei-Form eintragen", ".pokemon add <ArenaName> <Level> <Restzeit>" },
-                            { "Raidboss eintragen", ".raids add <ArenaName> <PokemonName> <Restzeit>" },
-                            { "Spezialfall: ArenaName mit mehreren Wörtern", ".raids add <\"Arena Name\"> <PokemonName> <Restzeit>" },
-                            { "Spezialfall: Noch nicht geschlüpften Raidboss eintragen", ".raids add <ArenaName> <PokemonName> <RestzeitEi + 45>" },
+                            { "Pokemon mit IV eintragen", ".pokemon add <Name> <Latitude> <Longitude> <WP> <Level> <AtkIv> <DefIv> <StaIv>" },
+                            { "Pokemon ohne IV eintragen", ".pokemon add <Name> <Latitude> <Longitude> <WP>" },
                         }
                     }
                 }

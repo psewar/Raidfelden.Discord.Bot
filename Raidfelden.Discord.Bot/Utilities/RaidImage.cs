@@ -47,21 +47,51 @@ namespace Raidfelden.Discord.Bot.Utilities
 
 		protected IGymService GymService { get; }
 		protected IPokemonService PokemonService { get; }
+        protected BaseRaidImageConfiguration ImageConfiguration { get; }
 
-	    public RaidImage(Image<TPixel> image, IGymService gymService, IPokemonService pokemonService)
+        private BaseRaidImageConfiguration GetConfiguration<TPixel>(Image<TPixel> image) where TPixel : struct, IPixel<TPixel>
+        {
+            var configuration = new BaseRaidImageConfiguration(1080, 1920);
+            if (image.Height == 2220)
+            {
+                configuration = new GalaxyS9PlusRaidImageConfiguration();
+            }
+
+            if (image.Height == 2960 && HasBottomMenu(image as Image<Rgba32>))
+            {
+                configuration = new GalaxyS9BottomMenuImageConfiguration();
+            }
+            return configuration;
+        }
+
+        private bool HasBottomMenu(Image<Rgba32> image) 
+        {
+            if (image[0, image.Height - 1] == Rgba32.Black)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public RaidImage(Image<TPixel> image, IGymService gymService, IPokemonService pokemonService)
         {
             Image = image;
 	        GymService = gymService;
 			PokemonService = pokemonService;
 
-			var resizeOptions = new ResizeOptions
+            ImageConfiguration = GetConfiguration(image);
+
+            ImageConfiguration.PreProcessImage(image);
+            /*
+            var resizeOptions = new ResizeOptions
             {
                 Mode = ResizeMode.Pad,
                 Size = new Size(1080, 1920),
                 Compand = true,
                 //Sampler = new WelchResampler()
             };
-            image.Mutate(m => m.Resize(resizeOptions));
+            image.Mutate(m => m.Resize(resizeOptions));*/
+            
 #if DEBUG
             image.Save("_Image.png");
 #endif
@@ -92,7 +122,7 @@ namespace Raidfelden.Discord.Bot.Utilities
 #if DEBUG
 	        saveTestImages = true;
 #endif
-			using (var imageFragment = Image.Clone(e => e.Crop(FragmentLocations[fragmentType])))
+			using (var imageFragment = Image.Clone(e => e.Crop(ImageConfiguration[fragmentType])))
             {
                 if (fragmentType == ImageFragmentType.EggLevel)
                 {
