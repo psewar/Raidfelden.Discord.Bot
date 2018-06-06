@@ -27,8 +27,9 @@ namespace Raidfelden.Discord.Bot.Modules
         private readonly IPokemonService _pokemonService;
         private readonly IEmojiService _emojiService;
         private readonly IConfigurationService _configurationService;
+        private readonly IOcrService _ocrService;
 
-        public RaidModule(Hydro74000Context context, IRaidService raidService, IGymService gymService, IRaidbossService raidbossService, IPokemonService pokemonService, IEmojiService emojiService, IConfigurationService configurationService)
+        public RaidModule(Hydro74000Context context, IRaidService raidService, IGymService gymService, IRaidbossService raidbossService, IPokemonService pokemonService, IEmojiService emojiService, IConfigurationService configurationService, IOcrService ocrService)
             : base(configurationService, emojiService)
         {
             RaidService = raidService;
@@ -38,66 +39,51 @@ namespace Raidfelden.Discord.Bot.Modules
             _pokemonService = pokemonService;
             _emojiService = emojiService;
             _configurationService = configurationService;
+            _ocrService = ocrService;
         }
 
         [Command("ocr")]
         public async Task OcrAsync()
         {
-	        using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
-	        {
-		        foreach (var attachment in Context.Message.Attachments)
-		        {
-			        if (IsImageUrl(attachment.Url))
-			        {
-				        string tempImageFile = string.Empty;
-				        try
-				        {
-					        tempImageFile = Path.GetTempFileName() + "." + attachment.Url.Split('.').Last();
-					        await DownloadAsync(new Uri(attachment.Url), tempImageFile);
-					        using (var image = Image.Load(tempImageFile))
-					        {
-						        using (var raidImage = new RaidImage<Rgba32>(image, _gymService, _pokemonService))
-						        {
-
-							        var gymName = raidImage.GetFragmentString(engine, ImageFragmentType.GymName, _context, Fences);
-							        var timerValue = raidImage.GetFragmentString(engine, ImageFragmentType.EggTimer, _context, Fences);
-							        var isRaidboss = string.IsNullOrWhiteSpace(timerValue);
-							        if (isRaidboss)
-							        {
-								        var pokemonName = raidImage.GetFragmentString(engine, ImageFragmentType.PokemonName, _context, Fences);
-								        timerValue = raidImage.GetFragmentString(engine, ImageFragmentType.RaidTimer, _context, Fences);
-								        var timer = TimeSpan.Parse(timerValue);
-								        await ReplySuccessAsync("Wär ich nicht ein Test, würde ich folgendes ausführen:",
-									        $".raids add \"{gymName}\" \"{pokemonName}\" {string.Concat(timer.Minutes, ":", timer.Seconds)} ");
-							        }
-							        else
-							        {
-								        var eggLevel = raidImage.GetFragmentString(engine, ImageFragmentType.EggLevel, _context, Fences);
-								        var timer = TimeSpan.Parse(timerValue);
-								        await ReplySuccessAsync("Wär ich nicht ein Test, würde ich folgendes ausführen:",
-									        $".raids add \"{gymName}\" \"{eggLevel}\" {string.Concat(timer.Minutes, ":", timer.Seconds)} ");
-							        }
-						        }
-					        }
-				        }
-				        finally
-				        {
-					        try
-					        {
-						        if (File.Exists(tempImageFile))
-						        {
-							        File.Delete(tempImageFile);
-						        }
-					        }
-					        catch (Exception)
-					        {
-						        // Ignore
-					        }
-				        }
-			        }
-		        }
-	        }
-	        await ReplySuccessAsync("Ocr erfolgreich", "Yeah man!");
+            try
+            {
+                using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
+                {
+                    foreach (var attachment in Context.Message.Attachments)
+                    {
+                        if (IsImageUrl(attachment.Url))
+                        {
+                            string tempImageFile = string.Empty;
+                            try
+                            {
+                                tempImageFile = Path.GetTempFileName() + "." + attachment.Url.Split('.').Last();
+                                await DownloadAsync(new Uri(attachment.Url), tempImageFile);
+                                var response = _ocrService.AddRaidAsync(tempImageFile, 4, Fences);
+                                await ReplyWithInteractive(() => response, "OCR-Erkennung erfolgreich");
+                            }
+                            finally
+                            {
+                                try
+                                {
+                                    if (File.Exists(tempImageFile))
+                                    {
+                                        File.Delete(tempImageFile);
+                                    }
+                                }
+                                catch (Exception)
+                                {
+                                    // Ignore
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var innerstEx = ex.GetInnermostException();
+                await ReplyFailureAsync($"Ein unerwarteter Fehler ist aufgetreten: {innerstEx.Message}");
+            }
         }
 
         private bool IsImageUrl(string url)
@@ -133,7 +119,7 @@ namespace Raidfelden.Discord.Bot.Modules
                 }
 
 				Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
-				var response = RaidService.AddAsync(gymName, pokemonNameOrRaidLevel, timeLeft, 4, Fences);
+                var response = RaidService.AddAsync(gymName, pokemonNameOrRaidLevel, timeLeft, 4, Fences);
                 await ReplyWithInteractive(() => response, "Raid erfolgreich eingetragen");
             }
             catch (Exception ex)

@@ -29,16 +29,18 @@ namespace Raidfelden.Discord.Bot.Services
 	    protected Hydro74000Context Context { get; }
 	    protected IGymService GymService { get; }
 	    protected IPokemonService PokemonService { get; }
-	    protected bool SaveDebugImages { get; }
+        protected IRaidService RaidService { get; }
+        protected bool SaveDebugImages { get; }
 
-	    public OcrService(Hydro74000Context context, IGymService gymService, IPokemonService pokemonService)
+	    public OcrService(Hydro74000Context context, IGymService gymService, IPokemonService pokemonService, IRaidService raidService)
 	    {
 		    Engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar");
 			Context = context;
 		    GymService = gymService;
 		    PokemonService = pokemonService;
+            RaidService = raidService;
 #if DEBUG
-		    SaveDebugImages = true;
+            SaveDebugImages = false;
 #endif
 	    }
 
@@ -65,23 +67,25 @@ namespace Raidfelden.Discord.Bot.Services
 					timerValue = await GetFragmentStringAsync(image, configuration, ImageFragmentType.RaidTimer, Engine, Context, fences);
 					probability *= timerValue.Probability;
 					timer = TimeSpan.Parse(timerValue.Value);
-					message = $".raids add \"{gymName.Value}\" \"{pokemonName.Value}\" {string.Concat(timer.Minutes, ":", timer.Seconds)}";
+                    return await RaidService.AddAsync(gymName.Value, pokemonName.Value, timer.ToString(@"mm\:ss"), interactiveLimit, fences);
+					//message = $".raids add \"{gymName.Value}\" \"{pokemonName.Value}\" {string.Concat(timer.Minutes, ":", timer.Seconds)}";
 				}
 				else
 				{
 					probability *= timerValue.Probability;
 					var eggLevel = await GetFragmentStringAsync(image, configuration, ImageFragmentType.EggLevel, Engine, Context, fences);
 					probability *= eggLevel.Probability;
-					message =$".raids add \"{gymName.Value}\" \"{eggLevel.Value}\" {string.Concat(timer.Minutes, ":", timer.Seconds)}";
+                    return await RaidService.AddAsync(gymName.Value, eggLevel.Value, timer.ToString(@"mm\:ss"), interactiveLimit, fences);
+                    //message =$".raids add \"{gymName.Value}\" \"{eggLevel.Value}\" {string.Concat(timer.Minutes, ":", timer.Seconds)}";
 				}
 
-				var result = new ServiceResponse(true, message);
-				if (probability < 0.3)
-				{
-					//result.InterActiveCallbacks.Add();
-					result = new ServiceResponse(true, probability.ToString());
-				}
-				return await Task.FromResult(result);
+				//var result = new ServiceResponse(true, message);
+				//if (probability < 0.3)
+				//{
+				//	//result.InterActiveCallbacks.Add();
+				//	result = new ServiceResponse(true, probability.ToString());
+				//}
+				//return await Task.FromResult(result);
 			}
 	    }
 

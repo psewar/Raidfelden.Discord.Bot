@@ -77,6 +77,7 @@ namespace Raidfelden.Discord.Bot
                 .AddSingleton<IEmojiService, EmojiService>()
                 .AddSingleton<IConfigurationService>(ConfigurationService)
                 .AddSingleton<InteractiveService>()
+                .AddScoped<IOcrService, OcrService>()
                 .AddScoped<ITestModule, TestModule>()
                 .BuildServiceProvider();
 
