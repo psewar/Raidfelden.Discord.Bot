@@ -57,7 +57,7 @@ namespace Raidfelden.Discord.Bot.Services
 				var gymName = await GetFragmentStringAsync(image, configuration, ImageFragmentType.GymName, Engine, Context, fences);
 				probability *= gymName.Probability;
 				var timerValue = await GetFragmentStringAsync(image, configuration, ImageFragmentType.EggTimer, Engine, Context, fences);
-				var isRaidboss = !TimeSpan.TryParse(timerValue.Value, out TimeSpan timer);
+				var isRaidboss = !timerValue.IsSuccess || !TimeSpan.TryParse(timerValue.Value, out TimeSpan timer);
 				if (isRaidboss)
 				{
 					var pokemonName = await GetFragmentStringAsync(image, configuration, ImageFragmentType.PokemonName, Engine, Context, fences);
@@ -112,6 +112,11 @@ namespace Raidfelden.Discord.Bot.Services
 			if (image.Height == 2436 && image.Width == 1125)
 			{
 				configuration = new IPhoneXImageConfiguration();
+			}
+
+			if (image.Height == 1920 && image.Width == 1080 && HasBottomMenu(image))
+			{
+				configuration = new BottomMenu1080X1920Configuration();
 			}
 
 			return configuration;
@@ -189,7 +194,7 @@ namespace Raidfelden.Discord.Bot.Services
 				imageFragment.Save($"_{ImageFragmentType.GymName}_Step1_Resize.png");
 			}
 
-			imageFragment.Mutate(m => m.Resize(resizeOptions).Invert().BinaryThreshold(0.1f));
+			imageFragment.Mutate(m => m.Resize(resizeOptions).Invert().BinaryThreshold(0.15f));
 
 			if (SaveDebugImages)
 			{

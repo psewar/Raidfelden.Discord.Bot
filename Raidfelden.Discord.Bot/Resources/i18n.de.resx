@@ -27,7 +27,43 @@
   <data name="ModuleRaidsIdentifier" xml:space="preserve">
     <value>raids</value>
   </data>
-  <data name="RaidService_Add_Error_TimeFormat" xml:space="preserve">
+  <data name="Raids_Errors_Hatch_NoEntryFound" xml:space="preserve">
+    <value>Momentan ist kein Raid an der Arena "{0}" eingetragen.</value>
+  </data>
+  <data name="Raids_Errors_LevelToHigh" xml:space="preserve">
+    <value>Der grösste zulässige Wert für einen Raid-Level beträgt 5.</value>
+  </data>
+  <data name="Raids_Errors_LevelToLow" xml:space="preserve">
+    <value>Der kleinste zulässige Wert für einen Raid-Level beträgt 1.</value>
+  </data>
+  <data name="Raids_Errors_TimeFormat" xml:space="preserve">
     <value>Die Restzeit muss im Format mm oder mm:ss angegeben werden.</value>
+  </data>
+  <data name="Raids_Messages_BossAdded" xml:space="preserve">
+    <value>{0} an der Arena "{1}", Ende um {2}</value>
+  </data>
+  <data name="Raids_Messages_BossHatched" xml:space="preserve">
+    <value>{0} ist nun der neue Raidboss bei der Arena "{1}".</value>
+  </data>
+  <data name="Raids_Messages_EggAdded" xml:space="preserve">
+    <value>Level {0} Raid an der Arena "{1}", Start um {2}</value>
+  </data>
+  <data name="Gyms_Errors_InteractiveMode" xml:space="preserve">
+    <value>{0} Arenen gefunden die das Wortfragment "{1}" enthalten. Bitte wähle die passende Arena anhand der Nummer aus der Liste aus.</value>
+  </data>
+  <data name="Gyms_Errors_NothingFound" xml:space="preserve">
+    <value>Keine Arena gefunden die das Wortfragment "{0}" enthält. Hast du Dich eventuell vertippt?</value>
+  </data>
+  <data name="Gyms_Errors_ToManyFound" xml:space="preserve">
+    <value>{0} Arenen gefunden die das Wortfragment "{1}" enthalten. Bitte formuliere den Namen etwas exakter aus, maximal {2} dürfen übrig bleiben für den interaktiven Modus.</value>
+  </data>
+  <data name="Pokemon_Errors_InteractiveMode" xml:space="preserve">
+    <value>{0} {2}Pokemon gefunden die das Wortfragment "{1}" enthalten. Bitte wähle das passende Pokemon anhand der Nummer aus der Liste aus.</value>
+  </data>
+  <data name="Pokemon_Errors_NothingFound" xml:space="preserve">
+    <value>Kein {1}Pokemon gefunden das das Wortfragment "{0}" enthält. Hast du Dich eventuell vertippt?</value>
+  </data>
+  <data name="Pokemon_Errors_ToManyFound" xml:space="preserve">
+    <value>{0} {3}Pokemon gefunden die das Wortfragment "{1}" enthalten. Bitte formuliere den Namen etwas exakter aus, maximal {2} dürfen übrig bleiben für den interaktiven Modus.</value>
   </data>
 </root>

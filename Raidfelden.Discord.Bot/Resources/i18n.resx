@@ -123,6 +123,15 @@
   <data name="BotPrefix" xml:space="preserve">
     <value>.</value>
   </data>
+  <data name="Gyms_Errors_InteractiveMode" xml:space="preserve">
+    <value>{0} gyms found containing the word fragment "{1}". Please select the appropriate arena using the number from the list.</value>
+  </data>
+  <data name="Gyms_Errors_NothingFound" xml:space="preserve">
+    <value>No arena found containing the word fragment "{0}". Did you make a typing error?</value>
+  </data>
+  <data name="Gyms_Errors_ToManyFound" xml:space="preserve">
+    <value>{0} gyms found that contain the word fragment "{1}". Please formulate the name a little more exactly, maximum {2} may remain for the interactive mode.</value>
+  </data>
   <data name="ModuleRaidsCommandAdd" xml:space="preserve">
     <value>add</value>
   </data>
@@ -132,7 +141,34 @@
   <data name="ModuleRaidsIdentifier" xml:space="preserve">
     <value>raids</value>
   </data>
-  <data name="RaidService_Add_Error_TimeFormat" xml:space="preserve">
+  <data name="Pokemon_Errors_InteractiveMode" xml:space="preserve">
+    <value>{0} {2}pokemon found containing the word fragment "{1}". Please select the appropriate arena using the number from the list.</value>
+  </data>
+  <data name="Pokemon_Errors_NothingFound" xml:space="preserve">
+    <value>No {1}pokemon found containing the word fragment "{0}". Did you make a typing error?</value>
+  </data>
+  <data name="Pokemon_Errors_ToManyFound" xml:space="preserve">
+    <value>{0} {3}pokemon found that contain the word fragment "{1}". Please formulate the name a little more exactly, maximum {2} may remain for the interactive mode.</value>
+  </data>
+  <data name="Raids_Errors_Hatch_NoEntryFound" xml:space="preserve">
+    <value>Currently there is no raid registered at the gym "{0}".</value>
+  </data>
+  <data name="Raids_Errors_LevelToHigh" xml:space="preserve">
+    <value>The maximum permissible value for a raid level is 5.</value>
+  </data>
+  <data name="Raids_Errors_LevelToLow" xml:space="preserve">
+    <value>The smallest permissible value for a raid level is 1</value>
+  </data>
+  <data name="Raids_Errors_TimeFormat" xml:space="preserve">
     <value>The remaining time must be specified in mm or mm:ss format.</value>
+  </data>
+  <data name="Raids_Messages_BossAdded" xml:space="preserve">
+    <value>{0} at the gym "{1}", ends at {2}</value>
+  </data>
+  <data name="Raids_Messages_BossHatched" xml:space="preserve">
+    <value>{0} is now the new raid boss at the arena "{1}".</value>
+  </data>
+  <data name="Raids_Messages_EggAdded" xml:space="preserve">
+    <value>Level {0} raid at the gym "{1}", starts at {2}</value>
   </data>
 </root>

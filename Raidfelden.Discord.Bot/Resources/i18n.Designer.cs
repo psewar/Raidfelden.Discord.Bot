@@ -22,7 +22,7 @@ namespace Raidfelden.Discord.Bot.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class i18n {
+    public class i18n {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Raidfelden.Discord.Bot.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Raidfelden.Discord.Bot.Resources.i18n", typeof(i18n).Assembly);
@@ -51,7 +51,7 @@ namespace Raidfelden.Discord.Bot.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Raidfelden.Discord.Bot.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Raidfelden Info Bot.
         /// </summary>
-        internal static string BotName {
+        public static string BotName {
             get {
                 return ResourceManager.GetString("BotName", resourceCulture);
             }
@@ -72,16 +72,43 @@ namespace Raidfelden.Discord.Bot.Resources {
         /// <summary>
         ///   Looks up a localized string similar to ..
         /// </summary>
-        internal static string BotPrefix {
+        public static string BotPrefix {
             get {
                 return ResourceManager.GetString("BotPrefix", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} gyms found containing the word fragment &quot;{1}&quot;. Please select the appropriate arena using the number from the list..
+        /// </summary>
+        public static string Gyms_Errors_InteractiveMode {
+            get {
+                return ResourceManager.GetString("Gyms_Errors_InteractiveMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No arena found containing the word fragment &quot;{0}&quot;. Did you make a typing error?.
+        /// </summary>
+        public static string Gyms_Errors_NothingFound {
+            get {
+                return ResourceManager.GetString("Gyms_Errors_NothingFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} gyms found that contain the word fragment &quot;{1}&quot;. Please formulate the name a little more exactly, maximum {2} may remain for the interactive mode..
+        /// </summary>
+        public static string Gyms_Errors_ToManyFound {
+            get {
+                return ResourceManager.GetString("Gyms_Errors_ToManyFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to add.
         /// </summary>
-        internal static string ModuleRaidsCommandAdd {
+        public static string ModuleRaidsCommandAdd {
             get {
                 return ResourceManager.GetString("ModuleRaidsCommandAdd", resourceCulture);
             }
@@ -90,7 +117,7 @@ namespace Raidfelden.Discord.Bot.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Command to add raids to the map.
         /// </summary>
-        internal static string ModuleRaidsCommandAddDescription {
+        public static string ModuleRaidsCommandAddDescription {
             get {
                 return ResourceManager.GetString("ModuleRaidsCommandAddDescription", resourceCulture);
             }
@@ -99,18 +126,99 @@ namespace Raidfelden.Discord.Bot.Resources {
         /// <summary>
         ///   Looks up a localized string similar to raids.
         /// </summary>
-        internal static string ModuleRaidsIdentifier {
+        public static string ModuleRaidsIdentifier {
             get {
                 return ResourceManager.GetString("ModuleRaidsIdentifier", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} {2}pokemon found containing the word fragment &quot;{1}&quot;. Please select the appropriate arena using the number from the list..
+        /// </summary>
+        public static string Pokemon_Errors_InteractiveMode {
+            get {
+                return ResourceManager.GetString("Pokemon_Errors_InteractiveMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No {1}pokemon found containing the word fragment &quot;{0}&quot;. Did you make a typing error?.
+        /// </summary>
+        public static string Pokemon_Errors_NothingFound {
+            get {
+                return ResourceManager.GetString("Pokemon_Errors_NothingFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} {3}pokemon found that contain the word fragment &quot;{1}&quot;. Please formulate the name a little more exactly, maximum {2} may remain for the interactive mode..
+        /// </summary>
+        public static string Pokemon_Errors_ToManyFound {
+            get {
+                return ResourceManager.GetString("Pokemon_Errors_ToManyFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Currently there is no raid registered at the gym &quot;{0}&quot;..
+        /// </summary>
+        public static string Raids_Errors_Hatch_NoEntryFound {
+            get {
+                return ResourceManager.GetString("Raids_Errors_Hatch_NoEntryFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The maximum permissible value for a raid level is 5..
+        /// </summary>
+        public static string Raids_Errors_LevelToHigh {
+            get {
+                return ResourceManager.GetString("Raids_Errors_LevelToHigh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The smallest permissible value for a raid level is 1.
+        /// </summary>
+        public static string Raids_Errors_LevelToLow {
+            get {
+                return ResourceManager.GetString("Raids_Errors_LevelToLow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The remaining time must be specified in mm or mm:ss format..
         /// </summary>
-        internal static string RaidService_Add_Error_TimeFormat {
+        public static string Raids_Errors_TimeFormat {
             get {
-                return ResourceManager.GetString("RaidService_Add_Error_TimeFormat", resourceCulture);
+                return ResourceManager.GetString("Raids_Errors_TimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} at the gym &quot;{1}&quot;, ends at {2}.
+        /// </summary>
+        public static string Raids_Messages_BossAdded {
+            get {
+                return ResourceManager.GetString("Raids_Messages_BossAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is now the new raid boss at the arena &quot;{1}&quot;..
+        /// </summary>
+        public static string Raids_Messages_BossHatched {
+            get {
+                return ResourceManager.GetString("Raids_Messages_BossHatched", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Level {0} raid at the gym &quot;{1}&quot;, starts at {2}.
+        /// </summary>
+        public static string Raids_Messages_EggAdded {
+            get {
+                return ResourceManager.GetString("Raids_Messages_EggAdded", resourceCulture);
             }
         }
     }

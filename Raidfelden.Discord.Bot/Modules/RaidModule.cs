@@ -12,7 +12,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Raidfelden.Discord.Bot.Monocle;
 using Tesseract;
 
 namespace Raidfelden.Discord.Bot.Modules
@@ -21,25 +20,15 @@ namespace Raidfelden.Discord.Bot.Modules
     public class RaidModule : BaseModule<SocketCommandContext, RaidChannel>
     {
         protected IRaidService RaidService { get; }
-	    private readonly Hydro74000Context _context;
-	    private readonly IGymService _gymService;
-	    private readonly IRaidbossService _raidbossService;
-        private readonly IPokemonService _pokemonService;
-        private readonly IEmojiService _emojiService;
-        private readonly IConfigurationService _configurationService;
-        private readonly IOcrService _ocrService;
+		protected ILocalizationService LocalizationService { get; }
+	    protected IOcrService OcrService;
 
-        public RaidModule(Hydro74000Context context, IRaidService raidService, IGymService gymService, IRaidbossService raidbossService, IPokemonService pokemonService, IEmojiService emojiService, IConfigurationService configurationService, IOcrService ocrService)
+        public RaidModule(IRaidService raidService, IEmojiService emojiService, IConfigurationService configurationService, IOcrService ocrService, ILocalizationService localizationService)
             : base(configurationService, emojiService)
         {
             RaidService = raidService;
-	        _context = context;
-	        _gymService = gymService;
-	        _raidbossService = raidbossService;
-            _pokemonService = pokemonService;
-            _emojiService = emojiService;
-            _configurationService = configurationService;
-            _ocrService = ocrService;
+	        LocalizationService = localizationService;
+	        OcrService = ocrService;
         }
 
         [Command("ocr")]
@@ -58,7 +47,7 @@ namespace Raidfelden.Discord.Bot.Modules
                             {
                                 tempImageFile = Path.GetTempFileName() + "." + attachment.Url.Split('.').Last();
                                 await DownloadAsync(new Uri(attachment.Url), tempImageFile);
-                                var response = _ocrService.AddRaidAsync(tempImageFile, 4, Fences, false);
+                                var response = OcrService.AddRaidAsync(tempImageFile, 4, Fences, false);
                                 await ReplyWithInteractive(() => response, "OCR-Erkennung erfolgreich");
                             }
                             finally
@@ -118,8 +107,9 @@ namespace Raidfelden.Discord.Bot.Modules
                     return;
                 }
 
-				Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
-                var response = RaidService.AddAsync(gymName, pokemonNameOrRaidLevel, timeLeft, 4, Fences);
+				//Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
+				//Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
+				var response = RaidService.AddAsync(gymName, pokemonNameOrRaidLevel, timeLeft, 4, Fences);
                 await ReplyWithInteractive(() => response, "Raid erfolgreich eingetragen");
             }
             catch (Exception ex)

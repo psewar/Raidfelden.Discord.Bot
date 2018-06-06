@@ -4,6 +4,8 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Diagnostics;
+using System.Globalization;
+using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Raidfelden.Discord.Bot.Configuration;
@@ -30,6 +32,7 @@ namespace Raidfelden.Discord.Bot.Tests
 
 	    public UnitTest1()
 	    {
+			Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
 			Configuration = new ConfigurationBuilder()
 						.AddNovabotGeoFencesFile("geofences.txt")
 						.AddJsonFile("settings.json")
@@ -48,11 +51,7 @@ namespace Raidfelden.Discord.Bot.Tests
         {
 			using (var context = new Hydro74000Context(ContextOptions))
 			{
-				var gymService = new GymService();
-				var raidbossService = new RaidbossService();
-				var pokemonService = new PokemonService(raidbossService);
-				var raidService = new RaidService(context, gymService, pokemonService, raidbossService);
-				var ocrService = new OcrService(context, gymService, pokemonService, raidService);
+				var ocrService = GetOcrService(context);
 				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
 				{
 					var basePath = @"Ressources\Pictures\Raids\";
@@ -77,13 +76,9 @@ namespace Raidfelden.Discord.Bot.Tests
 		[TestMethod]
 		public void PokemonNameCorrections()
 	    {
-			var gymService = new GymService();
-			var raidbossService = new RaidbossService();
-			var pokemonService = new PokemonService(raidbossService);
 			using (var context = new Hydro74000Context(ContextOptions))
 		    {
-				var raidService = new RaidService(context, gymService, pokemonService, raidbossService);
-				var ocrService = new OcrService(context, gymService, pokemonService, raidService);
+				var ocrService = GetOcrService(context);
 				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
 			    {
 				    var basePath = @"Ressources\Pictures\Raids\";
@@ -118,13 +113,9 @@ namespace Raidfelden.Discord.Bot.Tests
 	    [TestMethod]
 	    public void GymNameCorrections()
 	    {
-			var gymService = new GymService();
-			var raidbossService = new RaidbossService();
-			var pokemonService = new PokemonService(raidbossService);
 			using (var context = new Hydro74000Context(ContextOptions))
 		    {
-				var raidService = new RaidService(context, gymService, pokemonService, raidbossService);
-				var ocrService = new OcrService(context, gymService, pokemonService, raidService);
+				var ocrService = GetOcrService(context);
 				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
 			    {
 				    var basePath = @"Ressources\Pictures\Raids\";
@@ -143,13 +134,9 @@ namespace Raidfelden.Discord.Bot.Tests
 		[TestMethod]
 		public void GalaxyS9WithMenuCorrection()
 		{
-			var gymService = new GymService();
-			var raidbossService = new RaidbossService();
-			var pokemonService = new PokemonService(raidbossService);
 			using (var context = new Hydro74000Context(ContextOptions))
 			{
-				var raidService = new RaidService(context, gymService, pokemonService, raidbossService);
-				var ocrService = new OcrService(context, gymService, pokemonService, raidService);
+				var ocrService = GetOcrService(context);
 				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
 				{
 					var basePath = @"Ressources\Pictures\Raids\";
@@ -165,13 +152,9 @@ namespace Raidfelden.Discord.Bot.Tests
 		[TestMethod]
 		public void GalaxyS9PlusImageSize()
 		{
-			var gymService = new GymService();
-			var raidbossService = new RaidbossService();
-			var pokemonService = new PokemonService(raidbossService);
 			using (var context = new Hydro74000Context(ContextOptions))
 			{
-				var raidService = new RaidService(context, gymService, pokemonService, raidbossService);
-				var ocrService = new OcrService(context, gymService, pokemonService, raidService);
+				var ocrService = GetOcrService(context);
 				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
 				{
 					var basePath = @"Ressources\Pictures\Raids\";
@@ -184,13 +167,9 @@ namespace Raidfelden.Discord.Bot.Tests
 		[TestMethod]
 		public void IPhoneXImageSize()
 	    {
-			var gymService = new GymService();
-		    var raidbossService = new RaidbossService();
-			var pokemonService = new PokemonService(raidbossService);			
 			using (var context = new Hydro74000Context(ContextOptions))
 			{
-				var raidService = new RaidService(context, gymService, pokemonService, raidbossService);
-				var ocrService = new OcrService(context, gymService, pokemonService, raidService);
+				var ocrService = GetOcrService(context);
 				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
 				{
 					var basePath = @"Ressources\Pictures\Raids\";
@@ -203,7 +182,38 @@ namespace Raidfelden.Discord.Bot.Tests
 			}
 		}
 
-	    private string GetOcrResult(OcrService ocrService, string filePath, TesseractEngine engine, FenceConfiguration[] fences = null)
+		[TestMethod]
+		public void BottomMenuBar1080x1920Correction()
+		{
+			using (var context = new Hydro74000Context(ContextOptions))
+			{
+				var ocrService = GetOcrService(context);
+				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
+				{
+					var basePath = @"Ressources\Pictures\Raids\";
+					var text = GetOcrResult(ocrService, basePath + "BottomMenuBar-Boss-1080x1920.jpg", engine);
+					Assert.AreEqual(".raids add \"St. Johanns-Tor\" \"Walraisa\" 23:36", text, true);
+
+					text = GetOcrResult(ocrService, basePath + "BottomMenuBar-Egg5-1080x1920.jpg", engine);
+					Assert.AreEqual(".raids add \"Spalentor\" \"5\" 28:28", text, true);
+
+					text = GetOcrResult(ocrService, basePath + "BottomMenuBar-Egg4-1080x1920.jpg", engine);
+					Assert.AreEqual(".raids add \"Organspender Gedenkstein\" \"4\" 36:21", text, true);
+				}
+			}
+		}
+
+		private OcrService GetOcrService(Hydro74000Context context)
+	    {
+			var localizationService =new LocalizationService();
+			var gymService = new GymService(localizationService);
+			var raidbossService = new RaidbossService();
+			var pokemonService = new PokemonService(raidbossService, localizationService);
+			var raidService = new RaidService(context, gymService, pokemonService, raidbossService, localizationService);
+			return new OcrService(context, gymService, pokemonService, raidService);
+		}
+
+		private string GetOcrResult(OcrService ocrService, string filePath, TesseractEngine engine, FenceConfiguration[] fences = null)
 	    {
 		    var result = ocrService.AddRaidAsync(filePath, 4, fences, true).Result;
 		    return result.Message;

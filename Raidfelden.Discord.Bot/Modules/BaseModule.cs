@@ -7,7 +7,9 @@ using Raidfelden.Discord.Bot.Attributes;
 using System.Linq;
 using Discord.Addons.Interactive;
 using System;
+using System.Globalization;
 using System.Text;
+using System.Threading;
 
 namespace Raidfelden.Discord.Bot.Modules
 {
@@ -25,10 +27,15 @@ namespace Raidfelden.Discord.Bot.Modules
         protected override void BeforeExecute(CommandInfo command)
         {
             ChannelConfigurations = ConfigurationService.GetChannelConfigurations(Context).ToArray();
+	        var cultureCodeChannel = ChannelConfigurations.FirstOrDefault(e => !string.IsNullOrWhiteSpace(e.CultureCode));
+	        if (cultureCodeChannel != null)
+	        {
+		        Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(cultureCodeChannel.CultureCode);
+	        }
             base.BeforeExecute(command);
         }
 
-        protected IConfigurationService ConfigurationService { get; }
+		protected IConfigurationService ConfigurationService { get; }
         protected IEmojiService EmojiService { get; }
         protected ChannelConfiguration[] ChannelConfigurations { get; set; }
 

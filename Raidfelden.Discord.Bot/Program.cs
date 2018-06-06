@@ -79,6 +79,7 @@ namespace Raidfelden.Discord.Bot
                 .AddSingleton<InteractiveService>()
                 .AddScoped<IOcrService, OcrService>()
                 .AddScoped<ITestModule, TestModule>()
+				.AddScoped<ILocalizationService, LocalizationService>()
                 .BuildServiceProvider();
 
             string botToken = configuration.BotToken;

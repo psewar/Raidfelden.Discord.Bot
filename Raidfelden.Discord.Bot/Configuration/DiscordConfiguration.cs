@@ -38,6 +38,7 @@ namespace Raidfelden.Discord.Bot.Configuration
         //public bool HasRegionConstraint { get { return Fences != null && Fences.Length > 0; } }
         public bool IsWildcardChannelWithFenceInName { get; set; }
         public bool IsOcrAllowed { get; set; }
+	    public string CultureCode { get; set; }
     }
 
     public class RaidChannel : ChannelConfiguration { }

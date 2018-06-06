@@ -1,0 +1,5249 @@
+{
+    "1": {
+        "name": "Bisasam",
+        "types": [
+            "Pflanze",
+            "Gift"
+        ]
+    },
+    "2": {
+        "name": "Bisaknosp",
+        "types": [
+            "Pflanze",
+            "Gift"
+        ]
+    },
+    "3": {
+        "name": "Bisaflor",
+        "types": [
+            "Pflanze",
+            "Gift"
+        ]
+    },
+    "4": {
+        "name": "Glumanda",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "5": {
+        "name": "Glutexo",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "6": {
+        "name": "Glurak",
+        "types": [
+            "Feuer",
+            "Flug"
+        ]
+    },
+    "7": {
+        "name": "Schiggy",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "8": {
+        "name": "Schillok",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "9": {
+        "name": "Turtok",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "10": {
+        "name": "Raupy",
+        "types": [
+            "Käfer"
+        ]
+    },
+    "11": {
+        "name": "Safcon",
+        "types": [
+            "Käfer"
+        ]
+    },
+    "12": {
+        "name": "Smettbo",
+        "types": [
+            "Käfer",
+            "Flug"
+        ]
+    },
+    "13": {
+        "name": "Hornliu",
+        "types": [
+            "Käfer",
+            "Gift"
+        ]
+    },
+    "14": {
+        "name": "Kokuna",
+        "types": [
+            "Käfer",
+            "Gift"
+        ]
+    },
+    "15": {
+        "name": "Bibor",
+        "types": [
+            "Käfer",
+            "Gift"
+        ]
+    },
+    "16": {
+        "name": "Taubsi",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "17": {
+        "name": "Tauboga",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "18": {
+        "name": "Tauboss",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "19": {
+        "name": "Rattfratz",
+        "types": [
+            "Normal"
+        ]
+    },
+    "20": {
+        "name": "Rattikarl",
+        "types": [
+            "Normal"
+        ]
+    },
+    "21": {
+        "name": "Habitak",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "22": {
+        "name": "Ibitak",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "23": {
+        "name": "Rettan",
+        "types": [
+            "Gift"
+        ]
+    },
+    "24": {
+        "name": "Arbok",
+        "types": [
+            "Gift"
+        ]
+    },
+    "25": {
+        "name": "Pikachu",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "26": {
+        "name": "Raichu",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "27": {
+        "name": "Sandan",
+        "types": [
+            "Boden"
+        ]
+    },
+    "28": {
+        "name": "Sandamer",
+        "types": [
+            "Boden"
+        ]
+    },
+    "29": {
+        "name": "NidoranW",
+        "types": [
+            "Gift"
+        ]
+    },
+    "30": {
+        "name": "Nidorina",
+        "types": [
+            "Gift"
+        ]
+    },
+    "31": {
+        "name": "Nidoqueen",
+        "types": [
+            "Gift",
+            "Boden"
+        ]
+    },
+    "32": {
+        "name": "NidoranM",
+        "types": [
+            "Gift"
+        ]
+    },
+    "33": {
+        "name": "Nidorino",
+        "types": [
+            "Gift"
+        ]
+    },
+    "34": {
+        "name": "Nidoking",
+        "types": [
+            "Gift",
+            "Boden"
+        ]
+    },
+    "35": {
+        "name": "Piepi",
+        "types": [
+            "Fee"
+        ]
+    },
+    "36": {
+        "name": "Pixi",
+        "types": [
+            "Fee"
+        ]
+    },
+    "37": {
+        "name": "Vulpix",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "38": {
+        "name": "Vulnona",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "39": {
+        "name": "Pummeluff",
+        "types": [
+            "Normal",
+            "Fee"
+        ]
+    },
+    "40": {
+        "name": "Knuddeluff",
+        "types": [
+            "Normal",
+            "Fee"
+        ]
+    },
+    "41": {
+        "name": "Zubat",
+        "types": [
+            "Gift",
+            "Flug"
+        ]
+    },
+    "42": {
+        "name": "Golbat",
+        "types": [
+            "Gift",
+            "Flug"
+        ]
+    },
+    "43": {
+        "name": "Myrapla",
+        "types": [
+            "Pflanze",
+            "Gift"
+        ]
+    },
+    "44": {
+        "name": "Duflor",
+        "types": [
+            "Pflanze",
+            "Gift"
+        ]
+    },
+    "45": {
+        "name": "Giflor",
+        "types": [
+            "Pflanze",
+            "Gift"
+        ]
+    },
+    "46": {
+        "name": "Paras",
+        "types": [
+            "Käfer",
+            "Pflanze"
+        ]
+    },
+    "47": {
+        "name": "Parasek",
+        "types": [
+            "Käfer",
+            "Pflanze"
+        ]
+    },
+    "48": {
+        "name": "Bluzuk",
+        "types": [
+            "Käfer",
+            "Gift"
+        ]
+    },
+    "49": {
+        "name": "Omot",
+        "types": [
+            "Käfer",
+            "Gift"
+        ]
+    },
+    "50": {
+        "name": "Digda",
+        "types": [
+            "Boden"
+        ]
+    },
+    "51": {
+        "name": "Digdri",
+        "types": [
+            "Boden"
+        ]
+    },
+    "52": {
+        "name": "Mauzi",
+        "types": [
+            "Normal"
+        ]
+    },
+    "53": {
+        "name": "Snobilikat",
+        "types": [
+            "Normal"
+        ]
+    },
+    "54": {
+        "name": "Enton",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "55": {
+        "name": "Entoron",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "56": {
+        "name": "Menki",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "57": {
+        "name": "Rasaff",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "58": {
+        "name": "Fukano",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "59": {
+        "name": "Arkani",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "60": {
+        "name": "Quapsel",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "61": {
+        "name": "Quaputzi",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "62": {
+        "name": "Quappo",
+        "types": [
+            "Wasser",
+            "Kampf"
+        ]
+    },
+    "63": {
+        "name": "Abra",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "64": {
+        "name": "Kadabra",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "65": {
+        "name": "Simsala",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "66": {
+        "name": "Machollo",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "67": {
+        "name": "Maschock",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "68": {
+        "name": "Machomei",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "69": {
+        "name": "Knofensa",
+        "types": [
+            "Pflanze",
+            "Gift"
+        ]
+    },
+    "70": {
+        "name": "Ultrigaria",
+        "types": [
+            "Pflanze",
+            "Gift"
+        ]
+    },
+    "71": {
+        "name": "Sarzenia",
+        "types": [
+            "Pflanze",
+            "Gift"
+        ]
+    },
+    "72": {
+        "name": "Tentacha",
+        "types": [
+            "Wasser",
+            "Gift"
+        ]
+    },
+    "73": {
+        "name": "Tentoxa",
+        "types": [
+            "Wasser",
+            "Gift"
+        ]
+    },
+    "74": {
+        "name": "Kleinstein",
+        "types": [
+            "Gestein",
+            "Boden"
+        ]
+    },
+    "75": {
+        "name": "Georok",
+        "types": [
+            "Gestein",
+            "Boden"
+        ]
+    },
+    "76": {
+        "name": "Geowaz",
+        "types": [
+            "Gestein",
+            "Boden"
+        ]
+    },
+    "77": {
+        "name": "Ponita",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "78": {
+        "name": "Gallopa",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "79": {
+        "name": "Flegmon",
+        "types": [
+            "Wasser",
+            "Psycho"
+        ]
+    },
+    "80": {
+        "name": "Lahmus",
+        "types": [
+            "Wasser",
+            "Psycho"
+        ]
+    },
+    "81": {
+        "name": "Magnetilo",
+        "types": [
+            "Elektro",
+            "Stahl"
+        ]
+    },
+    "82": {
+        "name": "Magneton",
+        "types": [
+            "Elektro",
+            "Stahl"
+        ]
+    },
+    "83": {
+        "name": "Porenta",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "84": {
+        "name": "Dodu",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "85": {
+        "name": "Dodri",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "86": {
+        "name": "Jurob",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "87": {
+        "name": "Jugong",
+        "types": [
+            "Wasser",
+            "Eis"
+        ]
+    },
+    "88": {
+        "name": "Sleima",
+        "types": [
+            "Gift"
+        ]
+    },
+    "89": {
+        "name": "Sleimok",
+        "types": [
+            "Gift"
+        ]
+    },
+    "90": {
+        "name": "Muschas",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "91": {
+        "name": "Austos",
+        "types": [
+            "Wasser",
+            "Eis"
+        ]
+    },
+    "92": {
+        "name": "Nebulak",
+        "types": [
+            "Geist",
+            "Gift"
+        ]
+    },
+    "93": {
+        "name": "Alpollo",
+        "types": [
+            "Geist",
+            "Gift"
+        ]
+    },
+    "94": {
+        "name": "Gengar",
+        "types": [
+            "Geist",
+            "Gift"
+        ]
+    },
+    "95": {
+        "name": "Onix",
+        "types": [
+            "Gestein",
+            "Boden"
+        ]
+    },
+    "96": {
+        "name": "Traumato",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "97": {
+        "name": "Hypno",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "98": {
+        "name": "Krabby",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "99": {
+        "name": "Kingler",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "100": {
+        "name": "Voltobal",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "101": {
+        "name": "Lektrobal",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "102": {
+        "name": "Owei",
+        "types": [
+            "Pflanze",
+            "Psycho"
+        ]
+    },
+    "103": {
+        "name": "Kokowei",
+        "types": [
+            "Pflanze",
+            "Psycho"
+        ]
+    },
+    "104": {
+        "name": "Tragosso",
+        "types": [
+            "Boden"
+        ]
+    },
+    "105": {
+        "name": "Knogga",
+        "types": [
+            "Boden"
+        ]
+    },
+    "106": {
+        "name": "Kicklee",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "107": {
+        "name": "Nockchan",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "108": {
+        "name": "Schlurp",
+        "types": [
+            "Normal"
+        ]
+    },
+    "109": {
+        "name": "Smogon",
+        "types": [
+            "Gift"
+        ]
+    },
+    "110": {
+        "name": "Smogmog",
+        "types": [
+            "Gift"
+        ]
+    },
+    "111": {
+        "name": "Rihorn",
+        "types": [
+            "Boden",
+            "Gestein"
+        ]
+    },
+    "112": {
+        "name": "Rizeros",
+        "types": [
+            "Boden",
+            "Gestein"
+        ]
+    },
+    "113": {
+        "name": "Chaneira",
+        "types": [
+            "Normal"
+        ]
+    },
+    "114": {
+        "name": "Tangela",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "115": {
+        "name": "Kangama",
+        "types": [
+            "Normal"
+        ]
+    },
+    "116": {
+        "name": "Seeper",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "117": {
+        "name": "Seemon",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "118": {
+        "name": "Goldini",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "119": {
+        "name": "Golking",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "120": {
+        "name": "Sterndu",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "121": {
+        "name": "Starmie",
+        "types": [
+            "Wasser",
+            "Psycho"
+        ]
+    },
+    "122": {
+        "name": "Pantimos",
+        "types": [
+            "Psycho",
+            "Fee"
+        ]
+    },
+    "123": {
+        "name": "Sichlor",
+        "types": [
+            "Käfer",
+            "Flug"
+        ]
+    },
+    "124": {
+        "name": "Rossana",
+        "types": [
+            "Eis",
+            "Psycho"
+        ]
+    },
+    "125": {
+        "name": "Elektek",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "126": {
+        "name": "Magmar",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "127": {
+        "name": "Pinsir",
+        "types": [
+            "Käfer"
+        ]
+    },
+    "128": {
+        "name": "Tauros",
+        "types": [
+            "Normal"
+        ]
+    },
+    "129": {
+        "name": "Karpador",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "130": {
+        "name": "Garados",
+        "types": [
+            "Wasser",
+            "Flug"
+        ]
+    },
+    "131": {
+        "name": "Lapras",
+        "types": [
+            "Wasser",
+            "Eis"
+        ]
+    },
+    "132": {
+        "name": "Ditto",
+        "types": [
+            "Normal"
+        ]
+    },
+    "133": {
+        "name": "Evoli",
+        "types": [
+            "Normal"
+        ]
+    },
+    "134": {
+        "name": "Aquana",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "135": {
+        "name": "Blitza",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "136": {
+        "name": "Flamara",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "137": {
+        "name": "Porygon",
+        "types": [
+            "Normal"
+        ]
+    },
+    "138": {
+        "name": "Amonitas",
+        "types": [
+            "Gestein",
+            "Wasser"
+        ]
+    },
+    "139": {
+        "name": "Amoroso",
+        "types": [
+            "Gestein",
+            "Wasser"
+        ]
+    },
+    "140": {
+        "name": "Kabuto",
+        "types": [
+            "Gestein",
+            "Wasser"
+        ]
+    },
+    "141": {
+        "name": "Kabutops",
+        "types": [
+            "Gestein",
+            "Wasser"
+        ]
+    },
+    "142": {
+        "name": "Aerodactyl",
+        "types": [
+            "Gestein",
+            "Flug"
+        ]
+    },
+    "143": {
+        "name": "Relaxo",
+        "types": [
+            "Normal"
+        ]
+    },
+    "144": {
+        "name": "Arktos",
+        "types": [
+            "Eis",
+            "Flug"
+        ]
+    },
+    "145": {
+        "name": "Zapdos",
+        "types": [
+            "Elektro",
+            "Flug"
+        ]
+    },
+    "146": {
+        "name": "Lavados",
+        "types": [
+            "Feuer",
+            "Flug"
+        ]
+    },
+    "147": {
+        "name": "Dratini",
+        "types": [
+            "Drache"
+        ]
+    },
+    "148": {
+        "name": "Dragonir",
+        "types": [
+            "Drache"
+        ]
+    },
+    "149": {
+        "name": "Dragoran",
+        "types": [
+            "Drache",
+            "Flug"
+        ]
+    },
+    "150": {
+        "name": "Mewtu",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "151": {
+        "name": "Mew",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "152": {
+        "name": "Endivie",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "153": {
+        "name": "Lorblatt",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "154": {
+        "name": "Meganie",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "155": {
+        "name": "Feurigel",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "156": {
+        "name": "Igelavar",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "157": {
+        "name": "Tornupto",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "158": {
+        "name": "Karnimani",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "159": {
+        "name": "Tyracroc",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "160": {
+        "name": "Impergator",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "161": {
+        "name": "Wiesor",
+        "types": [
+            "Normal"
+        ]
+    },
+    "162": {
+        "name": "Wiesenior",
+        "types": [
+            "Normal"
+        ]
+    },
+    "163": {
+        "name": "Hoothoot",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "164": {
+        "name": "Noctuh",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "165": {
+        "name": "Ledyba",
+        "types": [
+            "Käfer",
+            "Flug"
+        ]
+    },
+    "166": {
+        "name": "Ledian",
+        "types": [
+            "Käfer",
+            "Flug"
+        ]
+    },
+    "167": {
+        "name": "Webarak",
+        "types": [
+            "Käfer",
+            "Gift"
+        ]
+    },
+    "168": {
+        "name": "Ariados",
+        "types": [
+            "Käfer",
+            "Gift"
+        ]
+    },
+    "169": {
+        "name": "Iksbat",
+        "types": [
+            "Gift",
+            "Flug"
+        ]
+    },
+    "170": {
+        "name": "Lampi",
+        "types": [
+            "Wasser",
+            "Elektro"
+        ]
+    },
+    "171": {
+        "name": "Lanturn",
+        "types": [
+            "Wasser",
+            "Elektro"
+        ]
+    },
+    "172": {
+        "name": "Pichu",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "173": {
+        "name": "Pii",
+        "types": [
+            "Fee"
+        ]
+    },
+    "174": {
+        "name": "Fluffeluff",
+        "types": [
+            "Normal",
+            "Fee"
+        ]
+    },
+    "175": {
+        "name": "Togepi",
+        "types": [
+            "Fee"
+        ]
+    },
+    "176": {
+        "name": "Togetic",
+        "types": [
+            "Fee",
+            "Flug"
+        ]
+    },
+    "177": {
+        "name": "Natu",
+        "types": [
+            "Psycho",
+            "Flug"
+        ]
+    },
+    "178": {
+        "name": "Xatu",
+        "types": [
+            "Psycho",
+            "Flug"
+        ]
+    },
+    "179": {
+        "name": "Voltilamm",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "180": {
+        "name": "Waaty",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "181": {
+        "name": "Ampharos",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "182": {
+        "name": "Blubella",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "183": {
+        "name": "Marill",
+        "types": [
+            "Wasser",
+            "Fee"
+        ]
+    },
+    "184": {
+        "name": "Azumarill",
+        "types": [
+            "Wasser",
+            "Fee"
+        ]
+    },
+    "185": {
+        "name": "Mogelbaum",
+        "types": [
+            "Gestein"
+        ]
+    },
+    "186": {
+        "name": "Quaxo",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "187": {
+        "name": "Hoppspross",
+        "types": [
+            "Pflanze",
+            "Flug"
+        ]
+    },
+    "188": {
+        "name": "Hubelupf",
+        "types": [
+            "Pflanze",
+            "Flug"
+        ]
+    },
+    "189": {
+        "name": "Papungha",
+        "types": [
+            "Pflanze",
+            "Flug"
+        ]
+    },
+    "190": {
+        "name": "Griffel",
+        "types": [
+            "Normal"
+        ]
+    },
+    "191": {
+        "name": "Sonnkern",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "192": {
+        "name": "Sonnflora",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "193": {
+        "name": "Yanma",
+        "types": [
+            "Käfer",
+            "Flug"
+        ]
+    },
+    "194": {
+        "name": "Felino",
+        "types": [
+            "Wasser",
+            "Boden"
+        ]
+    },
+    "195": {
+        "name": "Morlord",
+        "types": [
+            "Wasser",
+            "Boden"
+        ]
+    },
+    "196": {
+        "name": "Psiana",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "197": {
+        "name": "Nachtara",
+        "types": [
+            "Unlicht"
+        ]
+    },
+    "198": {
+        "name": "Kramurx",
+        "types": [
+            "Unlicht",
+            "Flug"
+        ]
+    },
+    "199": {
+        "name": "Laschoking",
+        "types": [
+            "Wasser",
+            "Psycho"
+        ]
+    },
+    "200": {
+        "name": "Traunfugil",
+        "types": [
+            "Geist"
+        ]
+    },
+    "201": {
+        "name": "Icognito",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "202": {
+        "name": "Woingenau",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "203": {
+        "name": "Girafarig",
+        "types": [
+            "Normal",
+            "Psycho"
+        ]
+    },
+    "204": {
+        "name": "Tannza",
+        "types": [
+            "Käfer"
+        ]
+    },
+    "205": {
+        "name": "Forstellka",
+        "types": [
+            "Käfer",
+            "Stahl"
+        ]
+    },
+    "206": {
+        "name": "Dummisel",
+        "types": [
+            "Normal"
+        ]
+    },
+    "207": {
+        "name": "Skorgla",
+        "types": [
+            "Boden",
+            "Flug"
+        ]
+    },
+    "208": {
+        "name": "Stahlos",
+        "types": [
+            "Stahl",
+            "Boden"
+        ]
+    },
+    "209": {
+        "name": "Snubbull",
+        "types": [
+            "Fee"
+        ]
+    },
+    "210": {
+        "name": "Granbull",
+        "types": [
+            "Fee"
+        ]
+    },
+    "211": {
+        "name": "Baldorfish",
+        "types": [
+            "Wasser",
+            "Gift"
+        ]
+    },
+    "212": {
+        "name": "Scherox",
+        "types": [
+            "Käfer",
+            "Stahl"
+        ]
+    },
+    "213": {
+        "name": "Pottrott",
+        "types": [
+            "Käfer",
+            "Gestein"
+        ]
+    },
+    "214": {
+        "name": "Skaraborn",
+        "types": [
+            "Käfer",
+            "Kampf"
+        ]
+    },
+    "215": {
+        "name": "Sniebel",
+        "types": [
+            "Unlicht",
+            "Eis"
+        ]
+    },
+    "216": {
+        "name": "Teddiursa",
+        "types": [
+            "Normal"
+        ]
+    },
+    "217": {
+        "name": "Ursaring",
+        "types": [
+            "Normal"
+        ]
+    },
+    "218": {
+        "name": "Schneckmag",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "219": {
+        "name": "Magcargo",
+        "types": [
+            "Feuer",
+            "Gestein"
+        ]
+    },
+    "220": {
+        "name": "Quiekel",
+        "types": [
+            "Eis",
+            "Boden"
+        ]
+    },
+    "221": {
+        "name": "Keifel",
+        "types": [
+            "Eis",
+            "Boden"
+        ]
+    },
+    "222": {
+        "name": "Corasonn",
+        "types": [
+            "Wasser",
+            "Gestein"
+        ]
+    },
+    "223": {
+        "name": "Remoraid",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "224": {
+        "name": "Octillery",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "225": {
+        "name": "Botogel",
+        "types": [
+            "Eis",
+            "Flug"
+        ]
+    },
+    "226": {
+        "name": "Mantax",
+        "types": [
+            "Wasser",
+            "Flug"
+        ]
+    },
+    "227": {
+        "name": "Panzaeron",
+        "types": [
+            "Stahl",
+            "Flug"
+        ]
+    },
+    "228": {
+        "name": "Hunduster",
+        "types": [
+            "Unlicht",
+            "Feuer"
+        ]
+    },
+    "229": {
+        "name": "Hundemon",
+        "types": [
+            "Unlicht",
+            "Feuer"
+        ]
+    },
+    "230": {
+        "name": "Seedraking",
+        "types": [
+            "Wasser",
+            "Drache"
+        ]
+    },
+    "231": {
+        "name": "Phanpy",
+        "types": [
+            "Boden"
+        ]
+    },
+    "232": {
+        "name": "Donphan",
+        "types": [
+            "Boden"
+        ]
+    },
+    "233": {
+        "name": "Porygon2",
+        "types": [
+            "Normal"
+        ]
+    },
+    "234": {
+        "name": "Damhirplex",
+        "types": [
+            "Normal"
+        ]
+    },
+    "235": {
+        "name": "Farbeagle",
+        "types": [
+            "Normal"
+        ]
+    },
+    "236": {
+        "name": "Rabauz",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "237": {
+        "name": "Kapoera",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "238": {
+        "name": "Kussilla",
+        "types": [
+            "Eis",
+            "Psycho"
+        ]
+    },
+    "239": {
+        "name": "Elekid",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "240": {
+        "name": "Magby",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "241": {
+        "name": "Miltank",
+        "types": [
+            "Normal"
+        ]
+    },
+    "242": {
+        "name": "Heiteira",
+        "types": [
+            "Normal"
+        ]
+    },
+    "243": {
+        "name": "Raikou",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "244": {
+        "name": "Entei",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "245": {
+        "name": "Suicune",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "246": {
+        "name": "Larvitar",
+        "types": [
+            "Gestein",
+            "Boden"
+        ]
+    },
+    "247": {
+        "name": "Pupitar",
+        "types": [
+            "Gestein",
+            "Boden"
+        ]
+    },
+    "248": {
+        "name": "Despotar",
+        "types": [
+            "Gestein",
+            "Unlicht"
+        ]
+    },
+    "249": {
+        "name": "Lugia",
+        "types": [
+            "Psycho",
+            "Flug"
+        ]
+    },
+    "250": {
+        "name": "Ho-Oh",
+        "types": [
+            "Feuer",
+            "Flug"
+        ]
+    },
+    "251": {
+        "name": "Celebi",
+        "types": [
+            "Psycho",
+            "Pflanze"
+        ]
+    },
+    "252": {
+        "name": "Geckarbor",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "253": {
+        "name": "Reptain",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "254": {
+        "name": "Gewaldro",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "255": {
+        "name": "Flemmli",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "256": {
+        "name": "Jungglut",
+        "types": [
+            "Feuer",
+            "Kampf"
+        ]
+    },
+    "257": {
+        "name": "Lohgock",
+        "types": [
+            "Feuer",
+            "Kampf"
+        ]
+    },
+    "258": {
+        "name": "Hydropi",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "259": {
+        "name": "Moorabbel",
+        "types": [
+            "Wasser",
+            "Boden"
+        ]
+    },
+    "260": {
+        "name": "Sumpex",
+        "types": [
+            "Wasser",
+            "Boden"
+        ]
+    },
+    "261": {
+        "name": "Fiffyen",
+        "types": [
+            "Unlicht"
+        ]
+    },
+    "262": {
+        "name": "Magnayen",
+        "types": [
+            "Unlicht"
+        ]
+    },
+    "263": {
+        "name": "Zigzachs",
+        "types": [
+            "Normal"
+        ]
+    },
+    "264": {
+        "name": "Geradaks",
+        "types": [
+            "Normal"
+        ]
+    },
+    "265": {
+        "name": "Waumpel",
+        "types": [
+            "Käfer"
+        ]
+    },
+    "266": {
+        "name": "Schaloko",
+        "types": [
+            "Käfer"
+        ]
+    },
+    "267": {
+        "name": "Papinella",
+        "types": [
+            "Käfer",
+            "Flug"
+        ]
+    },
+    "268": {
+        "name": "Panekon",
+        "types": [
+            "Käfer"
+        ]
+    },
+    "269": {
+        "name": "Pudox",
+        "types": [
+            "Käfer",
+            "Gift"
+        ]
+    },
+    "270": {
+        "name": "Loturzel",
+        "types": [
+            "Wasser",
+            "Pflanze"
+        ]
+    },
+    "271": {
+        "name": "Lombrero",
+        "types": [
+            "Wasser",
+            "Pflanze"
+        ]
+    },
+    "272": {
+        "name": "Kappalores",
+        "types": [
+            "Wasser",
+            "Pflanze"
+        ]
+    },
+    "273": {
+        "name": "Samurzel",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "274": {
+        "name": "Blanas",
+        "types": [
+            "Pflanze",
+            "Unlicht"
+        ]
+    },
+    "275": {
+        "name": "Tengulist",
+        "types": [
+            "Pflanze",
+            "Unlicht"
+        ]
+    },
+    "276": {
+        "name": "Schwalbini",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "277": {
+        "name": "Schwalboss",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "278": {
+        "name": "Wingull",
+        "types": [
+            "Wasser",
+            "Flug"
+        ]
+    },
+    "279": {
+        "name": "Pelipper",
+        "types": [
+            "Wasser",
+            "Flug"
+        ]
+    },
+    "280": {
+        "name": "Trasla",
+        "types": [
+            "Psycho",
+            "Fee"
+        ]
+    },
+    "281": {
+        "name": "Kirlia",
+        "types": [
+            "Psycho",
+            "Fee"
+        ]
+    },
+    "282": {
+        "name": "Guardevoir",
+        "types": [
+            "Psycho",
+            "Fee"
+        ]
+    },
+    "283": {
+        "name": "Gehweiher",
+        "types": [
+            "Käfer",
+            "Wasser"
+        ]
+    },
+    "284": {
+        "name": "Maskeregen",
+        "types": [
+            "Käfer",
+            "Flug"
+        ]
+    },
+    "285": {
+        "name": "Knilz",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "286": {
+        "name": "Kapilz",
+        "types": [
+            "Pflanze",
+            "Kampf"
+        ]
+    },
+    "287": {
+        "name": "Bummelz",
+        "types": [
+            "Normal"
+        ]
+    },
+    "288": {
+        "name": "Muntier",
+        "types": [
+            "Normal"
+        ]
+    },
+    "289": {
+        "name": "Letarking",
+        "types": [
+            "Normal"
+        ]
+    },
+    "290": {
+        "name": "Nincada",
+        "types": [
+            "Käfer",
+            "Boden"
+        ]
+    },
+    "291": {
+        "name": "Ninjask",
+        "types": [
+            "Käfer",
+            "Flug"
+        ]
+    },
+    "292": {
+        "name": "Ninjatom",
+        "types": [
+            "Käfer",
+            "Geist"
+        ]
+    },
+    "293": {
+        "name": "Flurmel",
+        "types": [
+            "Normal"
+        ]
+    },
+    "294": {
+        "name": "Krakeelo",
+        "types": [
+            "Normal"
+        ]
+    },
+    "295": {
+        "name": "Krawumms",
+        "types": [
+            "Normal"
+        ]
+    },
+    "296": {
+        "name": "Makuhita",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "297": {
+        "name": "Hariyama",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "298": {
+        "name": "Azurill",
+        "types": [
+            "Normal",
+            "Fee"
+        ]
+    },
+    "299": {
+        "name": "Nasgnet",
+        "types": [
+            "Gestein"
+        ]
+    },
+    "300": {
+        "name": "Eneco",
+        "types": [
+            "Normal"
+        ]
+    },
+    "301": {
+        "name": "Enekoro",
+        "types": [
+            "Normal"
+        ]
+    },
+    "302": {
+        "name": "Zobiris",
+        "types": [
+            "Unlicht",
+            "Geist"
+        ]
+    },
+    "303": {
+        "name": "Flunkifer",
+        "types": [
+            "Stahl",
+            "Fee"
+        ]
+    },
+    "304": {
+        "name": "Stollunior",
+        "types": [
+            "Stahl",
+            "Gestein"
+        ]
+    },
+    "305": {
+        "name": "Stollrak",
+        "types": [
+            "Stahl",
+            "Gestein"
+        ]
+    },
+    "306": {
+        "name": "Stolloss",
+        "types": [
+            "Stahl",
+            "Gestein"
+        ]
+    },
+    "307": {
+        "name": "Meditie",
+        "types": [
+            "Kampf",
+            "Psycho"
+        ]
+    },
+    "308": {
+        "name": "Meditalis",
+        "types": [
+            "Kampf",
+            "Psycho"
+        ]
+    },
+    "309": {
+        "name": "Frizelbliz",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "310": {
+        "name": "Voltenso",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "311": {
+        "name": "Plusle",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "312": {
+        "name": "Minun",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "313": {
+        "name": "Volbeat",
+        "types": [
+            "Käfer"
+        ]
+    },
+    "314": {
+        "name": "Illumise",
+        "types": [
+            "Käfer"
+        ]
+    },
+    "315": {
+        "name": "Roselia",
+        "types": [
+            "Pflanze",
+            "Gift"
+        ]
+    },
+    "316": {
+        "name": "Schluppuck",
+        "types": [
+            "Gift"
+        ]
+    },
+    "317": {
+        "name": "Schlukwech",
+        "types": [
+            "Gift"
+        ]
+    },
+    "318": {
+        "name": "Kanivanha",
+        "types": [
+            "Wasser",
+            "Unlicht"
+        ]
+    },
+    "319": {
+        "name": "Tohaido",
+        "types": [
+            "Wasser",
+            "Unlicht"
+        ]
+    },
+    "320": {
+        "name": "Wailmer",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "321": {
+        "name": "Wailord",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "322": {
+        "name": "Camaub",
+        "types": [
+            "Feuer",
+            "Boden"
+        ]
+    },
+    "323": {
+        "name": "Camerupt",
+        "types": [
+            "Feuer",
+            "Boden"
+        ]
+    },
+    "324": {
+        "name": "Qurtel",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "325": {
+        "name": "Spoink",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "326": {
+        "name": "Groink",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "327": {
+        "name": "Pandir",
+        "types": [
+            "Normal"
+        ]
+    },
+    "328": {
+        "name": "Knacklion",
+        "types": [
+            "Boden"
+        ]
+    },
+    "329": {
+        "name": "Vibrava",
+        "types": [
+            "Boden",
+            "Drache"
+        ]
+    },
+    "330": {
+        "name": "Libelldra",
+        "types": [
+            "Boden",
+            "Drache"
+        ]
+    },
+    "331": {
+        "name": "Tuska",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "332": {
+        "name": "Noktuska",
+        "types": [
+            "Pflanze",
+            "Unlicht"
+        ]
+    },
+    "333": {
+        "name": "Wablu",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "334": {
+        "name": "Altaria",
+        "types": [
+            "Drache",
+            "Flug"
+        ]
+    },
+    "335": {
+        "name": "Sengo",
+        "types": [
+            "Normal"
+        ]
+    },
+    "336": {
+        "name": "Vipitis",
+        "types": [
+            "Gift"
+        ]
+    },
+    "337": {
+        "name": "Lunastein",
+        "types": [
+            "Gestein",
+            "Psycho"
+        ]
+    },
+    "338": {
+        "name": "Sonnfel",
+        "types": [
+            "Gestein",
+            "Psycho"
+        ]
+    },
+    "339": {
+        "name": "Schmerbe",
+        "types": [
+            "Wasser",
+            "Boden"
+        ]
+    },
+    "340": {
+        "name": "Welsar",
+        "types": [
+            "Wasser",
+            "Boden"
+        ]
+    },
+    "341": {
+        "name": "Krebscorps",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "342": {
+        "name": "Krebutack",
+        "types": [
+            "Wasser",
+            "Unlicht"
+        ]
+    },
+    "343": {
+        "name": "Puppance",
+        "types": [
+            "Boden",
+            "Psycho"
+        ]
+    },
+    "344": {
+        "name": "Lepumentas",
+        "types": [
+            "Boden",
+            "Psycho"
+        ]
+    },
+    "345": {
+        "name": "Liliep",
+        "types": [
+            "Gestein",
+            "Pflanze"
+        ]
+    },
+    "346": {
+        "name": "Wielie",
+        "types": [
+            "Gestein",
+            "Pflanze"
+        ]
+    },
+    "347": {
+        "name": "Anorith",
+        "types": [
+            "Gestein",
+            "Käfer"
+        ]
+    },
+    "348": {
+        "name": "Armaldo",
+        "types": [
+            "Gestein",
+            "Käfer"
+        ]
+    },
+    "349": {
+        "name": "Barschwa",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "350": {
+        "name": "Milotic",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "351": {
+        "name": "Formeo",
+        "types": [
+            "Normal"
+        ]
+    },
+    "352": {
+        "name": "Kecleon",
+        "types": [
+            "Normal"
+        ]
+    },
+    "353": {
+        "name": "Shuppet",
+        "types": [
+            "Geist"
+        ]
+    },
+    "354": {
+        "name": "Banette",
+        "types": [
+            "Geist"
+        ]
+    },
+    "355": {
+        "name": "Zwirrlicht",
+        "types": [
+            "Geist"
+        ]
+    },
+    "356": {
+        "name": "Zwirrklop",
+        "types": [
+            "Geist"
+        ]
+    },
+    "357": {
+        "name": "Tropius",
+        "types": [
+            "Pflanze",
+            "Flug"
+        ]
+    },
+    "358": {
+        "name": "Palimpalim",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "359": {
+        "name": "Absol",
+        "types": [
+            "Unlicht"
+        ]
+    },
+    "360": {
+        "name": "Isso",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "361": {
+        "name": "Schneppke",
+        "types": [
+            "Eis"
+        ]
+    },
+    "362": {
+        "name": "Firnontor",
+        "types": [
+            "Eis"
+        ]
+    },
+    "363": {
+        "name": "Seemops",
+        "types": [
+            "Eis",
+            "Wasser"
+        ]
+    },
+    "364": {
+        "name": "Seejong",
+        "types": [
+            "Eis",
+            "Wasser"
+        ]
+    },
+    "365": {
+        "name": "Walraisa",
+        "types": [
+            "Eis",
+            "Wasser"
+        ]
+    },
+    "366": {
+        "name": "Perlu",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "367": {
+        "name": "Aalabyss",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "368": {
+        "name": "Saganabyss",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "369": {
+        "name": "Relicanth",
+        "types": [
+            "Wasser",
+            "Gestein"
+        ]
+    },
+    "370": {
+        "name": "Liebiskus",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "371": {
+        "name": "Kindwurm",
+        "types": [
+            "Drache"
+        ]
+    },
+    "372": {
+        "name": "Draschel",
+        "types": [
+            "Drache"
+        ]
+    },
+    "373": {
+        "name": "Brutalanda",
+        "types": [
+            "Drache",
+            "Flug"
+        ]
+    },
+    "374": {
+        "name": "Tanhel",
+        "types": [
+            "Stahl",
+            "Psycho"
+        ]
+    },
+    "375": {
+        "name": "Metang",
+        "types": [
+            "Stahl",
+            "Psycho"
+        ]
+    },
+    "376": {
+        "name": "Metagross",
+        "types": [
+            "Stahl",
+            "Psycho"
+        ]
+    },
+    "377": {
+        "name": "Regirock",
+        "types": [
+            "Gestein"
+        ]
+    },
+    "378": {
+        "name": "Regice",
+        "types": [
+            "Eis"
+        ]
+    },
+    "379": {
+        "name": "Registeel",
+        "types": [
+            "Stahl"
+        ]
+    },
+    "380": {
+        "name": "Latias",
+        "types": [
+            "Drache",
+            "Psycho"
+        ]
+    },
+    "381": {
+        "name": "Latios",
+        "types": [
+            "Drache",
+            "Psycho"
+        ]
+    },
+    "382": {
+        "name": "Kyogre",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "383": {
+        "name": "Groudon",
+        "types": [
+            "Boden"
+        ]
+    },
+    "384": {
+        "name": "Rayquaza",
+        "types": [
+            "Drache",
+            "Flug"
+        ]
+    },
+    "385": {
+        "name": "Jirachi",
+        "types": [
+            "Stahl",
+            "Psycho"
+        ]
+    },
+    "386": {
+        "name": "Deoxys",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "387": {
+        "name": "Chelast",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "388": {
+        "name": "Chelcarain",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "389": {
+        "name": "Chelterrar",
+        "types": [
+            "Pflanze",
+            "Boden"
+        ]
+    },
+    "390": {
+        "name": "Panflam",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "391": {
+        "name": "Panpyro",
+        "types": [
+            "Feuer",
+            "Kampf"
+        ]
+    },
+    "392": {
+        "name": "Panferno",
+        "types": [
+            "Feuer",
+            "Kampf"
+        ]
+    },
+    "393": {
+        "name": "Plinfa",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "394": {
+        "name": "Pliprin",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "395": {
+        "name": "Impoleon",
+        "types": [
+            "Wasser",
+            "Stahl"
+        ]
+    },
+    "396": {
+        "name": "Staralili",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "397": {
+        "name": "Staravia",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "398": {
+        "name": "Staraptor",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "399": {
+        "name": "Bidiza",
+        "types": [
+            "Normal"
+        ]
+    },
+    "400": {
+        "name": "Bidifas",
+        "types": [
+            "Normal",
+            "Wasser"
+        ]
+    },
+    "401": {
+        "name": "Zirpurze",
+        "types": [
+            "Käfer"
+        ]
+    },
+    "402": {
+        "name": "Zirpeise",
+        "types": [
+            "Käfer"
+        ]
+    },
+    "403": {
+        "name": "Sheinux",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "404": {
+        "name": "Luxio",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "405": {
+        "name": "Luxtra",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "406": {
+        "name": "Knospi",
+        "types": [
+            "Pflanze",
+            "Gift"
+        ]
+    },
+    "407": {
+        "name": "Roserade",
+        "types": [
+            "Pflanze",
+            "Gift"
+        ]
+    },
+    "408": {
+        "name": "Koknodon",
+        "types": [
+            "Gestein"
+        ]
+    },
+    "409": {
+        "name": "Rameidon",
+        "types": [
+            "Gestein"
+        ]
+    },
+    "410": {
+        "name": "Schilterus",
+        "types": [
+            "Gestein",
+            "Stahl"
+        ]
+    },
+    "411": {
+        "name": "Bollterus",
+        "types": [
+            "Gestein",
+            "Stahl"
+        ]
+    },
+    "412": {
+        "name": "Burmy",
+        "types": [
+            "Käfer"
+        ]
+    },
+    "413": {
+        "name": "Burmadame",
+        "types": [
+            "Käfer",
+            "Pflanze"
+        ]
+    },
+    "414": {
+        "name": "Moterpel",
+        "types": [
+            "Käfer",
+            "Flug"
+        ]
+    },
+    "415": {
+        "name": "Wadribie",
+        "types": [
+            "Käfer",
+            "Flug"
+        ]
+    },
+    "416": {
+        "name": "Honweisel",
+        "types": [
+            "Käfer",
+            "Flug"
+        ]
+    },
+    "417": {
+        "name": "Pachirisu",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "418": {
+        "name": "Bamelin",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "419": {
+        "name": "Bojelin",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "420": {
+        "name": "Kikugi",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "421": {
+        "name": "Kinoso",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "422": {
+        "name": "Schalellos",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "423": {
+        "name": "Gastrodon",
+        "types": [
+            "Wasser",
+            "Boden"
+        ]
+    },
+    "424": {
+        "name": "Ambidiffel",
+        "types": [
+            "Normal"
+        ]
+    },
+    "425": {
+        "name": "Driftlon",
+        "types": [
+            "Geist",
+            "Flug"
+        ]
+    },
+    "426": {
+        "name": "Drifzepeli",
+        "types": [
+            "Geist",
+            "Flug"
+        ]
+    },
+    "427": {
+        "name": "Haspiror",
+        "types": [
+            "Normal"
+        ]
+    },
+    "428": {
+        "name": "Schlapor",
+        "types": [
+            "Normal"
+        ]
+    },
+    "429": {
+        "name": "Traunmagil",
+        "types": [
+            "Geist"
+        ]
+    },
+    "430": {
+        "name": "Kramshef",
+        "types": [
+            "Unlicht",
+            "Flug"
+        ]
+    },
+    "431": {
+        "name": "Charmian",
+        "types": [
+            "Normal"
+        ]
+    },
+    "432": {
+        "name": "Shnurgarst",
+        "types": [
+            "Normal"
+        ]
+    },
+    "433": {
+        "name": "Klingplim",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "434": {
+        "name": "Skunkapuh",
+        "types": [
+            "Gift",
+            "Unlicht"
+        ]
+    },
+    "435": {
+        "name": "Skuntank",
+        "types": [
+            "Gift",
+            "Unlicht"
+        ]
+    },
+    "436": {
+        "name": "Bronzel",
+        "types": [
+            "Stahl",
+            "Psycho"
+        ]
+    },
+    "437": {
+        "name": "Bronzong",
+        "types": [
+            "Stahl",
+            "Psycho"
+        ]
+    },
+    "438": {
+        "name": "Mobai",
+        "types": [
+            "Gestein"
+        ]
+    },
+    "439": {
+        "name": "Pantimimi",
+        "types": [
+            "Psycho",
+            "Fee"
+        ]
+    },
+    "440": {
+        "name": "Wonneira",
+        "types": [
+            "Normal"
+        ]
+    },
+    "441": {
+        "name": "Plaudagei",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "442": {
+        "name": "Kryppuk",
+        "types": [
+            "Geist",
+            "Unlicht"
+        ]
+    },
+    "443": {
+        "name": "Kaumalat",
+        "types": [
+            "Drache",
+            "Boden"
+        ]
+    },
+    "444": {
+        "name": "Knarksel",
+        "types": [
+            "Drache",
+            "Boden"
+        ]
+    },
+    "445": {
+        "name": "Knakrack",
+        "types": [
+            "Drache",
+            "Boden"
+        ]
+    },
+    "446": {
+        "name": "Mampfaxo",
+        "types": [
+            "Normal"
+        ]
+    },
+    "447": {
+        "name": "Riolu",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "448": {
+        "name": "Lucario",
+        "types": [
+            "Kampf",
+            "Stahl"
+        ]
+    },
+    "449": {
+        "name": "Hippopotas",
+        "types": [
+            "Boden"
+        ]
+    },
+    "450": {
+        "name": "Hippoterus",
+        "types": [
+            "Boden"
+        ]
+    },
+    "451": {
+        "name": "Pionskora",
+        "types": [
+            "Gift",
+            "Käfer"
+        ]
+    },
+    "452": {
+        "name": "Piondragi",
+        "types": [
+            "Gift",
+            "Unlicht"
+        ]
+    },
+    "453": {
+        "name": "Glibunkel",
+        "types": [
+            "Gift",
+            "Kampf"
+        ]
+    },
+    "454": {
+        "name": "Toxiquak",
+        "types": [
+            "Gift",
+            "Kampf"
+        ]
+    },
+    "455": {
+        "name": "Venuflibis",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "456": {
+        "name": "Finneon",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "457": {
+        "name": "Lumineon",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "458": {
+        "name": "Mantirps",
+        "types": [
+            "Wasser",
+            "Flug"
+        ]
+    },
+    "459": {
+        "name": "Shnebedeck",
+        "types": [
+            "Pflanze",
+            "Eis"
+        ]
+    },
+    "460": {
+        "name": "Rexblisar",
+        "types": [
+            "Pflanze",
+            "Eis"
+        ]
+    },
+    "461": {
+        "name": "Snibunna",
+        "types": [
+            "Unlicht",
+            "Eis"
+        ]
+    },
+    "462": {
+        "name": "Magnezone",
+        "types": [
+            "Elektro",
+            "Stahl"
+        ]
+    },
+    "463": {
+        "name": "Schlurplek",
+        "types": [
+            "Normal"
+        ]
+    },
+    "464": {
+        "name": "Rihornior",
+        "types": [
+            "Boden",
+            "Gestein"
+        ]
+    },
+    "465": {
+        "name": "Tangoloss",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "466": {
+        "name": "Elevoltek",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "467": {
+        "name": "Magbrant",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "468": {
+        "name": "Togekiss",
+        "types": [
+            "Fee",
+            "Flug"
+        ]
+    },
+    "469": {
+        "name": "Yanmega",
+        "types": [
+            "Käfer",
+            "Flug"
+        ]
+    },
+    "470": {
+        "name": "Folipurba",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "471": {
+        "name": "Glaziola",
+        "types": [
+            "Eis"
+        ]
+    },
+    "472": {
+        "name": "Skorgro",
+        "types": [
+            "Boden",
+            "Flug"
+        ]
+    },
+    "473": {
+        "name": "Mamutel",
+        "types": [
+            "Eis",
+            "Boden"
+        ]
+    },
+    "474": {
+        "name": "Porygon-Z",
+        "types": [
+            "Normal"
+        ]
+    },
+    "475": {
+        "name": "Galagladi",
+        "types": [
+            "Psycho",
+            "Kampf"
+        ]
+    },
+    "476": {
+        "name": "Voluminas",
+        "types": [
+            "Gestein",
+            "Stahl"
+        ]
+    },
+    "477": {
+        "name": "Zwirrfinst",
+        "types": [
+            "Geist"
+        ]
+    },
+    "478": {
+        "name": "Frosdedje",
+        "types": [
+            "Eis",
+            "Geist"
+        ]
+    },
+    "479": {
+        "name": "Rotom",
+        "types": [
+            "Elektro",
+            "Geist"
+        ]
+    },
+    "480": {
+        "name": "Selfe",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "481": {
+        "name": "Vesprit",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "482": {
+        "name": "Tobutz",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "483": {
+        "name": "Dialga",
+        "types": [
+            "Stahl",
+            "Drache"
+        ]
+    },
+    "484": {
+        "name": "Palkia",
+        "types": [
+            "Wasser",
+            "Drache"
+        ]
+    },
+    "485": {
+        "name": "Heatran",
+        "types": [
+            "Feuer",
+            "Stahl"
+        ]
+    },
+    "486": {
+        "name": "Regigigas",
+        "types": [
+            "Normal"
+        ]
+    },
+    "487": {
+        "name": "Giratina",
+        "types": [
+            "Geist",
+            "Drache"
+        ]
+    },
+    "488": {
+        "name": "Cresselia",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "489": {
+        "name": "Phione",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "490": {
+        "name": "Manaphy",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "491": {
+        "name": "Darkrai",
+        "types": [
+            "Unlicht"
+        ]
+    },
+    "492": {
+        "name": "Shaymin",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "493": {
+        "name": "Arceus",
+        "types": [
+            "Normal"
+        ]
+    },
+    "494": {
+        "name": "Victini",
+        "types": [
+            "Psycho",
+            "Feuer"
+        ]
+    },
+    "495": {
+        "name": "Serpifeu",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "496": {
+        "name": "Efoserp",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "497": {
+        "name": "Serpiroyal",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "498": {
+        "name": "Floink",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "499": {
+        "name": "Ferkokel",
+        "types": [
+            "Feuer",
+            "Kampf"
+        ]
+    },
+    "500": {
+        "name": "Flambirex",
+        "types": [
+            "Feuer",
+            "Kampf"
+        ]
+    },
+    "501": {
+        "name": "Ottaro",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "502": {
+        "name": "Zwottronin",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "503": {
+        "name": "Admurai",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "504": {
+        "name": "Nagelotz",
+        "types": [
+            "Normal"
+        ]
+    },
+    "505": {
+        "name": "Kukmarda",
+        "types": [
+            "Normal"
+        ]
+    },
+    "506": {
+        "name": "Yorkleff",
+        "types": [
+            "Normal"
+        ]
+    },
+    "507": {
+        "name": "Terribark",
+        "types": [
+            "Normal"
+        ]
+    },
+    "508": {
+        "name": "Bissbark",
+        "types": [
+            "Normal"
+        ]
+    },
+    "509": {
+        "name": "Felilou",
+        "types": [
+            "Unlicht"
+        ]
+    },
+    "510": {
+        "name": "Kleoparda",
+        "types": [
+            "Unlicht"
+        ]
+    },
+    "511": {
+        "name": "Vegimak",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "512": {
+        "name": "Vegichita",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "513": {
+        "name": "Grillmak",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "514": {
+        "name": "Grillchita",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "515": {
+        "name": "Sodamak",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "516": {
+        "name": "Sodachita",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "517": {
+        "name": "Somniam",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "518": {
+        "name": "Somnivora",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "519": {
+        "name": "Dusselgurr",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "520": {
+        "name": "Navitaub",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "521": {
+        "name": "Fasasnob",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "522": {
+        "name": "Elezeba",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "523": {
+        "name": "Zebritz",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "524": {
+        "name": "Kiesling",
+        "types": [
+            "Gestein"
+        ]
+    },
+    "525": {
+        "name": "Sedimantur",
+        "types": [
+            "Gestein"
+        ]
+    },
+    "526": {
+        "name": "Brockoloss",
+        "types": [
+            "Gestein"
+        ]
+    },
+    "527": {
+        "name": "Fleknoil",
+        "types": [
+            "Psycho",
+            "Flug"
+        ]
+    },
+    "528": {
+        "name": "Fletiamo",
+        "types": [
+            "Psycho",
+            "Flug"
+        ]
+    },
+    "529": {
+        "name": "Rotomurf",
+        "types": [
+            "Boden"
+        ]
+    },
+    "530": {
+        "name": "Stalobor",
+        "types": [
+            "Boden",
+            "Stahl"
+        ]
+    },
+    "531": {
+        "name": "Ohrdoch",
+        "types": [
+            "Normal"
+        ]
+    },
+    "532": {
+        "name": "Praktibalk",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "533": {
+        "name": "Strepoli",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "534": {
+        "name": "Meistagrif",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "535": {
+        "name": "Schallquap",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "536": {
+        "name": "Mebrana",
+        "types": [
+            "Wasser",
+            "Boden"
+        ]
+    },
+    "537": {
+        "name": "Branawarz",
+        "types": [
+            "Wasser",
+            "Boden"
+        ]
+    },
+    "538": {
+        "name": "Jiutesto",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "539": {
+        "name": "Karadonis",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "540": {
+        "name": "Strawickl",
+        "types": [
+            "Käfer",
+            "Pflanze"
+        ]
+    },
+    "541": {
+        "name": "Folikon",
+        "types": [
+            "Käfer",
+            "Pflanze"
+        ]
+    },
+    "542": {
+        "name": "Matrifol",
+        "types": [
+            "Käfer",
+            "Pflanze"
+        ]
+    },
+    "543": {
+        "name": "Toxiped",
+        "types": [
+            "Käfer",
+            "Gift"
+        ]
+    },
+    "544": {
+        "name": "Rollum",
+        "types": [
+            "Käfer",
+            "Gift"
+        ]
+    },
+    "545": {
+        "name": "Cerapendra",
+        "types": [
+            "Käfer",
+            "Gift"
+        ]
+    },
+    "546": {
+        "name": "Waumboll",
+        "types": [
+            "Pflanze",
+            "Fee"
+        ]
+    },
+    "547": {
+        "name": "Elfun",
+        "types": [
+            "Pflanze",
+            "Fee"
+        ]
+    },
+    "548": {
+        "name": "Lilminip",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "549": {
+        "name": "Dressella",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "550": {
+        "name": "Barschuft",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "551": {
+        "name": "Ganovil",
+        "types": [
+            "Boden",
+            "Unlicht"
+        ]
+    },
+    "552": {
+        "name": "Rokkaiman",
+        "types": [
+            "Boden",
+            "Unlicht"
+        ]
+    },
+    "553": {
+        "name": "Rabigator",
+        "types": [
+            "Boden",
+            "Unlicht"
+        ]
+    },
+    "554": {
+        "name": "Flampion",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "555": {
+        "name": "Flampivian",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "556": {
+        "name": "Maracamba",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "557": {
+        "name": "Lithomith",
+        "types": [
+            "Käfer",
+            "Gestein"
+        ]
+    },
+    "558": {
+        "name": "Castellith",
+        "types": [
+            "Käfer",
+            "Gestein"
+        ]
+    },
+    "559": {
+        "name": "Zurrokex",
+        "types": [
+            "Unlicht",
+            "Kampf"
+        ]
+    },
+    "560": {
+        "name": "Irokex",
+        "types": [
+            "Unlicht",
+            "Kampf"
+        ]
+    },
+    "561": {
+        "name": "Symvolara",
+        "types": [
+            "Psycho",
+            "Flug"
+        ]
+    },
+    "562": {
+        "name": "Makabaja",
+        "types": [
+            "Geist"
+        ]
+    },
+    "563": {
+        "name": "Echnatoll",
+        "types": [
+            "Geist"
+        ]
+    },
+    "564": {
+        "name": "Galapaflos",
+        "types": [
+            "Wasser",
+            "Gestein"
+        ]
+    },
+    "565": {
+        "name": "Karippas",
+        "types": [
+            "Wasser",
+            "Gestein"
+        ]
+    },
+    "566": {
+        "name": "Flapteryx",
+        "types": [
+            "Gestein",
+            "Flug"
+        ]
+    },
+    "567": {
+        "name": "Aeropteryx",
+        "types": [
+            "Gestein",
+            "Flug"
+        ]
+    },
+    "568": {
+        "name": "Unratütox",
+        "types": [
+            "Gift"
+        ]
+    },
+    "569": {
+        "name": "Deponitox",
+        "types": [
+            "Gift"
+        ]
+    },
+    "570": {
+        "name": "Zorua",
+        "types": [
+            "Unlicht"
+        ]
+    },
+    "571": {
+        "name": "Zoroark",
+        "types": [
+            "Unlicht"
+        ]
+    },
+    "572": {
+        "name": "Picochilla",
+        "types": [
+            "Normal"
+        ]
+    },
+    "573": {
+        "name": "Chillabell",
+        "types": [
+            "Normal"
+        ]
+    },
+    "574": {
+        "name": "Mollimorba",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "575": {
+        "name": "Hypnomorba",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "576": {
+        "name": "Morbitesse",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "577": {
+        "name": "Monozyto",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "578": {
+        "name": "Mitodos",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "579": {
+        "name": "Zytomega",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "580": {
+        "name": "Piccolente",
+        "types": [
+            "Wasser",
+            "Flug"
+        ]
+    },
+    "581": {
+        "name": "Swaroness",
+        "types": [
+            "Wasser",
+            "Flug"
+        ]
+    },
+    "582": {
+        "name": "Gelatini",
+        "types": [
+            "Eis"
+        ]
+    },
+    "583": {
+        "name": "Gelatroppo",
+        "types": [
+            "Eis"
+        ]
+    },
+    "584": {
+        "name": "Gelatwino",
+        "types": [
+            "Eis"
+        ]
+    },
+    "585": {
+        "name": "Sesokitz",
+        "types": [
+            "Normal",
+            "Pflanze"
+        ]
+    },
+    "586": {
+        "name": "Kronjuwild",
+        "types": [
+            "Normal",
+            "Pflanze"
+        ]
+    },
+    "587": {
+        "name": "Emolga",
+        "types": [
+            "Elektro",
+            "Flug"
+        ]
+    },
+    "588": {
+        "name": "Laukaps",
+        "types": [
+            "Käfer"
+        ]
+    },
+    "589": {
+        "name": "Cavalanzas",
+        "types": [
+            "Käfer",
+            "Stahl"
+        ]
+    },
+    "590": {
+        "name": "Tarnpignon",
+        "types": [
+            "Pflanze",
+            "Gift"
+        ]
+    },
+    "591": {
+        "name": "Hutsassa",
+        "types": [
+            "Pflanze",
+            "Gift"
+        ]
+    },
+    "592": {
+        "name": "Quabbel",
+        "types": [
+            "Wasser",
+            "Geist"
+        ]
+    },
+    "593": {
+        "name": "Apoquallyp",
+        "types": [
+            "Wasser",
+            "Geist"
+        ]
+    },
+    "594": {
+        "name": "Mamolida",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "595": {
+        "name": "Wattzapf",
+        "types": [
+            "Käfer",
+            "Elektro"
+        ]
+    },
+    "596": {
+        "name": "Voltula",
+        "types": [
+            "Käfer",
+            "Elektro"
+        ]
+    },
+    "597": {
+        "name": "Kastadur",
+        "types": [
+            "Pflanze",
+            "Stahl"
+        ]
+    },
+    "598": {
+        "name": "Tentantel",
+        "types": [
+            "Pflanze",
+            "Stahl"
+        ]
+    },
+    "599": {
+        "name": "Klikk",
+        "types": [
+            "Stahl"
+        ]
+    },
+    "600": {
+        "name": "Kliklak",
+        "types": [
+            "Stahl"
+        ]
+    },
+    "601": {
+        "name": "Klikdiklak",
+        "types": [
+            "Stahl"
+        ]
+    },
+    "602": {
+        "name": "Zapplardin",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "603": {
+        "name": "Zapplalek",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "604": {
+        "name": "Zapplarang",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "605": {
+        "name": "Pygraulon",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "606": {
+        "name": "Megalon",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "607": {
+        "name": "Lichtel",
+        "types": [
+            "Geist",
+            "Feuer"
+        ]
+    },
+    "608": {
+        "name": "Laternecto",
+        "types": [
+            "Geist",
+            "Feuer"
+        ]
+    },
+    "609": {
+        "name": "Skelabra",
+        "types": [
+            "Geist",
+            "Feuer"
+        ]
+    },
+    "610": {
+        "name": "Milza",
+        "types": [
+            "Drache"
+        ]
+    },
+    "611": {
+        "name": "Sharfax",
+        "types": [
+            "Drache"
+        ]
+    },
+    "612": {
+        "name": "Maxax",
+        "types": [
+            "Drache"
+        ]
+    },
+    "613": {
+        "name": "Petznief",
+        "types": [
+            "Eis"
+        ]
+    },
+    "614": {
+        "name": "Siberio",
+        "types": [
+            "Eis"
+        ]
+    },
+    "615": {
+        "name": "Frigometri",
+        "types": [
+            "Eis"
+        ]
+    },
+    "616": {
+        "name": "Schnuthelm",
+        "types": [
+            "Käfer"
+        ]
+    },
+    "617": {
+        "name": "Hydragil",
+        "types": [
+            "Käfer"
+        ]
+    },
+    "618": {
+        "name": "Flunschlik",
+        "types": [
+            "Elektro",
+            "Boden"
+        ]
+    },
+    "619": {
+        "name": "Lin-Fu",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "620": {
+        "name": "Wie-Shu",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "621": {
+        "name": "Shardrago",
+        "types": [
+            "Drache"
+        ]
+    },
+    "622": {
+        "name": "Golbit",
+        "types": [
+            "Boden",
+            "Geist"
+        ]
+    },
+    "623": {
+        "name": "Golgantes",
+        "types": [
+            "Boden",
+            "Geist"
+        ]
+    },
+    "624": {
+        "name": "Gladiantri",
+        "types": [
+            "Unlicht",
+            "Stahl"
+        ]
+    },
+    "625": {
+        "name": "Caesurio",
+        "types": [
+            "Unlicht",
+            "Stahl"
+        ]
+    },
+    "626": {
+        "name": "Bisofank",
+        "types": [
+            "Normal"
+        ]
+    },
+    "627": {
+        "name": "Geronimatz",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "628": {
+        "name": "Washakwil",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "629": {
+        "name": "Skallyk",
+        "types": [
+            "Unlicht",
+            "Flug"
+        ]
+    },
+    "630": {
+        "name": "Grypheldis",
+        "types": [
+            "Unlicht",
+            "Flug"
+        ]
+    },
+    "631": {
+        "name": "Furnifraß",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "632": {
+        "name": "Fermicula",
+        "types": [
+            "Käfer",
+            "Stahl"
+        ]
+    },
+    "633": {
+        "name": "Kapuno",
+        "types": [
+            "Unlicht",
+            "Drache"
+        ]
+    },
+    "634": {
+        "name": "Duodino",
+        "types": [
+            "Unlicht",
+            "Drache"
+        ]
+    },
+    "635": {
+        "name": "Trikephalo",
+        "types": [
+            "Unlicht",
+            "Drache"
+        ]
+    },
+    "636": {
+        "name": "Ignivor",
+        "types": [
+            "Käfer",
+            "Feuer"
+        ]
+    },
+    "637": {
+        "name": "Ramoth",
+        "types": [
+            "Käfer",
+            "Feuer"
+        ]
+    },
+    "638": {
+        "name": "Kobalium",
+        "types": [
+            "Stahl",
+            "Kampf"
+        ]
+    },
+    "639": {
+        "name": "Terrakium",
+        "types": [
+            "Gestein",
+            "Kampf"
+        ]
+    },
+    "640": {
+        "name": "Viridium",
+        "types": [
+            "Pflanze",
+            "Kampf"
+        ]
+    },
+    "641": {
+        "name": "Boreos",
+        "types": [
+            "Flug"
+        ]
+    },
+    "642": {
+        "name": "Voltolos",
+        "types": [
+            "Elektro",
+            "Flug"
+        ]
+    },
+    "643": {
+        "name": "Reshiram",
+        "types": [
+            "Drache",
+            "Feuer"
+        ]
+    },
+    "644": {
+        "name": "Zekrom",
+        "types": [
+            "Drache",
+            "Elektro"
+        ]
+    },
+    "645": {
+        "name": "Demeteros",
+        "types": [
+            "Boden",
+            "Flug"
+        ]
+    },
+    "646": {
+        "name": "Kyurem",
+        "types": [
+            "Drache",
+            "Eis"
+        ]
+    },
+    "647": {
+        "name": "Keldeo",
+        "types": [
+            "Wasser",
+            "Kampf"
+        ]
+    },
+    "648": {
+        "name": "Meloetta",
+        "types": [
+            "Normal",
+            "Psycho"
+        ]
+    },
+    "649": {
+        "name": "Genesect",
+        "types": [
+            "Käfer",
+            "Stahl"
+        ]
+    },
+    "650": {
+        "name": "Igamaro",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "651": {
+        "name": "Igastarnish",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "652": {
+        "name": "Brigaron",
+        "types": [
+            "Pflanze",
+            "Kampf"
+        ]
+    },
+    "653": {
+        "name": "Fynx",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "654": {
+        "name": "Rutena",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "655": {
+        "name": "Fennexis",
+        "types": [
+            "Feuer",
+            "Psycho"
+        ]
+    },
+    "656": {
+        "name": "Froxy",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "657": {
+        "name": "Amphizel",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "658": {
+        "name": "Quajutsu",
+        "types": [
+            "Wasser",
+            "Unlicht"
+        ]
+    },
+    "659": {
+        "name": "Scoppel",
+        "types": [
+            "Normal"
+        ]
+    },
+    "660": {
+        "name": "Grebbit",
+        "types": [
+            "Normal",
+            "Boden"
+        ]
+    },
+    "661": {
+        "name": "Dartiri",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "662": {
+        "name": "Dartignis",
+        "types": [
+            "Feuer",
+            "Flug"
+        ]
+    },
+    "663": {
+        "name": "Fiaro",
+        "types": [
+            "Feuer",
+            "Flug"
+        ]
+    },
+    "664": {
+        "name": "Purmel",
+        "types": [
+            "Käfer"
+        ]
+    },
+    "665": {
+        "name": "Puponcho",
+        "types": [
+            "Käfer"
+        ]
+    },
+    "666": {
+        "name": "Vivillon",
+        "types": [
+            "Käfer",
+            "Flug"
+        ]
+    },
+    "667": {
+        "name": "Leufeo",
+        "types": [
+            "Feuer",
+            "Normal"
+        ]
+    },
+    "668": {
+        "name": "Pyroleo",
+        "types": [
+            "Feuer",
+            "Normal"
+        ]
+    },
+    "669": {
+        "name": "Flabébé",
+        "types": [
+            "Fee"
+        ]
+    },
+    "670": {
+        "name": "Floette",
+        "types": [
+            "Fee"
+        ]
+    },
+    "671": {
+        "name": "Florges",
+        "types": [
+            "Fee"
+        ]
+    },
+    "672": {
+        "name": "Mähikel",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "673": {
+        "name": "Chevrumm",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "674": {
+        "name": "Pam-Pam",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "675": {
+        "name": "Pandagro",
+        "types": [
+            "Kampf",
+            "Unlicht"
+        ]
+    },
+    "676": {
+        "name": "Coiffwaff",
+        "types": [
+            "Normal"
+        ]
+    },
+    "677": {
+        "name": "Psiau",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "678": {
+        "name": "Psiaugon",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "679": {
+        "name": "Gramokles",
+        "types": [
+            "Stahl",
+            "Geist"
+        ]
+    },
+    "680": {
+        "name": "Duokles",
+        "types": [
+            "Stahl",
+            "Geist"
+        ]
+    },
+    "681": {
+        "name": "Durengard",
+        "types": [
+            "Stahl",
+            "Geist"
+        ]
+    },
+    "682": {
+        "name": "Parfi",
+        "types": [
+            "Fee"
+        ]
+    },
+    "683": {
+        "name": "Parfinesse",
+        "types": [
+            "Fee"
+        ]
+    },
+    "684": {
+        "name": "Flauschling",
+        "types": [
+            "Fee"
+        ]
+    },
+    "685": {
+        "name": "Sabbaione",
+        "types": [
+            "Fee"
+        ]
+    },
+    "686": {
+        "name": "Iscalar",
+        "types": [
+            "Unlicht",
+            "Psycho"
+        ]
+    },
+    "687": {
+        "name": "Calamanero",
+        "types": [
+            "Unlicht",
+            "Psycho"
+        ]
+    },
+    "688": {
+        "name": "Bithora",
+        "types": [
+            "Gestein",
+            "Wasser"
+        ]
+    },
+    "689": {
+        "name": "Thanathora",
+        "types": [
+            "Gestein",
+            "Wasser"
+        ]
+    },
+    "690": {
+        "name": "Algitt",
+        "types": [
+            "Gift",
+            "Wasser"
+        ]
+    },
+    "691": {
+        "name": "Tandrak",
+        "types": [
+            "Gift",
+            "Drache"
+        ]
+    },
+    "692": {
+        "name": "Scampisto",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "693": {
+        "name": "Wummer",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "694": {
+        "name": "Eguana",
+        "types": [
+            "Elektro",
+            "Normal"
+        ]
+    },
+    "695": {
+        "name": "Elezard",
+        "types": [
+            "Elektro",
+            "Normal"
+        ]
+    },
+    "696": {
+        "name": "Balgoras",
+        "types": [
+            "Gestein",
+            "Drache"
+        ]
+    },
+    "697": {
+        "name": "Monargoras",
+        "types": [
+            "Gestein",
+            "Drache"
+        ]
+    },
+    "698": {
+        "name": "Amarino",
+        "types": [
+            "Gestein",
+            "Eis"
+        ]
+    },
+    "699": {
+        "name": "Amagarga",
+        "types": [
+            "Gestein",
+            "Eis"
+        ]
+    },
+    "700": {
+        "name": "Feelinara",
+        "types": [
+            "Fee"
+        ]
+    },
+    "701": {
+        "name": "Resladero",
+        "types": [
+            "Kampf",
+            "Flug"
+        ]
+    },
+    "702": {
+        "name": "Dedenne",
+        "types": [
+            "Elektro",
+            "Fee"
+        ]
+    },
+    "703": {
+        "name": "Rocara",
+        "types": [
+            "Gestein",
+            "Fee"
+        ]
+    },
+    "704": {
+        "name": "Viscora",
+        "types": [
+            "Drache"
+        ]
+    },
+    "705": {
+        "name": "Viscargot",
+        "types": [
+            "Drache"
+        ]
+    },
+    "706": {
+        "name": "Viscogon",
+        "types": [
+            "Drache"
+        ]
+    },
+    "707": {
+        "name": "Clavion",
+        "types": [
+            "Stahl",
+            "Fee"
+        ]
+    },
+    "708": {
+        "name": "Paragoni",
+        "types": [
+            "Geist",
+            "Pflanze"
+        ]
+    },
+    "709": {
+        "name": "Trombork",
+        "types": [
+            "Geist",
+            "Pflanze"
+        ]
+    },
+    "710": {
+        "name": "Irrbis",
+        "types": [
+            "Geist",
+            "Pflanze"
+        ]
+    },
+    "711": {
+        "name": "Pumpdjinn",
+        "types": [
+            "Geist",
+            "Pflanze"
+        ]
+    },
+    "712": {
+        "name": "Arktip",
+        "types": [
+            "Eis"
+        ]
+    },
+    "713": {
+        "name": "Arktilas",
+        "types": [
+            "Eis"
+        ]
+    },
+    "714": {
+        "name": "eF-eM",
+        "types": [
+            "Flug",
+            "Drache"
+        ]
+    },
+    "715": {
+        "name": "UHaFnir",
+        "types": [
+            "Flug",
+            "Drache"
+        ]
+    },
+    "716": {
+        "name": "Xerneas",
+        "types": [
+            "Fee"
+        ]
+    },
+    "717": {
+        "name": "Yveltal",
+        "types": [
+            "Unlicht",
+            "Flug"
+        ]
+    },
+    "718": {
+        "name": "Zygarde",
+        "types": [
+            "Drache",
+            "Boden"
+        ]
+    },
+    "719": {
+        "name": "Diancie",
+        "types": [
+            "Gestein",
+            "Fee"
+        ]
+    },
+    "720": {
+        "name": "Hoopa",
+        "types": [
+            "Psycho",
+            "Geist"
+        ]
+    },
+    "721": {
+        "name": "Volcanion",
+        "types": [
+            "Feuer",
+            "Wasser"
+        ]
+    },
+    "722": {
+        "name": "Bauz",
+        "types": [
+            "Pflanze",
+            "Flug"
+        ]
+    },
+    "723": {
+        "name": "Arboretoss",
+        "types": [
+            "Pflanze",
+            "Flug"
+        ]
+    },
+    "724": {
+        "name": "Silvarro",
+        "types": [
+            "Pflanze",
+            "Geist"
+        ]
+    },
+    "725": {
+        "name": "Flamiau",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "726": {
+        "name": "Miezunder",
+        "types": [
+            "Feuer"
+        ]
+    },
+    "727": {
+        "name": "Fuegro",
+        "types": [
+            "Feuer",
+            "Unlicht"
+        ]
+    },
+    "728": {
+        "name": "Robball",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "729": {
+        "name": "Marikeck",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "730": {
+        "name": "Primarene",
+        "types": [
+            "Wasser",
+            "Fee"
+        ]
+    },
+    "731": {
+        "name": "Peppeck",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "732": {
+        "name": "Trompeck",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "733": {
+        "name": "Tukanon",
+        "types": [
+            "Normal",
+            "Flug"
+        ]
+    },
+    "734": {
+        "name": "Mangunior",
+        "types": [
+            "Normal"
+        ]
+    },
+    "735": {
+        "name": "Manguspektor",
+        "types": [
+            "Normal"
+        ]
+    },
+    "736": {
+        "name": "Mabula",
+        "types": [
+            "Käfer"
+        ]
+    },
+    "737": {
+        "name": "Akkup",
+        "types": [
+            "Käfer",
+            "Elektro"
+        ]
+    },
+    "738": {
+        "name": "Donarion",
+        "types": [
+            "Käfer",
+            "Elektro"
+        ]
+    },
+    "739": {
+        "name": "Krabbox",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "740": {
+        "name": "Krawell",
+        "types": [
+            "Kampf",
+            "Eis"
+        ]
+    },
+    "741": {
+        "name": "Choreogel",
+        "types": [
+            "Feuer",
+            "Flug"
+        ]
+    },
+    "742": {
+        "name": "Wommel",
+        "types": [
+            "Käfer",
+            "Fee"
+        ]
+    },
+    "743": {
+        "name": "Bandelby",
+        "types": [
+            "Käfer",
+            "Fee"
+        ]
+    },
+    "744": {
+        "name": "Wuffels",
+        "types": [
+            "Gestein"
+        ]
+    },
+    "745": {
+        "name": "Wolwerock",
+        "types": [
+            "Gestein"
+        ]
+    },
+    "746": {
+        "name": "Lusardin",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "747": {
+        "name": "Garstella",
+        "types": [
+            "Gift",
+            "Wasser"
+        ]
+    },
+    "748": {
+        "name": "Aggrostella",
+        "types": [
+            "Gift",
+            "Wasser"
+        ]
+    },
+    "749": {
+        "name": "Pampuli",
+        "types": [
+            "Boden"
+        ]
+    },
+    "750": {
+        "name": "Pampross",
+        "types": [
+            "Boden"
+        ]
+    },
+    "751": {
+        "name": "Araqua",
+        "types": [
+            "Wasser",
+            "Käfer"
+        ]
+    },
+    "752": {
+        "name": "Aranestro",
+        "types": [
+            "Wasser",
+            "Käfer"
+        ]
+    },
+    "753": {
+        "name": "Imantis",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "754": {
+        "name": "Mantidea",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "755": {
+        "name": "Bubungus",
+        "types": [
+            "Pflanze",
+            "Fee"
+        ]
+    },
+    "756": {
+        "name": "Lamellux",
+        "types": [
+            "Pflanze",
+            "Fee"
+        ]
+    },
+    "757": {
+        "name": "Molunk",
+        "types": [
+            "Gift",
+            "Feuer"
+        ]
+    },
+    "758": {
+        "name": "Amfira",
+        "types": [
+            "Gift",
+            "Feuer"
+        ]
+    },
+    "759": {
+        "name": "Velursi",
+        "types": [
+            "Normal",
+            "Kampf"
+        ]
+    },
+    "760": {
+        "name": "Kosturso",
+        "types": [
+            "Normal",
+            "Kampf"
+        ]
+    },
+    "761": {
+        "name": "Frubberl",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "762": {
+        "name": "Frubaila",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "763": {
+        "name": "Fruyal",
+        "types": [
+            "Pflanze"
+        ]
+    },
+    "764": {
+        "name": "Curelei",
+        "types": [
+            "Fee"
+        ]
+    },
+    "765": {
+        "name": "Kommandutan",
+        "types": [
+            "Normal",
+            "Psycho"
+        ]
+    },
+    "766": {
+        "name": "Quartermak",
+        "types": [
+            "Kampf"
+        ]
+    },
+    "767": {
+        "name": "Rei�laus",
+        "types": [
+            "Käfer",
+            "Wasser"
+        ]
+    },
+    "768": {
+        "name": "Tectass",
+        "types": [
+            "Käfer",
+            "Wasser"
+        ]
+    },
+    "769": {
+        "name": "Sankabuh",
+        "types": [
+            "Geist",
+            "Boden"
+        ]
+    },
+    "770": {
+        "name": "Colossand",
+        "types": [
+            "Geist",
+            "Boden"
+        ]
+    },
+    "771": {
+        "name": "Gufa",
+        "types": [
+            "Wasser"
+        ]
+    },
+    "772": {
+        "name": "Typ:Null",
+        "types": [
+            "Normal"
+        ]
+    },
+    "773": {
+        "name": "Amigento",
+        "types": [
+            "Normal"
+        ]
+    },
+    "774": {
+        "name": "Meteno",
+        "types": [
+            "Gestein",
+            "Flug"
+        ]
+    },
+    "775": {
+        "name": "Koalelu",
+        "types": [
+            "Normal"
+        ]
+    },
+    "776": {
+        "name": "Tortunator",
+        "types": [
+            "Feuer",
+            "Drache"
+        ]
+    },
+    "777": {
+        "name": "Togedemaru",
+        "types": [
+            "Elektro",
+            "Stahl"
+        ]
+    },
+    "778": {
+        "name": "Mimigma",
+        "types": [
+            "Geist",
+            "Fee"
+        ]
+    },
+    "779": {
+        "name": "Knirfish",
+        "types": [
+            "Wasser",
+            "Psycho"
+        ]
+    },
+    "780": {
+        "name": "Sen-Long",
+        "types": [
+            "Normal",
+            "Drache"
+        ]
+    },
+    "781": {
+        "name": "Moruda",
+        "types": [
+            "Geist",
+            "Pflanze"
+        ]
+    },
+    "782": {
+        "name": "Miniras",
+        "types": [
+            "Drache"
+        ]
+    },
+    "783": {
+        "name": "Mediras",
+        "types": [
+            "Drache",
+            "Kampf"
+        ]
+    },
+    "784": {
+        "name": "Grandiras",
+        "types": [
+            "Drache",
+            "Kampf"
+        ]
+    },
+    "785": {
+        "name": "Kapu-Riki",
+        "types": [
+            "Elektro",
+            "Fee"
+        ]
+    },
+    "786": {
+        "name": "Kapu-Fala",
+        "types": [
+            "Psycho",
+            "Fee"
+        ]
+    },
+    "787": {
+        "name": "Kapu-Toro",
+        "types": [
+            "Pflanze",
+            "Fee"
+        ]
+    },
+    "788": {
+        "name": "Kapu-Kime",
+        "types": [
+            "Wasser",
+            "Fee"
+        ]
+    },
+    "789": {
+        "name": "Cosmog",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "790": {
+        "name": "Cosmovum",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "791": {
+        "name": "Solgaleo",
+        "types": [
+            "Psycho",
+            "Stahl"
+        ]
+    },
+    "792": {
+        "name": "Lunala",
+        "types": [
+            "Psycho",
+            "Geist"
+        ]
+    },
+    "793": {
+        "name": "Anego",
+        "types": [
+            "Gestein",
+            "Gift"
+        ]
+    },
+    "794": {
+        "name": "Masskito",
+        "types": [
+            "Käfer",
+            "Kampf"
+        ]
+    },
+    "795": {
+        "name": "Schabelle",
+        "types": [
+            "Käfer",
+            "Kampf"
+        ]
+    },
+    "796": {
+        "name": "Voltriant",
+        "types": [
+            "Elektro"
+        ]
+    },
+    "797": {
+        "name": "Kaguron",
+        "types": [
+            "Stahl",
+            "Flug"
+        ]
+    },
+    "798": {
+        "name": "Katagami",
+        "types": [
+            "Pflanze",
+            "Stahl"
+        ]
+    },
+    "799": {
+        "name": "Schlingking",
+        "types": [
+            "Unlicht",
+            "Drache"
+        ]
+    },
+    "800": {
+        "name": "Necrozma",
+        "types": [
+            "Psycho"
+        ]
+    },
+    "801": {
+        "name": "Magearna",
+        "types": [
+            "Stahl",
+            "Fee"
+        ]
+    },
+    "802": {
+        "name": "Marshadow",
+        "types": [
+            "Kampf",
+            "Geist"
+        ]
+    },
+    "803": {
+        "name": "Venicro",
+        "types": [
+            "Gift"
+        ]
+    },
+    "804": {
+        "name": "Agoyon",
+        "types": [
+            "Gift",
+            "Drache"
+        ]
+    },
+    "805": {
+        "name": "Muramura",
+        "types": [
+            "Gestein",
+            "Stahl"
+        ]
+    },
+    "806": {
+        "name": "Kopplosio",
+        "types": [
+            "Feuer",
+            "Geist"
+        ]
+    },
+    "807": {
+        "name": "Zeraora",
+        "types": [
+            "Elektro"
+        ]
+    }
+}

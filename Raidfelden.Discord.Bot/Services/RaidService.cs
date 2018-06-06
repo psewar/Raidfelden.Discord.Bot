@@ -7,8 +7,6 @@ using NodaTime;
 using Raidfelden.Discord.Bot.Monocle;
 using Raidfelden.Discord.Bot.Models;
 using Raidfelden.Discord.Bot.Configuration;
-using System.Collections.Generic;
-using Raidfelden.Discord.Bot.Resources;
 
 namespace Raidfelden.Discord.Bot.Services
 {
@@ -20,14 +18,16 @@ namespace Raidfelden.Discord.Bot.Services
 
     public class RaidService : IRaidService
     {
-        protected Hydro74000Context Context { get; }
+		protected ILocalizationService LocalizationService { get; }
+		protected Hydro74000Context Context { get; }
         protected IGymService GymService { get; }
         protected IPokemonService PokemonService { get; }
         protected IRaidbossService RaidbossService { get; }
 
-        public RaidService(Hydro74000Context context, IGymService gymService, IPokemonService pokemonService, IRaidbossService raidbossService)
+        public RaidService(Hydro74000Context context, IGymService gymService, IPokemonService pokemonService, IRaidbossService raidbossService, ILocalizationService localizationService)
         {
-            Context = context;
+	        LocalizationService = localizationService;
+			Context = context;
             GymService = gymService;
             PokemonService = pokemonService;
             RaidbossService = raidbossService;
@@ -37,8 +37,8 @@ namespace Raidfelden.Discord.Bot.Services
 
         public async Task<ServiceResponse> AddAsync(string gymName, string pokemonNameOrLevel, string timeLeft, int interactiveLimit, FenceConfiguration[] fences)
         {
-            var startEndTime = GetStartEndDateTime(timeLeft);
-            if (!startEndTime.HasValue) { return new ServiceResponse(false, i18n.RaidService_Add_Error_TimeFormat); }
+			var startEndTime = GetStartEndDateTime(timeLeft);
+            if (!startEndTime.HasValue) { return new ServiceResponse(false, LocalizationService.Get("Raids_Errors_TimeFormat")); }
 
             return await AddResolvePokemonOrLevelAsync(gymName, pokemonNameOrLevel, startEndTime.Value, interactiveLimit, fences);
         }
@@ -49,11 +49,12 @@ namespace Raidfelden.Discord.Bot.Services
             {
                 if (raidLevel < 1)
                 {
-                    return new ServiceResponse(false, "Der kleinste zulässige Wert für einen Raid-Level beträgt 1.");
-                }
+					//return new ServiceResponse(false, "Der kleinste zulässige Wert für einen Raid-Level beträgt 1.");
+					return new ServiceResponse(false, LocalizationService.Get("Raids_Errors_LevelToLow"));
+				}
                 if (raidLevel > 5)
                 {
-                    return new ServiceResponse(false, "Der grösste zulässige Wert für einen Raid-Level beträgt 5.");
+                    return new ServiceResponse(false, LocalizationService.Get("Raids_Errors_LevelToHigh"));
                 }
                 return await AddResolveGymAsync(gymName, Convert.ToByte(raidLevel), null, null, startEndTime, interactiveLimit, fences);
             }
@@ -108,7 +109,8 @@ namespace Raidfelden.Discord.Bot.Services
                 raid.TimeSpawn = (int)expiryUtc.Minus(Duration.FromMinutes(60)).ToUnixTimeSeconds();
                 raid.TimeBattle = (int)expiryUtc.ToUnixTimeSeconds();
                 raid.TimeEnd = (int)expiryUtc.Plus(Duration.FromMinutes(45)).ToUnixTimeSeconds();
-                message = $"Level {level} Raid an der Arena \"{gym.Name}\", Start um {expiry.ToString("HH:mm:ss", CultureInfo.InvariantCulture)}";
+                //message = $"Level {level} Raid an der Arena \"{gym.Name}\", Start um {expiry.ToString("HH:mm:ss", CultureInfo.InvariantCulture)}";
+	            message = LocalizationService.Get("Raids_Messages_EggAdded", level, gym.Name, FormatExpiry(expiry));
             }
             else
             {
@@ -117,8 +119,9 @@ namespace Raidfelden.Discord.Bot.Services
                 raid.TimeSpawn = (int)expiryUtc.Minus(Duration.FromMinutes(105)).ToUnixTimeSeconds();
                 raid.TimeBattle = (int)expiryUtc.Minus(Duration.FromMinutes(45)).ToUnixTimeSeconds();
                 raid.TimeEnd = (int)expiryUtc.ToUnixTimeSeconds();
-				message = $"{pokemon.Name} an der Arena \"{gym.Name}\", Ende um {expiry.ToString("HH:mm:ss", CultureInfo.InvariantCulture)}";
-            }
+				//message = $"{pokemon.Name} an der Arena \"{gym.Name}\", Ende um {expiry.ToString("HH:mm:ss", CultureInfo.InvariantCulture)}";
+				message = LocalizationService.Get("Raids_Messages_BossAdded", pokemon.Name, gym.Name, FormatExpiry(expiry));
+			}
 
             await context.SaveChangesAsync();
             return new ServiceResponse(true, message);
@@ -144,6 +147,12 @@ namespace Raidfelden.Discord.Bot.Services
             }
             return DateTime.Now.AddSeconds(secondsToAdd);
         }
+
+	    private string FormatExpiry(Instant instant)
+	    {
+		    return instant.ToString("HH:mm:ss", CultureInfo.InvariantCulture);
+
+	    }
 
         #endregion
 
@@ -181,13 +190,15 @@ namespace Raidfelden.Discord.Bot.Services
             var raid = context.Raids.FirstOrDefault(e => e.FortId == gym.Id && e.TimeSpawn > beforeSpawnTime);
             if (raid == null)
             {
-                return new ServiceResponse(false, $"Momentan ist kein Raid an der Arena \"{gym.Name}\" eingetragen.");
-            }
+				//return new ServiceResponse(false, $"Momentan ist kein Raid an der Arena \"{gym.Name}\" eingetragen.");
+				return new ServiceResponse(false, LocalizationService.Get("Raids_Errors_Hatch_NoEntryFound", gym.Name));
+			}
 
             raid.PokemonId = (short)raidboss.Id;
             await context.SaveChangesAsync();
-            return new ServiceResponse(true, $"{pokemon.Name} ist nun der neue Raidboss bei der Arena \"{gym.Name}\".");
-        }
+			//return new ServiceResponse(true, $"{pokemon.Name} ist nun der neue Raidboss bei der Arena \"{gym.Name}\".");
+			return new ServiceResponse(true, LocalizationService.Get("Raids_Messages_BossHatched", pokemon.Name, gym.Name));
+		}
 
         #endregion
     }

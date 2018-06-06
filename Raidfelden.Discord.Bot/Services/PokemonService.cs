@@ -2,8 +2,10 @@
 using Raidfelden.Discord.Bot.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using SimMetrics.Net.Metric;
 
@@ -26,10 +28,22 @@ namespace Raidfelden.Discord.Bot.Services
 
 	public class PokemonService : IPokemonService
 	{
-		public PokemonService(IRaidbossService raidbossService)
+		protected ILocalizationService LocalizationService { get; }
+
+		public PokemonService(IRaidbossService raidbossService, ILocalizationService localizationService)
 		{
-			Pokemon = new List<IPokemon>();
-			var jsonPath = "pokemon.json";
+			LocalizationService = localizationService;
+			RaidbossService = raidbossService;
+			PokemonPerCulture = new Dictionary<CultureInfo, List<IPokemon>>();
+			var pokemon = LoadFromJson(@"Resources\de.pokemon.json");
+			PokemonPerCulture.Add(CultureInfo.GetCultureInfo("de-DE"), pokemon);
+			pokemon = LoadFromJson(@"Resources\en.pokemon.json");
+			PokemonPerCulture.Add(CultureInfo.GetCultureInfo("en-US"), pokemon);
+		}
+
+		private List<IPokemon> LoadFromJson(string jsonPath)
+		{
+			var result = new List<IPokemon>();
 			using (StreamReader reader = new StreamReader(jsonPath))
 			{
 				string json = reader.ReadToEnd();
@@ -50,7 +64,7 @@ namespace Raidfelden.Discord.Bot.Services
 									pokemon.Name = prop.Value.Value;
 									break;
 								case "types":
-									foreach(var type in prop.Value)
+									foreach (var type in prop.Value)
 									{
 										var typeName = type.Value;
 										pokemon.Types.Add(typeName);
@@ -59,14 +73,15 @@ namespace Raidfelden.Discord.Bot.Services
 							}
 						}
 					}
-					Pokemon.Add(pokemon);
+					result.Add(pokemon);
 				}
-                RaidbossService = raidbossService;
-            }
+			}
+			return result;
 		}
 
-        protected IRaidbossService RaidbossService { get; }
-		protected List<IPokemon> Pokemon { get; set; }
+		protected Dictionary<CultureInfo, List<IPokemon>> PokemonPerCulture { get; }
+		protected IRaidbossService RaidbossService { get; }
+		protected List<IPokemon> Pokemon => PokemonPerCulture[Thread.CurrentThread.CurrentUICulture];
 
 		public IPokemon GetPokemonByName(string name)
 		{
@@ -83,9 +98,9 @@ namespace Raidfelden.Discord.Bot.Services
 				pokemon => pokemon.Name,
 				pokemon => pokemon.Name,
 				pokemon => pokemon.Name,
-				() => $"Kein Pokemon gefunden das das Wortfragment \"{name}\" enthält. Hast du Dich eventuell vertippt?",
-				list => $"{list.Count} Pokemon gefunden die das Wortfragment \"{name}\" enthalten. Bitte formuliere den Namen etwas exakter aus, maximal {interactiveLimit} dürfen übrig bleiben für den interaktiven Modus.",
-				list => $"{list.Count} Pokemon gefunden die das Wortfragment \"{name}\" enthalten. Bitte wähle das passende Pokemon anhand der Nummer aus der Liste aus."
+				() => LocalizationService.Get("Pokemon_Errors_NothingFound", name, string.Empty),
+				list => LocalizationService.Get("Pokemon_Errors_ToManyFound", list.Count, name, interactiveLimit, string.Empty),
+				list => LocalizationService.Get("Pokemon_Errors_InteractiveMode", list.Count, name, string.Empty)
 			);
 		}
 
@@ -99,10 +114,10 @@ namespace Raidfelden.Discord.Bot.Services
                 pokemon => pokemon.Key.Name,
                 pokemon => pokemon.Key.Name,
                 pokemon => pokemon.Key.Name,
-                () => $"Kein Raidboss-Pokemon gefunden, dass das Wortfragment \"{name}\" enthält. Hast du Dich eventuell vertippt?",
-                list => $"{list.Count} Raidboss-Pokemon gefunden, dass das Wortfragment \"{name}\" enthalten. Bitte formuliere den Namen etwas exakter aus, maximal {interactiveLimit} dürfen übrig bleiben für den interaktiven Modus.",
-                list => $"{list.Count} Raidboss-Pokemon gefunden, dass das Wortfragment \"{name}\" enthalten. Bitte wähle das passende Pokemon anhand der Nummer aus der Liste aus."
-            );
+				() => LocalizationService.Get("Pokemon_Errors_NothingFound", name, "raidboss-"),
+				list => LocalizationService.Get("Pokemon_Errors_ToManyFound", list.Count, name, interactiveLimit, "raidboss-"),
+				list => LocalizationService.Get("Pokemon_Errors_InteractiveMode", list.Count, name, "raidboss-")
+			);
         }
 
         public async Task<List<KeyValuePair<IPokemon, IRaidboss>>> GetPossibleRaidbossPokemonAsync(string name)

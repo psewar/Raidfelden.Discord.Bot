@@ -20,9 +20,12 @@ namespace Raidfelden.Discord.Bot.Services
 
     public class GymService : IGymService
     {
-        public GymService()
-        {
-            GymsByFences = new LazyConcurrentDictionary<FenceConfiguration, int[]>();
+		protected ILocalizationService LocalizationService { get; }
+
+		public GymService(ILocalizationService localizationService)
+		{
+			LocalizationService = localizationService;
+			GymsByFences = new LazyConcurrentDictionary<FenceConfiguration, int[]>();
         }
 
         protected LazyConcurrentDictionary<FenceConfiguration, int[]> GymsByFences { get; set; }
@@ -37,9 +40,9 @@ namespace Raidfelden.Discord.Bot.Services
                 gym => gym.Id,
                 gym => gym.Name,
                 gym => gym.Name,
-                () => $"Keine Arena gefunden die das Wortfragment \"{name}\" enthält. Hast du Dich eventuell vertippt?",
-                list => $"{list.Count} Arenen gefunden die das Wortfragment \"{name}\" enthalten. Bitte formuliere den Namen etwas exakter aus, maximal {interactiveLimit} dürfen übrig bleiben für den interaktiven Modus.",
-                list => $"{list.Count} Arenen gefunden die das Wortfragment \"{name}\" enthalten. Bitte wähle die passende Arena anhand der Nummer aus der Liste aus."
+                () => LocalizationService.Get("Gyms_Errors_NothingFound", name),
+                list => LocalizationService.Get("Gyms_Errors_ToManyFound", list.Count, name, interactiveLimit),
+                list => LocalizationService.Get("Gyms_Errors_InteractiveMode", list.Count, name)
             );
         }
 
