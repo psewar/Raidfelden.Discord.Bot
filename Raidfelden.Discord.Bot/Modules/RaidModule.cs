@@ -58,7 +58,7 @@ namespace Raidfelden.Discord.Bot.Modules
                             {
                                 tempImageFile = Path.GetTempFileName() + "." + attachment.Url.Split('.').Last();
                                 await DownloadAsync(new Uri(attachment.Url), tempImageFile);
-                                var response = _ocrService.AddRaidAsync(tempImageFile, 4, Fences);
+                                var response = _ocrService.AddRaidAsync(tempImageFile, 4, Fences, false);
                                 await ReplyWithInteractive(() => response, "OCR-Erkennung erfolgreich");
                             }
                             finally

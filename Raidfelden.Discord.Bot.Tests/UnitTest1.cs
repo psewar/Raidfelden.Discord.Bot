@@ -48,10 +48,11 @@ namespace Raidfelden.Discord.Bot.Tests
         {
 			using (var context = new Hydro74000Context(ContextOptions))
 			{
-				
 				var gymService = new GymService();
-				var pokemonService = new PokemonService(new RaidbossService());
-				var ocrService = new OcrService(context, gymService, pokemonService);
+				var raidbossService = new RaidbossService();
+				var pokemonService = new PokemonService(raidbossService);
+				var raidService = new RaidService(context, gymService, pokemonService, raidbossService);
+				var ocrService = new OcrService(context, gymService, pokemonService, raidService);
 				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
 				{
 					var basePath = @"Ressources\Pictures\Raids\";
@@ -77,10 +78,12 @@ namespace Raidfelden.Discord.Bot.Tests
 		public void PokemonNameCorrections()
 	    {
 			var gymService = new GymService();
-			var pokemonService = new PokemonService(new RaidbossService());			
+			var raidbossService = new RaidbossService();
+			var pokemonService = new PokemonService(raidbossService);
 			using (var context = new Hydro74000Context(ContextOptions))
 		    {
-				var ocrService = new OcrService(context, gymService, pokemonService);
+				var raidService = new RaidService(context, gymService, pokemonService, raidbossService);
+				var ocrService = new OcrService(context, gymService, pokemonService, raidService);
 				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
 			    {
 				    var basePath = @"Ressources\Pictures\Raids\";
@@ -101,6 +104,10 @@ namespace Raidfelden.Discord.Bot.Tests
 					text = GetOcrResult(ocrService, basePath + "Absol-Theilsiefje.png", engine);
 					Assert.AreEqual(".raids add \"Theilsiefje Säule\" \"Absol\" 44:24", text, true);
 
+					// Raidboss blocks part of the name - Could be possible to fix
+					//text = GetOcrResult(ocrService, basePath + "HoOhAsAmonitas.png", engine);
+					//Assert.AreEqual(".raids add \"Steinmann am Rhein\" \"Ho-Oh\" 25:16", text, true);
+
 					// Raidboss blocks part of the name -- No way this is gonna work ^^
 					//text = GetOcrResult(ocrService, basePath + "BHF Pratteln - Ho-Oh.png", engine);
 					//Assert.AreEqual(".raids add \"BHF Pratteln\" \"Ho-Oh\" 44:36", text, true);
@@ -112,10 +119,12 @@ namespace Raidfelden.Discord.Bot.Tests
 	    public void GymNameCorrections()
 	    {
 			var gymService = new GymService();
-		    var pokemonService = new PokemonService(new RaidbossService());
-		    using (var context = new Hydro74000Context(ContextOptions))
+			var raidbossService = new RaidbossService();
+			var pokemonService = new PokemonService(raidbossService);
+			using (var context = new Hydro74000Context(ContextOptions))
 		    {
-				var ocrService = new OcrService(context, gymService, pokemonService);
+				var raidService = new RaidService(context, gymService, pokemonService, raidbossService);
+				var ocrService = new OcrService(context, gymService, pokemonService, raidService);
 				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
 			    {
 				    var basePath = @"Ressources\Pictures\Raids\";
@@ -135,16 +144,21 @@ namespace Raidfelden.Discord.Bot.Tests
 		public void GalaxyS9WithMenuCorrection()
 		{
 			var gymService = new GymService();
-			var pokemonService = new PokemonService(new RaidbossService());
+			var raidbossService = new RaidbossService();
+			var pokemonService = new PokemonService(raidbossService);
 			using (var context = new Hydro74000Context(ContextOptions))
 			{
-				var ocrService = new OcrService(context, gymService, pokemonService);
+				var raidService = new RaidService(context, gymService, pokemonService, raidbossService);
+				var ocrService = new OcrService(context, gymService, pokemonService, raidService);
 				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
 				{
 					var basePath = @"Ressources\Pictures\Raids\";
                     var text = GetOcrResult(ocrService, basePath + "GalaxyS9WithMenu.jpg", engine);
                     Assert.AreEqual(".raids add \"Einheitskreis Skulptur\" \"Amonitas\" 27:5", text, true);
-                }
+
+					text = GetOcrResult(ocrService, basePath + "GalaxyS9WithMenu2.jpg", engine);
+					Assert.AreEqual(".raids add \"Rheinfelden Bahnhof\" \"5\" 48:59", text, true);
+				}
 			}
 		}
 
@@ -152,10 +166,12 @@ namespace Raidfelden.Discord.Bot.Tests
 		public void GalaxyS9PlusImageSize()
 		{
 			var gymService = new GymService();
-			var pokemonService = new PokemonService(new RaidbossService());
+			var raidbossService = new RaidbossService();
+			var pokemonService = new PokemonService(raidbossService);
 			using (var context = new Hydro74000Context(ContextOptions))
 			{
-				var ocrService = new OcrService(context, gymService, pokemonService);
+				var raidService = new RaidService(context, gymService, pokemonService, raidbossService);
+				var ocrService = new OcrService(context, gymService, pokemonService, raidService);
 				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
 				{
 					var basePath = @"Ressources\Pictures\Raids\";
@@ -169,10 +185,12 @@ namespace Raidfelden.Discord.Bot.Tests
 		public void IPhoneXImageSize()
 	    {
 			var gymService = new GymService();
-			var pokemonService = new PokemonService(new RaidbossService());
+		    var raidbossService = new RaidbossService();
+			var pokemonService = new PokemonService(raidbossService);			
 			using (var context = new Hydro74000Context(ContextOptions))
 			{
-				var ocrService = new OcrService(context, gymService, pokemonService);
+				var raidService = new RaidService(context, gymService, pokemonService, raidbossService);
+				var ocrService = new OcrService(context, gymService, pokemonService, raidService);
 				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
 				{
 					var basePath = @"Ressources\Pictures\Raids\";
@@ -187,7 +205,7 @@ namespace Raidfelden.Discord.Bot.Tests
 
 	    private string GetOcrResult(OcrService ocrService, string filePath, TesseractEngine engine, FenceConfiguration[] fences = null)
 	    {
-		    var result = ocrService.AddRaidAsync(filePath, 4, fences).Result;
+		    var result = ocrService.AddRaidAsync(filePath, 4, fences, true).Result;
 		    return result.Message;
 	    }
     }

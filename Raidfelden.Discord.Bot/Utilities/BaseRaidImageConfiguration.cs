@@ -73,7 +73,9 @@ namespace Raidfelden.Discord.Bot.Utilities
 
     public class GalaxyS9PlusRaidImageConfiguration : BaseRaidImageConfiguration
     {
-        protected override Rectangle PokemonNamePosition => new Rectangle(0, 520, 1080, 150);
+		protected override Rectangle EggTimerPosition => new Rectangle(400, 475, 270, 70);
+		protected override Rectangle EggLevelPosition => new Rectangle(285, 635, 510, 80);
+		protected override Rectangle PokemonNamePosition => new Rectangle(0, 520, 1080, 150);
         protected override Rectangle RaidTimerPosition => new Rectangle(820, 1235, 180, 50);
 
         public GalaxyS9PlusRaidImageConfiguration() : base(1080, 2220) { }

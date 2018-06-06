@@ -20,7 +20,7 @@ namespace Raidfelden.Discord.Bot.Services
 {
 	public interface IOcrService
 	{
-		Task<ServiceResponse> AddRaidAsync(string filePath, int interactiveLimit, FenceConfiguration[] fences);
+		Task<ServiceResponse> AddRaidAsync(string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode);
 	}
 
 	public class OcrService : IOcrService, IDisposable
@@ -40,11 +40,11 @@ namespace Raidfelden.Discord.Bot.Services
 		    PokemonService = pokemonService;
             RaidService = raidService;
 #if DEBUG
-            SaveDebugImages = false;
+            SaveDebugImages = true;
 #endif
 	    }
 
-	    public async Task<ServiceResponse> AddRaidAsync(string filePath, int interactiveLimit, FenceConfiguration[] fences)
+	    public async Task<ServiceResponse> AddRaidAsync(string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode)
 	    {
 			using (var image = Image.Load(filePath))
 			{
@@ -67,25 +67,34 @@ namespace Raidfelden.Discord.Bot.Services
 					timerValue = await GetFragmentStringAsync(image, configuration, ImageFragmentType.RaidTimer, Engine, Context, fences);
 					probability *= timerValue.Probability;
 					timer = TimeSpan.Parse(timerValue.Value);
-                    return await RaidService.AddAsync(gymName.Value, pokemonName.Value, timer.ToString(@"mm\:ss"), interactiveLimit, fences);
-					//message = $".raids add \"{gymName.Value}\" \"{pokemonName.Value}\" {string.Concat(timer.Minutes, ":", timer.Seconds)}";
+					if (!testMode)
+					{
+						return await RaidService.AddAsync(gymName.Value, pokemonName.Value, timer.ToString(@"mm\:ss"), interactiveLimit, fences);
+					}
+					else
+					{
+						message = $".raids add \"{gymName.Value}\" \"{pokemonName.Value}\" {string.Concat(timer.Minutes, ":", timer.Seconds)}";
+					}
 				}
 				else
 				{
 					probability *= timerValue.Probability;
 					var eggLevel = await GetFragmentStringAsync(image, configuration, ImageFragmentType.EggLevel, Engine, Context, fences);
 					probability *= eggLevel.Probability;
-                    return await RaidService.AddAsync(gymName.Value, eggLevel.Value, timer.ToString(@"mm\:ss"), interactiveLimit, fences);
-                    //message =$".raids add \"{gymName.Value}\" \"{eggLevel.Value}\" {string.Concat(timer.Minutes, ":", timer.Seconds)}";
+					if (!testMode)
+					{
+						return await RaidService.AddAsync(gymName.Value, eggLevel.Value, timer.ToString(@"mm\:ss"), interactiveLimit, fences);
+					}
+					else{message =$".raids add \"{gymName.Value}\" \"{eggLevel.Value}\" {string.Concat(timer.Minutes, ":", timer.Seconds)}";}
 				}
 
-				//var result = new ServiceResponse(true, message);
-				//if (probability < 0.3)
-				//{
-				//	//result.InterActiveCallbacks.Add();
-				//	result = new ServiceResponse(true, probability.ToString());
-				//}
-				//return await Task.FromResult(result);
+				var result = new ServiceResponse(true, message);
+				if (probability < 0.3)
+				{
+					//result.InterActiveCallbacks.Add();
+					result = new ServiceResponse(true, probability.ToString());
+				}
+				return await Task.FromResult(result);
 			}
 	    }
 
@@ -263,6 +272,8 @@ namespace Raidfelden.Discord.Bot.Services
 			{
 				floodFillBorders.FloodFill(point);
 			}
+
+			imageFragment.Mutate(m => m.Invert());
 
 			if (SaveDebugImages)
 			{
