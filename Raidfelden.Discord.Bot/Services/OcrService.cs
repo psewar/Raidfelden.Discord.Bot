@@ -132,15 +132,16 @@ namespace Raidfelden.Discord.Bot.Services
 
 		private bool HasBottomMenu(Image<Rgba32> image)
 		{
-			// Check for black menu
-			var hasMenu = image[0, image.Height - 1] == Rgba32.Black;
-			hasMenu = hasMenu & image[image.Width -1, image.Height - 1] == Rgba32.Black;
-			if (hasMenu) return true;
-			// Check for grey menu
-			var grey = new Rgba32(240, 240, 240, 255);
-			hasMenu = image[0, image.Height - 1] == grey;
-			hasMenu = hasMenu & image[image.Width - 1, image.Height - 1] == grey;
-			return hasMenu;
+            // If the whole line has the exact same color it probably is a menu
+            var color = image[0, image.Height - 1];
+            for (int x = 1; x < image.Width; x++)
+            {
+                if (image[x, image.Height -1] != color)
+                {
+                    return false;
+                }
+            }
+            return true;
 		}
 
 	    private async Task<OcrResult> GetFragmentStringAsync(Image<Rgba32> image, BaseRaidImageConfiguration imageConfiguration, ImageFragmentType fragmentType, TesseractEngine engine, Hydro74000Context context, FenceConfiguration[] fences = null)

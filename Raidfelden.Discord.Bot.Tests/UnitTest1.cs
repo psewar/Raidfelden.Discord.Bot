@@ -145,7 +145,10 @@ namespace Raidfelden.Discord.Bot.Tests
 
 					text = GetOcrResult(ocrService, basePath + "GalaxyS9WithMenu2.jpg", engine);
 					Assert.AreEqual(".raids add \"Rheinfelden Bahnhof\" \"5\" 48:59", text, true);
-				}
+
+                    text = GetOcrResult(ocrService, basePath + "Egg1080X2220Herwig.jpg", engine);
+                    Assert.AreEqual(".raids add \"Skulptur Zwei Schwangere Frauen \" \"4\" 56:54", text, true);
+                }
 			}
 		}
 

@@ -54,7 +54,7 @@ namespace Raidfelden.Discord.Bot.Utilities
             var configuration = new BaseRaidImageConfiguration(1080, 1920);
             if (image.Height == 2220)
             {
-                configuration = new GalaxyS9PlusRaidImageConfiguration();
+                //configuration = new GalaxyS9PlusRaidImageConfiguration();
             }
 
             if (image.Height == 2960 && HasBottomMenu(image as Image<Rgba32>))
