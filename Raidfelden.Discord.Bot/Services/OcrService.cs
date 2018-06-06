@@ -99,9 +99,16 @@ namespace Raidfelden.Discord.Bot.Services
 		private BaseRaidImageConfiguration GetConfiguration(Image<Rgba32> image)
 		{
 			var configuration = new BaseRaidImageConfiguration(1080, 1920);
-			if (image.Height == 2220)
+			if (image.Height == 2220 && image.Width == 1080)
 			{
-				configuration = new GalaxyS9PlusRaidImageConfiguration();
+				if (HasBottomMenu(image))
+				{
+					configuration = new BottomMenu1080X2220Configuration();
+				}
+				else
+				{
+					configuration = new WithoutMenu1080X2220Configuration();
+				}
 			}
 
 			if (image.Height == 2960 && HasBottomMenu(image))
@@ -125,7 +132,15 @@ namespace Raidfelden.Discord.Bot.Services
 
 		private bool HasBottomMenu(Image<Rgba32> image)
 		{
-			return image[0, image.Height - 1] == Rgba32.Black;
+			// Check for black menu
+			var hasMenu = image[0, image.Height - 1] == Rgba32.Black;
+			hasMenu = hasMenu & image[image.Width -1, image.Height - 1] == Rgba32.Black;
+			if (hasMenu) return true;
+			// Check for grey menu
+			var grey = new Rgba32(240, 240, 240, 255);
+			hasMenu = image[0, image.Height - 1] == grey;
+			hasMenu = hasMenu & image[image.Width - 1, image.Height - 1] == grey;
+			return hasMenu;
 		}
 
 	    private async Task<OcrResult> GetFragmentStringAsync(Image<Rgba32> image, BaseRaidImageConfiguration imageConfiguration, ImageFragmentType fragmentType, TesseractEngine engine, Hydro74000Context context, FenceConfiguration[] fences = null)

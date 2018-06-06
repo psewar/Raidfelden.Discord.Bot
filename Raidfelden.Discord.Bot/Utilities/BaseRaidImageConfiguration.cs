@@ -71,19 +71,28 @@ namespace Raidfelden.Discord.Bot.Utilities
         }
     }
 
-    public class GalaxyS9PlusRaidImageConfiguration : BaseRaidImageConfiguration
+	public class WithoutMenu1080X2220Configuration : BaseRaidImageConfiguration
+	{
+		protected override Rectangle EggTimerPosition => new Rectangle(410, 535, 260, 70);
+		protected override Rectangle EggLevelPosition => new Rectangle(285, 695, 510, 80);
+		protected override Rectangle PokemonNamePosition => new Rectangle(0, 550, 1080, 170);
+		protected override Rectangle RaidTimerPosition => new Rectangle(820, 1300, 180, 50);
+
+		public WithoutMenu1080X2220Configuration() : base(1080, 2220) { }
+
+		public override void PreProcessImage<TPixel>(Image<TPixel> image) { }
+	}
+
+	public class BottomMenu1080X2220Configuration : BaseRaidImageConfiguration
     {
 		protected override Rectangle EggTimerPosition => new Rectangle(400, 475, 270, 70);
 		protected override Rectangle EggLevelPosition => new Rectangle(285, 635, 510, 80);
 		protected override Rectangle PokemonNamePosition => new Rectangle(0, 520, 1080, 150);
         protected override Rectangle RaidTimerPosition => new Rectangle(820, 1235, 180, 50);
 
-        public GalaxyS9PlusRaidImageConfiguration() : base(1080, 2220) { }
+        public BottomMenu1080X2220Configuration() : base(1080, 2220) { }
 
-        public override void PreProcessImage<TPixel>(Image<TPixel> image)
-        {
-            return;
-        }
+	    public override void PreProcessImage<TPixel>(Image<TPixel> image) {}
     }
 
     public class GalaxyS9BottomMenuImageConfiguration : BaseRaidImageConfiguration
@@ -120,7 +129,7 @@ namespace Raidfelden.Discord.Bot.Utilities
 		protected override Rectangle EggTimerPosition => new Rectangle(420, 360, 250, 70);
 		protected override Rectangle EggLevelPosition => new Rectangle(300, 510, 510, 80);
 		protected override Rectangle PokemonNamePosition => new Rectangle(0, 440, 1080, 140);
-		protected override Rectangle RaidTimerPosition => new Rectangle(805, 1075, 170, 40);
+		protected override Rectangle RaidTimerPosition => new Rectangle(805, 1075, 170, 60);
 
 		public override List<Point> Level5Points => new List<Point> { new Point(42, 24), new Point(141, 24), new Point(240, 24), new Point(338, 24), new Point(437, 24) };
 		public override List<Point> Level4Points => new List<Point> { new Point(91, 24), new Point(190, 24), new Point(289, 24), new Point(387, 24) };

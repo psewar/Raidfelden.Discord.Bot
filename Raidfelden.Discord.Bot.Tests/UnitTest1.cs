@@ -199,6 +199,28 @@ namespace Raidfelden.Discord.Bot.Tests
 
 					text = GetOcrResult(ocrService, basePath + "BottomMenuBar-Egg4-1080x1920.jpg", engine);
 					Assert.AreEqual(".raids add \"Organspender Gedenkstein\" \"4\" 36:21", text, true);
+
+					text = GetOcrResult(ocrService, basePath + "BossWithMenu1080X1920.png", engine);
+					Assert.AreEqual(".raids add \"International Imaginary Museum\" \"Kokowei\" 34:55", text, true);
+				}
+			}
+		}
+
+	    [TestMethod]
+	    public void WithoutMenuBar1080x1920Correction()
+	    {
+			using (var context = new Hydro74000Context(ContextOptions))
+			{
+				var ocrService = GetOcrService(context);
+				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
+				{
+					var basePath = @"Ressources\Pictures\Raids\";
+					//TODO: Get a better picture with visible raid timer
+					//var text = GetOcrResult(ocrService, basePath + "Boss1080X2220.jpg", engine);
+					//Assert.AreEqual(".raids add \"The Gate\" \"Sniebel\" ??:31", text, true);
+
+					var text = GetOcrResult(ocrService, basePath + "Egg1080x2220.jpg", engine);
+					Assert.AreEqual(".raids add \"Moderne Konferenz\" \"5\" 55:9", text, true);
 				}
 			}
 		}
