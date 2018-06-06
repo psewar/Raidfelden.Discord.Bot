@@ -30,7 +30,7 @@ namespace Raidfelden.Discord.Bot.Services
 	    protected IGymService GymService { get; }
 	    protected IPokemonService PokemonService { get; }
         protected IRaidService RaidService { get; }
-        protected bool SaveDebugImages { get; }
+        protected bool SaveDebugImages { get; private set; }
 
 	    public OcrService(Hydro74000Context context, IGymService gymService, IPokemonService pokemonService, IRaidService raidService)
 	    {
@@ -39,13 +39,11 @@ namespace Raidfelden.Discord.Bot.Services
 		    GymService = gymService;
 		    PokemonService = pokemonService;
             RaidService = raidService;
-#if DEBUG
-            SaveDebugImages = true;
-#endif
 	    }
 
 	    public async Task<ServiceResponse> AddRaidAsync(string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode)
 	    {
+		    SaveDebugImages = testMode;
 			using (var image = Image.Load(filePath))
 			{
 				var configuration = GetConfiguration(image);
