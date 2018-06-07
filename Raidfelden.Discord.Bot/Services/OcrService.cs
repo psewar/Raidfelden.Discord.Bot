@@ -53,18 +53,23 @@ namespace Raidfelden.Discord.Bot.Services
 					image.Save("_AfterPreprocess.png");
 				}
 				string message;
-				double probability = 1;
-				var gymName = await GetFragmentStringAsync(image, configuration, ImageFragmentType.GymName, Engine, Context, fences);
-				probability *= gymName.Probability;
-				var timerValue = await GetFragmentStringAsync(image, configuration, ImageFragmentType.EggTimer, Engine, Context, fences);
+				var gymName = await GetFragmentResultAsync(image, configuration, ImageFragmentType.GymName, Engine, Context, fences);
+				var timerValue = await GetFragmentResultAsync(image, configuration, ImageFragmentType.EggTimer, Engine, Context, fences);
 				var isRaidboss = !timerValue.IsSuccess || !TimeSpan.TryParse(timerValue.Value, out TimeSpan timer);
 				if (isRaidboss)
 				{
-					var pokemonName = await GetFragmentStringAsync(image, configuration, ImageFragmentType.PokemonName, Engine, Context, fences);
-					probability *= pokemonName.Probability;
-					timerValue = await GetFragmentStringAsync(image, configuration, ImageFragmentType.RaidTimer, Engine, Context, fences);
-					probability *= timerValue.Probability;
+					timerValue = await GetFragmentResultAsync(image, configuration, ImageFragmentType.RaidTimer, Engine, Context, fences);
+					if (!timerValue.IsSuccess)
+					{
+						return new ServiceResponse(false, "Die Restzeit konnte nich erkannt werden.");
+					}
 					timer = TimeSpan.Parse(timerValue.Value);
+					var pokemonName = await GetFragmentResultAsync(image, configuration, ImageFragmentType.PokemonName, Engine, Context, fences);
+					if (!pokemonName.IsSuccess)
+					{
+						return new ServiceResponse(false, "Der Raidboss konnte nich erkannt werden.");
+					}
+
 					if (!testMode)
 					{
 						return await RaidService.AddAsync(gymName.Value, pokemonName.Value, timer.ToString(@"mm\:ss"), interactiveLimit, fences);
@@ -76,9 +81,12 @@ namespace Raidfelden.Discord.Bot.Services
 				}
 				else
 				{
-					probability *= timerValue.Probability;
-					var eggLevel = await GetFragmentStringAsync(image, configuration, ImageFragmentType.EggLevel, Engine, Context, fences);
-					probability *= eggLevel.Probability;
+					var eggLevel = await GetFragmentResultAsync(image, configuration, ImageFragmentType.EggLevel, Engine, Context, fences);
+					if (!eggLevel.IsSuccess)
+					{
+						return new ServiceResponse(false, "Das Level konnte nich erkannt werden.");
+					}
+
 					if (!testMode)
 					{
 						return await RaidService.AddAsync(gymName.Value, eggLevel.Value, timer.ToString(@"mm\:ss"), interactiveLimit, fences);
@@ -87,11 +95,11 @@ namespace Raidfelden.Discord.Bot.Services
 				}
 
 				var result = new ServiceResponse(true, message);
-				if (probability < 0.3)
-				{
-					//result.InterActiveCallbacks.Add();
-					result = new ServiceResponse(true, probability.ToString());
-				}
+				//if (probability < 0.3)
+				//{
+				//	//result.InterActiveCallbacks.Add();
+				//	result = new ServiceResponse(true, probability.ToString());
+				//}
 				return await Task.FromResult(result);
 			}
 	    }
@@ -164,7 +172,7 @@ namespace Raidfelden.Discord.Bot.Services
             return true;
 		}
 
-	    private async Task<OcrResult> GetFragmentStringAsync(Image<Rgba32> image, BaseRaidImageConfiguration imageConfiguration, ImageFragmentType fragmentType, TesseractEngine engine, Hydro74000Context context, FenceConfiguration[] fences = null)
+	    private async Task<OcrResult> GetFragmentResultAsync(Image<Rgba32> image, BaseRaidImageConfiguration imageConfiguration, ImageFragmentType fragmentType, TesseractEngine engine, Hydro74000Context context, FenceConfiguration[] fences = null)
 	    {
 		    using (var imageFragment = image.Clone(e => e.Crop(imageConfiguration[fragmentType])))
 		    {
@@ -210,7 +218,14 @@ namespace Raidfelden.Discord.Bot.Services
 				whitePixelCount = imageConfiguration.Level4Points.Select(levelPoint => imageFragment[levelPoint.X, levelPoint.Y]).Count(pixel => pixel.R > whiteThreshold && pixel.G > whiteThreshold && pixel.B > whiteThreshold && pixel.A > whiteThreshold);
 			}
 
-			return await Task.FromResult(new OcrResult(whitePixelCount > 0, whitePixelCount.ToString(CultureInfo.InvariantCulture), 1));
+			// Make sure the level is within the possible range
+		    if (whitePixelCount < 1 || whitePixelCount > 5)
+		    {
+				return await Task.FromResult(new OcrResult(false));
+		    }
+
+		    var results = new[] {new KeyValuePair<string, double>(whitePixelCount.ToString(CultureInfo.InvariantCulture), 1)};
+			return await Task.FromResult(new OcrResult(true, results));
 		}
 
 		private async Task<OcrResult> GetGymName(Image<Rgba32> imageFragment, TesseractEngine engine, Hydro74000Context context, FenceConfiguration[] fences)
@@ -242,25 +257,16 @@ namespace Raidfelden.Discord.Bot.Services
 			{
 				return ocrResult;
 			}
-			var similarGym = GymService.GetSimilarGymsByNameAsync(context, ocrResult.Value, fences, 1).Result;
-			if (similarGym.Count == 0)
+
+			var ocrValue = ocrResult.Results[0].Key;
+			var similarGyms = GymService.GetSimilarGymsByNameAsync(context, ocrValue, fences, 1).Result;
+			if (similarGyms.Count == 0)
 			{
 				return new OcrResult(false);
 			}
-			var gym = similarGym.First();
-			var value = gym.Key.Name;
-			var probability = gym.Value; // perhaps multiply here with the confivence oft the ocr itself
-			return new OcrResult(true, value, probability);
-			//imageFragment.Mutate(m => m.Hue(180).Resize(resizeOptions));
-			//// if the image is a bit dark apply a bit of brightness to get a better readable Text after the BinaryThreshold
-			//var pixelData = GetPixelArray(imageFragment);
-			//var avgColor = pixelData.Average(e => e.Average(f => f.R + f.G + f.B));
-			//var averageColor = new Rgb24(80, 80, 80);
-			//if (avgColor < (averageColor.R + averageColor.G + averageColor.B))
-			//{
-			//	imageFragment.Mutate(m => m.Brightness(2f));
-			//	// Perhaps use .Opacity(0.8f) as it also allowed the OCR to recognize "Theilsiefje Säule"
-			//}
+
+			var results = similarGyms.Select(kvp => new KeyValuePair<string, double>(kvp.Key.Name, kvp.Value)).ToArray();
+			return new OcrResult(true, results);
 		}
 
 		private async Task<OcrResult> GetPokemonName(Image<Rgba32> imageFragment, BaseRaidImageConfiguration imageConfiguration, TesseractEngine engine)
@@ -324,15 +330,16 @@ namespace Raidfelden.Discord.Bot.Services
 			{
 				return ocrResult;
 			}
-			var similarPokemon = PokemonService.GetSimilarRaidbossByNameAsync(ocrResult.Value, 1).Result;
+
+			var ocrValue = ocrResult.Results[0].Key;
+			var similarPokemon = PokemonService.GetSimilarRaidbossByNameAsync(ocrValue, 1).Result;
 			if (similarPokemon.Count == 0)
 			{
 				return new OcrResult(false);
 			}
-			var pokemon = similarPokemon.First();
-			var value = pokemon.Key.Name;
-			var probability = pokemon.Value; // perhaps multiply here with the confidence of the ocr itself
-			return new OcrResult(true, value, probability);
+
+			var results = similarPokemon.Select(kvp => new KeyValuePair<string, double>(kvp.Key.Name, kvp.Value)).ToArray();
+			return new OcrResult(true, results);
 		}
 
 		private async Task<OcrResult> GetTimerValue(Image<Rgba32> imageFragment, TesseractEngine engine, ImageFragmentType imageFragmentType)
@@ -357,7 +364,9 @@ namespace Raidfelden.Discord.Bot.Services
 					{
 						var value = RemoveUnwantedCharacters(page.GetText());
 						var probability = page.GetMeanConfidence();
-						return await Task.FromResult(new OcrResult(probability > 0, value, probability));
+						return
+							await Task.FromResult(new OcrResult(probability > 0,
+								new[] {new KeyValuePair<string, double>(value, probability),}));
 					}
 				}
 			}
@@ -481,16 +490,15 @@ namespace Raidfelden.Discord.Bot.Services
 
 	    private class OcrResult
 		{
-			public OcrResult(bool isSuccess, string value = null, double probability = 0)
+			public OcrResult(bool isSuccess, KeyValuePair<string, double>[] results = null)
 			{
 				IsSuccess = isSuccess;
-				Value = value;
-				Probability = probability;
+				Results = results;
 			}
 
-			public string Value { get; }
-			public double Probability { get; }
 			public bool IsSuccess { get; }
+			public KeyValuePair<string, double>[] Results { get; }
+			public string Value { get { return Results[0].Key; } }
 		}
 	}
 }

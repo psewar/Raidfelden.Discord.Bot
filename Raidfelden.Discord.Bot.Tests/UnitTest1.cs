@@ -169,6 +169,9 @@ namespace Raidfelden.Discord.Bot.Tests
 
 					text = GetOcrResult(ocrService, basePath + "BossWithMenu1080X1920.png", engine);
 					Assert.AreEqual(".raids add \"International Imaginary Museum\" \"Kokowei\" 34:55", text, true);
+
+					text = GetOcrResult(ocrService, basePath + "GymNameNotRecognized1080X1920.jpg", engine);
+					Assert.AreEqual(".raids add \"Kleinbasler Basiliskenbrünnchen\" \"5\" 37:51", text, true);
 				}
 			}
 		}
@@ -224,6 +227,9 @@ namespace Raidfelden.Discord.Bot.Tests
 					var basePath = @"Ressources\Pictures\Raids\";
 					var text = GetOcrResult(ocrService, basePath + "HoOh1080X2220.jpg", engine);
 					Assert.AreEqual(".raids add \"Warmbacher Kreuz\" \"Ho-Oh\" 25:41", text, true);
+
+					text = GetOcrResult(ocrService, basePath + "BothMenu1080X2220Egg.jpg", engine);
+					Assert.AreEqual(".raids add \"Jeckenbrunnen\" \"1\" 51:3", text, true);
 				}
 			}
 		}
