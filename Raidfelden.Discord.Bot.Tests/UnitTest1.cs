@@ -132,42 +132,6 @@ namespace Raidfelden.Discord.Bot.Tests
 	    }
 
 		[TestMethod]
-		public void GalaxyS9WithMenuCorrection()
-		{
-			using (var context = new Hydro74000Context(ContextOptions))
-			{
-				var ocrService = GetOcrService(context);
-				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
-				{
-					var basePath = @"Ressources\Pictures\Raids\";
-                    var text = GetOcrResult(ocrService, basePath + "GalaxyS9WithMenu.jpg", engine);
-                    Assert.AreEqual(".raids add \"Einheitskreis Skulptur\" \"Amonitas\" 27:5", text, true);
-
-					text = GetOcrResult(ocrService, basePath + "GalaxyS9WithMenu2.jpg", engine);
-					Assert.AreEqual(".raids add \"Rheinfelden Bahnhof\" \"5\" 48:59", text, true);
-
-                    text = GetOcrResult(ocrService, basePath + "Egg1080X2220Herwig.jpg", engine);
-                    Assert.AreEqual(".raids add \"Skulptur Zwei Schwangere Frauen \" \"4\" 56:54", text, true);
-                }
-			}
-		}
-
-		[TestMethod]
-		public void GalaxyS9PlusImageSize()
-		{
-			using (var context = new Hydro74000Context(ContextOptions))
-			{
-				var ocrService = GetOcrService(context);
-				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
-				{
-					var basePath = @"Ressources\Pictures\Raids\";
-					var text = GetOcrResult(ocrService, basePath + "ZurLandskrone-Karpador.jpg", engine);
-					Assert.AreEqual(".raids add \"Zur Landskron\" \"Karpador\" 10:1", text, true);
-				}
-			}
-		}
-
-		[TestMethod]
 		public void IPhoneXImageSize()
 	    {
 			using (var context = new Hydro74000Context(ContextOptions))
@@ -228,7 +192,74 @@ namespace Raidfelden.Discord.Bot.Tests
 			}
 		}
 
-		private OcrService GetOcrService(Hydro74000Context context)
+		[TestMethod]
+		public void BottomMenu1080X2220()
+		{
+			using (var context = new Hydro74000Context(ContextOptions))
+			{
+				var ocrService = GetOcrService(context);
+				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
+				{
+					var basePath = @"Ressources\Pictures\Raids\";
+					var text = GetOcrResult(ocrService, basePath + "ZurLandskrone-Karpador.jpg", engine);
+					Assert.AreEqual(".raids add \"Zur Landskron\" \"Karpador\" 10:1", text, true);
+
+					text = GetOcrResult(ocrService, basePath + "Egg1080X2220Herwig.jpg", engine);
+					Assert.AreEqual(".raids add \"Skulptur Zwei Schwangere Frauen \" \"4\" 56:54", text, true);
+
+					text = GetOcrResult(ocrService, basePath + "GalaxyS9WithMenu2.jpg", engine);
+					Assert.AreEqual(".raids add \"Rheinfelden Bahnhof\" \"5\" 48:59", text, true);
+				}
+			}
+		}
+
+		[TestMethod]
+		public void BothMenu1080X2220()
+		{
+			using (var context = new Hydro74000Context(ContextOptions))
+			{
+				var ocrService = GetOcrService(context);
+				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
+				{
+					var basePath = @"Ressources\Pictures\Raids\";
+					var text = GetOcrResult(ocrService, basePath + "HoOh1080X2220.jpg", engine);
+					Assert.AreEqual(".raids add \"Warmbacher Kreuz\" \"Ho-Oh\" 25:41", text, true);
+				}
+			}
+		}
+
+		[TestMethod]
+		public void BottomMenu1440X2960()
+		{
+			using (var context = new Hydro74000Context(ContextOptions))
+			{
+				var ocrService = GetOcrService(context);
+				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
+				{
+					var basePath = @"Ressources\Pictures\Raids\";
+					var text = GetOcrResult(ocrService, basePath + "GalaxyS9WithMenu.jpg", engine);
+					Assert.AreEqual(".raids add \"Einheitskreis Skulptur\" \"Amonitas\" 27:5", text, true);
+				}
+			}
+		}
+
+		[TestMethod]
+	    public void NullRefException()
+	    {
+		    using (var context = new Hydro74000Context(ContextOptions))
+		    {
+			    var ocrService = GetOcrService(context);
+			    using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
+			    {
+					var basePath = @"Ressources\Pictures\Raids\";
+					// The problem here was a to strict BinaryTreshold where the bot would not recognize the gym name anymore
+					var text = GetOcrResult(ocrService, basePath + "NullRefException1.jpg", engine);
+					Assert.AreEqual(".raids add \"Die Venus in den Büschen\" \"4\" 49:48", text, true);
+				}
+		    }
+	    }
+
+	    private OcrService GetOcrService(Hydro74000Context context)
 	    {
 			var localizationService =new LocalizationService();
 			var gymService = new GymService(localizationService);

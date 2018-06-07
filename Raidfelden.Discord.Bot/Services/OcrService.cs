@@ -103,7 +103,14 @@ namespace Raidfelden.Discord.Bot.Services
 			{
 				if (HasBottomMenu(image))
 				{
-					configuration = new BottomMenu1080X2220Configuration();
+					if (HasTopMenu(image))
+					{
+						configuration = new BothMenu1080X2220Configuration();
+					}
+					else
+					{
+						configuration = new BottomMenu1080X2220Configuration();
+					}
 				}
 				else
 				{
@@ -129,6 +136,19 @@ namespace Raidfelden.Discord.Bot.Services
 			return configuration;
 		}
 
+		private bool HasTopMenu(Image<Rgba32> image)
+		{
+			// If the whole line has the exact same color it probably is a menu
+			var color = image[0, 0];
+			for (int x = 1; x < image.Width; x++)
+			{
+				if (image[x, 0] != color)
+				{
+					return false;
+				}
+			}
+			return true;
+		}
 
 		private bool HasBottomMenu(Image<Rgba32> image)
 		{
@@ -210,7 +230,7 @@ namespace Raidfelden.Discord.Bot.Services
 				imageFragment.Save($"_{ImageFragmentType.GymName}_Step1_Resize.png");
 			}
 
-			imageFragment.Mutate(m => m.Resize(resizeOptions).Invert().BinaryThreshold(0.15f));
+			imageFragment.Mutate(m => m.Resize(resizeOptions).Invert().BinaryThreshold(0.2f));
 
 			if (SaveDebugImages)
 			{

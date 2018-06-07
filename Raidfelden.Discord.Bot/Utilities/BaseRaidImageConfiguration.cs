@@ -95,7 +95,20 @@ namespace Raidfelden.Discord.Bot.Utilities
 	    public override void PreProcessImage<TPixel>(Image<TPixel> image) {}
     }
 
-    public class GalaxyS9BottomMenuImageConfiguration : BaseRaidImageConfiguration
+	public class BothMenu1080X2220Configuration : BaseRaidImageConfiguration
+	{
+		protected override Rectangle GymNamePosition => new Rectangle(220, 230, 860, 90);
+		protected override Rectangle EggTimerPosition => new Rectangle(400, 475, 270, 70);
+		protected override Rectangle EggLevelPosition => new Rectangle(285, 635, 510, 80);
+		protected override Rectangle PokemonNamePosition => new Rectangle(0, 590, 1080, 150);
+		protected override Rectangle RaidTimerPosition => new Rectangle(820, 1265, 180, 50);
+
+		public BothMenu1080X2220Configuration() : base(1080, 2220) { }
+
+		public override void PreProcessImage<TPixel>(Image<TPixel> image) { }
+	}
+
+	public class GalaxyS9BottomMenuImageConfiguration : BaseRaidImageConfiguration
     {
         public GalaxyS9BottomMenuImageConfiguration() : base(1080, 1920) { }
 
