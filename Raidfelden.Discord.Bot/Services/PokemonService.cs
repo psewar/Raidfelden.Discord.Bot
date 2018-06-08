@@ -81,7 +81,17 @@ namespace Raidfelden.Discord.Bot.Services
 
 		protected Dictionary<CultureInfo, List<IPokemon>> PokemonPerCulture { get; }
 		protected IRaidbossService RaidbossService { get; }
-		protected List<IPokemon> Pokemon => PokemonPerCulture[Thread.CurrentThread.CurrentUICulture];
+		protected List<IPokemon> Pokemon
+        {
+            get
+            {
+                if (PokemonPerCulture.ContainsKey(Thread.CurrentThread.CurrentUICulture))
+                {
+                    return PokemonPerCulture[Thread.CurrentThread.CurrentUICulture];
+                }
+                return PokemonPerCulture[CultureInfo.GetCultureInfo("de-DE")];
+            }
+        }
 
 		public IPokemon GetPokemonByName(string name)
 		{

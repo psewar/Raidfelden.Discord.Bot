@@ -48,7 +48,7 @@ namespace Raidfelden.Discord.Bot.Modules
                 }
             };
 
-            if (guild.Raids.Length > 0)
+            if (guild != null && guild.Raids.Length > 0)
             {
                 yield return raid;
             }
@@ -69,7 +69,7 @@ namespace Raidfelden.Discord.Bot.Modules
                 }
             };
 
-            if (guild.Pokemon.Length > 0)
+            if (guild != null && guild.Pokemon.Length > 0)
             {
                 yield return pokemon;
             }

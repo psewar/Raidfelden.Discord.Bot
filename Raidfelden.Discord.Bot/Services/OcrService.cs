@@ -35,7 +35,12 @@ namespace Raidfelden.Discord.Bot.Services
 
 	    public OcrService(Hydro74000Context context, IGymService gymService, IPokemonService pokemonService, IRaidService raidService)
 	    {
-		    Engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar");
+            try
+            {
+                Engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar");
+            }
+		    catch(Exception ex)
+            { }
 			Context = context;
 		    GymService = gymService;
 		    PokemonService = pokemonService;
