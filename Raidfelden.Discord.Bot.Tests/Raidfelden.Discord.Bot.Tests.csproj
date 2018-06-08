@@ -95,6 +95,12 @@
     <None Update="Ressources\Pictures\Raids\Monument de Strasbourg.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Ressources\Pictures\Raids\Nexus900x1600Boss.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\Nexus900x1600Egg.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Ressources\Pictures\Raids\NullRefException1.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

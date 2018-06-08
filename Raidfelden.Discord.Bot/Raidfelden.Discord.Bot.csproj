@@ -41,6 +41,12 @@
     <None Update="bosses.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="de.pokemon.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="en.pokemon.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="geofences.txt.example">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

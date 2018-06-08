@@ -35,9 +35,9 @@ namespace Raidfelden.Discord.Bot.Services
 			LocalizationService = localizationService;
 			RaidbossService = raidbossService;
 			PokemonPerCulture = new Dictionary<CultureInfo, List<IPokemon>>();
-			var pokemon = LoadFromJson(@"Resources\de.pokemon.json");
+			var pokemon = LoadFromJson(@"de.pokemon.json");
 			PokemonPerCulture.Add(CultureInfo.GetCultureInfo("de-DE"), pokemon);
-			pokemon = LoadFromJson(@"Resources\en.pokemon.json");
+			pokemon = LoadFromJson(@"en.pokemon.json");
 			PokemonPerCulture.Add(CultureInfo.GetCultureInfo("en-US"), pokemon);
 		}
 
