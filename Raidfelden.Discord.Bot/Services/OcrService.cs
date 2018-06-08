@@ -49,6 +49,10 @@ namespace Raidfelden.Discord.Bot.Services
 
 	    public async Task<ServiceResponse> AddRaidAsync(string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode)
 	    {
+		    if (Engine == null)
+		    {
+			    return new ServiceResponse(false, string.Empty);
+		    }
 		    SaveDebugImages = testMode;
 			using (var image = Image.Load(filePath))
 			{

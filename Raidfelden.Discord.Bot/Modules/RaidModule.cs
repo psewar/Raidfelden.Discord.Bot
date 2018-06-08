@@ -71,7 +71,7 @@ namespace Raidfelden.Discord.Bot.Modules
             catch (Exception ex)
             {
                 var innerstEx = ex.GetInnermostException();
-                await ReplyFailureAsync($"Ein unerwarteter Fehler ist aufgetreten: {innerstEx.Message}");
+                //await ReplyFailureAsync($"Ein unerwarteter Fehler ist aufgetreten: {innerstEx.Message}");
             }
         }
 
