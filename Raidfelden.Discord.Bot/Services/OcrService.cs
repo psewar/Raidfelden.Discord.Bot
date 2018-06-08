@@ -7,6 +7,7 @@ using Raidfelden.Discord.Bot.Configuration;
 using Raidfelden.Discord.Bot.Extensions.ImageSharp;
 using Raidfelden.Discord.Bot.Monocle;
 using Raidfelden.Discord.Bot.Utilities;
+using Raidfelden.Discord.Bot.Utilities.Ocr;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;

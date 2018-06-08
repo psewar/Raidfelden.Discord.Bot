@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Raidfelden.Discord.Bot.Utilities.Ocr;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
