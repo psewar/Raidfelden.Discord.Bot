@@ -46,6 +46,15 @@
           }
         ]
       }
-    ]
+    ],
+    "OcrConfiguration": {
+      "PathToTesseract": "",
+      "PathToTessdata": "",
+      "Languages": [
+        "deu",
+        "eng"
+      ],
+      "AdditionalParameters":  " -psm 5"
+    }
   }
 }

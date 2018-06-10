@@ -36,33 +36,30 @@ namespace Raidfelden.Discord.Bot.Modules
         {
             try
             {
-                using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
+                foreach (var attachment in Context.Message.Attachments)
                 {
-                    foreach (var attachment in Context.Message.Attachments)
+                    if (IsImageUrl(attachment.Url))
                     {
-                        if (IsImageUrl(attachment.Url))
+                        string tempImageFile = string.Empty;
+                        try
                         {
-                            string tempImageFile = string.Empty;
+                            tempImageFile = Path.GetTempFileName() + "." + attachment.Url.Split('.').Last();
+                            await DownloadAsync(new Uri(attachment.Url), tempImageFile);
+                            var response = OcrService.AddRaidAsync(tempImageFile, 4, Fences, false);
+                            await ReplyWithInteractive(() => response, "OCR-Erkennung erfolgreich");
+                        }
+                        finally
+                        {
                             try
                             {
-                                tempImageFile = Path.GetTempFileName() + "." + attachment.Url.Split('.').Last();
-                                await DownloadAsync(new Uri(attachment.Url), tempImageFile);
-                                var response = OcrService.AddRaidAsync(tempImageFile, 4, Fences, false);
-                                await ReplyWithInteractive(() => response, "OCR-Erkennung erfolgreich");
+                                if (File.Exists(tempImageFile))
+                                {
+                                    File.Delete(tempImageFile);
+                                }
                             }
-                            finally
+                            catch (Exception)
                             {
-                                try
-                                {
-                                    if (File.Exists(tempImageFile))
-                                    {
-                                        File.Delete(tempImageFile);
-                                    }
-                                }
-                                catch (Exception)
-                                {
-                                    // Ignore
-                                }
+                                // Ignore
                             }
                         }
                     }
@@ -71,7 +68,8 @@ namespace Raidfelden.Discord.Bot.Modules
             catch (Exception ex)
             {
                 var innerstEx = ex.GetInnermostException();
-                //await ReplyFailureAsync($"Ein unerwarteter Fehler ist aufgetreten: {innerstEx.Message}");
+                Console.WriteLine(innerstEx.Message);
+                await ReplyFailureAsync($"Ein unerwarteter Fehler ist aufgetreten: {innerstEx.Message}");
             }
         }
 

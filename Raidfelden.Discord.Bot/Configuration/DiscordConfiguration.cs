@@ -15,6 +15,7 @@ namespace Raidfelden.Discord.Bot.Configuration
         public string BotToken { get; set; }
         public string DefaultCommandPrefix { get; set; }
         public GuildConfiguration[] Guilds { get; set; }
+        public OcrConfiguration OcrConfiguration { get; set; }
     }
 
     public class GuildConfiguration
@@ -44,4 +45,12 @@ namespace Raidfelden.Discord.Bot.Configuration
     public class RaidChannel : ChannelConfiguration { }
 
     public class PokemonChannel : ChannelConfiguration { }
+
+    public class OcrConfiguration
+    {
+        public string PathToTesseract { get; set; }
+        public string PathToTessdata { get; set; }
+        public string[] Languages { get; set; }
+        public string AdditionalParameters { get; set; }
+    }
 }

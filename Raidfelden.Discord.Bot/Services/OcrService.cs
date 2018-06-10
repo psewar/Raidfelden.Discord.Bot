@@ -15,7 +15,10 @@ using SixLabors.ImageSharp.Processing.Binarization;
 using SixLabors.ImageSharp.Processing.Filters;
 using SixLabors.ImageSharp.Processing.Transforms;
 using SixLabors.Primitives;
-using Tesseract;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
+using System.Text;
 
 namespace Raidfelden.Discord.Bot.Services
 {
@@ -26,33 +29,24 @@ namespace Raidfelden.Discord.Bot.Services
 
 	public class OcrService : IOcrService, IDisposable
     {
-	    protected TesseractEngine Engine { get; }
 	    protected Hydro74000Context Context { get; }
-	    protected IGymService GymService { get; }
+        protected IConfigurationService ConfigurationService { get; }
+        protected IGymService GymService { get; }
 	    protected IPokemonService PokemonService { get; }
         protected IRaidService RaidService { get; }
         protected bool SaveDebugImages { get; private set; }
 
-	    public OcrService(Hydro74000Context context, IGymService gymService, IPokemonService pokemonService, IRaidService raidService)
+	    public OcrService(Hydro74000Context context, IConfigurationService configurationService, IGymService gymService, IPokemonService pokemonService, IRaidService raidService)
 	    {
-            try
-            {
-                Engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar");
-            }
-		    catch(Exception ex)
-            { }
 			Context = context;
-		    GymService = gymService;
+            ConfigurationService = configurationService;
+            GymService = gymService;
 		    PokemonService = pokemonService;
             RaidService = raidService;
 	    }
 
 	    public async Task<ServiceResponse> AddRaidAsync(string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode)
 	    {
-		    if (Engine == null)
-		    {
-			    return new ServiceResponse(false, string.Empty);
-		    }
 		    SaveDebugImages = testMode;
 			using (var image = Image.Load(filePath))
 			{
@@ -63,18 +57,18 @@ namespace Raidfelden.Discord.Bot.Services
 					image.Save("_AfterPreprocess.png");
 				}
 				string message;
-				var gymName = await GetFragmentResultAsync(image, configuration, ImageFragmentType.GymName, Engine, Context, fences);
-				var timerValue = await GetFragmentResultAsync(image, configuration, ImageFragmentType.EggTimer, Engine, Context, fences);
+				var gymName = await GetFragmentResultAsync(image, configuration, ImageFragmentType.GymName, Context, fences);
+				var timerValue = await GetFragmentResultAsync(image, configuration, ImageFragmentType.EggTimer, Context, fences);
 				var isRaidboss = !timerValue.IsSuccess || !TimeSpan.TryParse(timerValue.Value, out TimeSpan timer);
 				if (isRaidboss)
 				{
-					timerValue = await GetFragmentResultAsync(image, configuration, ImageFragmentType.RaidTimer, Engine, Context, fences);
+					timerValue = await GetFragmentResultAsync(image, configuration, ImageFragmentType.RaidTimer, Context, fences);
 					if (!timerValue.IsSuccess)
 					{
 						return new ServiceResponse(false, "Die Restzeit konnte nich erkannt werden.");
 					}
 					timer = TimeSpan.Parse(timerValue.Value);
-					var pokemonName = await GetFragmentResultAsync(image, configuration, ImageFragmentType.PokemonName, Engine, Context, fences);
+					var pokemonName = await GetFragmentResultAsync(image, configuration, ImageFragmentType.PokemonName, Context, fences);
 					if (!pokemonName.IsSuccess)
 					{
 						return new ServiceResponse(false, "Der Raidboss konnte nich erkannt werden.");
@@ -91,7 +85,7 @@ namespace Raidfelden.Discord.Bot.Services
 				}
 				else
 				{
-					var eggLevel = await GetFragmentResultAsync(image, configuration, ImageFragmentType.EggLevel, Engine, Context, fences);
+					var eggLevel = await GetFragmentResultAsync(image, configuration, ImageFragmentType.EggLevel, Context, fences);
 					if (!eggLevel.IsSuccess)
 					{
 						return new ServiceResponse(false, "Das Level konnte nich erkannt werden.");
@@ -182,7 +176,7 @@ namespace Raidfelden.Discord.Bot.Services
             return true;
 		}
 
-	    private async Task<OcrResult> GetFragmentResultAsync(Image<Rgba32> image, BaseRaidImageConfiguration imageConfiguration, ImageFragmentType fragmentType, TesseractEngine engine, Hydro74000Context context, FenceConfiguration[] fences = null)
+	    private async Task<OcrResult> GetFragmentResultAsync(Image<Rgba32> image, BaseRaidImageConfiguration imageConfiguration, ImageFragmentType fragmentType, Hydro74000Context context, FenceConfiguration[] fences = null)
 	    {
 		    using (var imageFragment = image.Clone(e => e.Crop(imageConfiguration[fragmentType])))
 		    {
@@ -197,14 +191,14 @@ namespace Raidfelden.Discord.Bot.Services
 						result= await GetEggLevel(imageFragment, imageConfiguration);
 					    break;
 					case ImageFragmentType.GymName:
-						result= await GetGymName(imageFragment, engine, context, fences);
+						result= await GetGymName(imageFragment, context, fences);
 						break;
 					case ImageFragmentType.PokemonName:
-						result= await GetPokemonName(imageFragment, imageConfiguration, engine);
+						result= await GetPokemonName(imageFragment, imageConfiguration);
 						break;
 					case ImageFragmentType.EggTimer:
 					case ImageFragmentType.RaidTimer:
-						result= await GetTimerValue(imageFragment, engine, fragmentType);
+						result= await GetTimerValue(imageFragment, fragmentType);
 						break;
 				}
 
@@ -238,7 +232,7 @@ namespace Raidfelden.Discord.Bot.Services
 			return await Task.FromResult(new OcrResult(true, results));
 		}
 
-		private async Task<OcrResult> GetGymName(Image<Rgba32> imageFragment, TesseractEngine engine, Hydro74000Context context, FenceConfiguration[] fences)
+		private async Task<OcrResult> GetGymName(Image<Rgba32> imageFragment, Hydro74000Context context, FenceConfiguration[] fences)
 		{
 			var multiplier = 2;
 			var size = new Size(imageFragment.Width * multiplier, imageFragment.Height * multiplier);
@@ -262,7 +256,7 @@ namespace Raidfelden.Discord.Bot.Services
 				imageFragment.Save($"_{ImageFragmentType.GymName}_Step2_Binary.png");
 			}
 
-			var ocrResult = await GetOcrResultAsync(imageFragment, engine);
+			var ocrResult = await GetOcrResultAsync(imageFragment);
 			if (!ocrResult.IsSuccess)
 			{
 				return ocrResult;
@@ -279,7 +273,7 @@ namespace Raidfelden.Discord.Bot.Services
 			return new OcrResult(true, results);
 		}
 
-		private async Task<OcrResult> GetPokemonName(Image<Rgba32> imageFragment, BaseRaidImageConfiguration imageConfiguration, TesseractEngine engine)
+		private async Task<OcrResult> GetPokemonName(Image<Rgba32> imageFragment, BaseRaidImageConfiguration imageConfiguration)
 		{
 			const byte floodFillLetterTolerance = 10;
 			var floodFillLetters = new QueueLinearFloodFiller
@@ -335,7 +329,7 @@ namespace Raidfelden.Discord.Bot.Services
 				imageFragment.Save($"_{ImageFragmentType.PokemonName}_Step3_BlackBorderEntriesRemoved.png");
 			}
 
-			var ocrResult = await GetOcrResultAsync(imageFragment, engine);
+			var ocrResult = await GetOcrResultAsync(imageFragment);
 			if (!ocrResult.IsSuccess)
 			{
 				return ocrResult;
@@ -352,43 +346,155 @@ namespace Raidfelden.Discord.Bot.Services
 			return new OcrResult(true, results);
 		}
 
-		private async Task<OcrResult> GetTimerValue(Image<Rgba32> imageFragment, TesseractEngine engine, ImageFragmentType imageFragmentType)
+		private async Task<OcrResult> GetTimerValue(Image<Rgba32> imageFragment, ImageFragmentType imageFragmentType)
 	    {
 			imageFragment.Mutate(m => m.Invert().BinaryThreshold(0.1f));
 			if (SaveDebugImages)
 			{
 				imageFragment.Save($"_{imageFragmentType}_Step1_Binary.png");
 			}
-			return await GetOcrResultAsync(imageFragment, engine);
+			return await GetOcrResultAsync(imageFragment);
 		}
 
 
-		private async Task<OcrResult> GetOcrResultAsync(Image<Rgba32> imageFragment, TesseractEngine engine)
-	    {
-			var tempImageFile = CreateTempImageFile(imageFragment);
-		    try
-		    {
-				using (var tempImage = Pix.LoadFromFile(tempImageFile))
-				{
-					using (var page = engine.Process(tempImage))
-					{
-						var value = RemoveUnwantedCharacters(page.GetText());
-						var probability = page.GetMeanConfidence();
-						return
-							await Task.FromResult(new OcrResult(probability > 0,
-								new[] {new KeyValuePair<string, double>(value, probability),}));
-					}
-				}
-			}
-		    finally
-		    {
-				System.IO.File.Delete(tempImageFile);
-			}
-		}
+		//private async Task<OcrResult> GetOcrResultAsync(Image<Rgba32> imageFragment, TesseractEngine engine)
+	 //   {
+		//	var tempImageFile = CreateTempImageFile(imageFragment);
+		//    try
+		//    {
+		//		using (var tempImage = Pix.LoadFromFile(tempImageFile))
+		//		{
+		//			using (var page = engine.Process(tempImage))
+		//			{
+		//				var value = RemoveUnwantedCharacters(page.GetText());
+		//				var probability = page.GetMeanConfidence();
+		//				return
+		//					await Task.FromResult(new OcrResult(probability > 0,
+		//						new[] {new KeyValuePair<string, double>(value, probability),}));
+		//			}
+		//		}
+		//	}
+		//    finally
+		//    {
+		//		System.IO.File.Delete(tempImageFile);
+		//	}
+		//}
 
-		private static string CreateTempImageFile<TPixel>(Image<TPixel> image) where TPixel : struct, IPixel<TPixel>
+
+        private async Task<OcrResult> GetOcrResultAsync(Image<Rgba32> imageFragment)
+        {
+            string output = string.Empty;
+            var tempOutputFile = Path.GetTempPath() + Guid.NewGuid();
+            var tempImageFile = CreateTempImageFile(imageFragment);
+            try
+            {
+                var ocrConfiguration = ConfigurationService.GetOcrConfiguration();
+                var tesseractPath = GetTesseractPath(ocrConfiguration);
+                var tessdataDir = GetTessdataPath(ocrConfiguration);
+                var languages = GetOcrLanguages(ocrConfiguration);
+
+                var arguments = new StringBuilder();
+                arguments.Append("--tessdata-dir " + tessdataDir);
+                arguments.Append(" " + tempImageFile);  // Image file.
+                arguments.Append(" " + tempOutputFile); // Output file (tesseract add '.txt' at the end)
+                if (!string.IsNullOrWhiteSpace(ocrConfiguration.AdditionalParameters))
+                {
+                    arguments.Append(" " + ocrConfiguration.AdditionalParameters);
+                }
+                arguments.Append(" -l" + languages);    // Languages.
+
+                ProcessStartInfo info = new ProcessStartInfo();
+                //info.WorkingDirectory = tesseractPath;
+                info.WindowStyle = ProcessWindowStyle.Hidden;
+                info.UseShellExecute = false;
+                info.FileName = tesseractPath;
+                info.Arguments = arguments.ToString();
+                Console.WriteLine(info.Arguments);
+
+                // Start tesseract.
+                Process process = Process.Start(info);
+                process.WaitForExit();
+                if (process.ExitCode == 0)
+                {
+                    // Exit code: success.
+                    output = File.ReadAllText(tempOutputFile + ".txt");
+                }
+                else
+                {
+                    throw new Exception("Error. Tesseract stopped with an error code = " + process.ExitCode);
+                }
+            }
+            finally
+            {
+                File.Delete(tempImageFile);
+                File.Delete(tempOutputFile + ".txt");
+            }
+
+            var value = RemoveUnwantedCharacters(output);
+            var probability = 1;
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                probability = 0;
+            }
+
+            return
+                await Task.FromResult(new OcrResult(probability > 0,
+                    new[] { new KeyValuePair<string, double>(value, probability), }));
+        }
+
+        private string GetTesseractPath(OcrConfiguration ocrConfiguration)
+        {
+            var tesseractPath = ocrConfiguration.PathToTesseract;
+            // Try some defaults if nothing is set
+            if (string.IsNullOrWhiteSpace(tesseractPath))
+            {
+                bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+                if (isWindows)
+                {
+                    // Default Windows installation
+                    //tesseractPath = @"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe";
+                    if (RuntimeInformation.ProcessArchitecture == Architecture.X64)
+                    {
+                        tesseractPath = Path.Combine("x64", "tesseract.exe");
+                    }
+                    else
+                    {
+                        tesseractPath = Path.Combine("x86", "tesseract.exe");
+                    }
+                }
+                else
+                {
+                    // Default Homebrew installation
+                    tesseractPath = Path.Combine("/usr/local/Cellar/tesseract/3.05.01/bin", "tesseract");
+                }
+            }
+            return tesseractPath;
+        }
+
+        private string GetTessdataPath(OcrConfiguration ocrConfiguration)
+        {
+            var result = ocrConfiguration.PathToTessdata;
+            if(string.IsNullOrWhiteSpace(result))
+            {
+                result = Path.Combine(".", "tessdata");
+            }
+
+            return result;
+        }
+
+        private string GetOcrLanguages(OcrConfiguration ocrConfiguration)
+        {
+            var languages = ocrConfiguration.Languages;
+            if (languages == null || languages.Length == 0)
+            {
+                languages = new[] { "deu", "eng" };
+            }
+            return string.Join("+", languages);
+        }
+
+        private static string CreateTempImageFile<TPixel>(Image<TPixel> image) where TPixel : struct, IPixel<TPixel>
 		{
-			var tempImageFile = System.IO.Path.GetTempFileName() + ".png";
+			var tempImageFile = Path.GetTempFileName() + ".png";
 			image.Save(tempImageFile);
 			return tempImageFile;
 		}
@@ -494,7 +600,6 @@ namespace Raidfelden.Discord.Bot.Services
 
 	    public void Dispose()
 	    {
-		    Engine?.Dispose();
 		    Context?.Dispose();
 	    }
 
