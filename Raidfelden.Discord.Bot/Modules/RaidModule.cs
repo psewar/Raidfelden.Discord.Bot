@@ -32,52 +32,50 @@ namespace Raidfelden.Discord.Bot.Modules
 	        OcrService = ocrService;
         }
 
-        [Command("ocr")]
-        public async Task OcrAsync()
-        {
-            try
-            {
-                using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
-                {
-	                using (var httpClient = new HttpClient())
-	                {
-		                foreach (var attachment in Context.Message.Attachments)
-		                {
-			                if (!await IsImageUrlAsync(httpClient, attachment.Url)) continue;
-			                var tempImageFile = string.Empty;
-			                try
-			                {
-				                tempImageFile = Path.GetTempFileName() + "." + attachment.Url.Split('.').Last();
-				                await DownloadAsync(httpClient, new Uri(attachment.Url), tempImageFile);
-				                var response = OcrService.AddRaidAsync(tempImageFile, 4, Fences, false);
-				                await ReplyWithInteractive(() => response, "OCR-Erkennung erfolgreich");
-			                }
-			                finally
-			                {
-				                try
-				                {
-					                if (File.Exists(tempImageFile))
-					                {
-						                File.Delete(tempImageFile);
-					                }
-				                }
-				                catch (Exception)
-				                {
-					                // Ignore
-				                }
-			                }
-		                }
-	                }
-                }
-            }
-            catch (Exception ex)
-            {
-                var innerstEx = ex.GetInnermostException();
-                //await ReplyFailureAsync($"Ein unerwarteter Fehler ist aufgetreten: {innerstEx.Message}");
-            }
-        }
+	    [Command("ocr")]
+	    public async Task OcrAsync()
+	    {
+		    try
+		    {
+			    using (var httpClient = new HttpClient())
+			    {
+				    foreach (var attachment in Context.Message.Attachments)
+				    {
+					    if (!await IsImageUrlAsync(httpClient, attachment.Url)) continue;
+					    var tempImageFile = string.Empty;
+					    try
+					    {
+						    tempImageFile = Path.GetTempFileName() + "." + attachment.Url.Split('.').Last();
+						    await DownloadAsync(httpClient, new Uri(attachment.Url), tempImageFile);
+						    var response = OcrService.AddRaidAsync(tempImageFile, 4, Fences, false);
+						    await ReplyWithInteractive(() => response, "OCR-Erkennung erfolgreich");
+					    }
+					    finally
+					    {
+						    try
+						    {
+							    if (File.Exists(tempImageFile))
+							    {
+								    File.Delete(tempImageFile);
+							    }
+						    }
+						    catch (Exception)
+						    {
+							    // Ignore
+						    }
+					    }
+				    }
+			    }
+		    }
+		    catch (Exception ex)
+		    {
+			    var innerstEx = ex.GetInnermostException();
+			    Console.WriteLine(innerstEx.Message);
+			    await ReplyFailureAsync($"Ein unerwarteter Fehler ist aufgetreten: {innerstEx.Message}");
+		    }
+	    }
 
-        private async Task<bool> IsImageUrlAsync(HttpClient httpClient, string url)
+	    private async Task<bool> IsImageUrlAsync(HttpClient httpClient, string url)
         {
 	        using (var request = new HttpRequestMessage(HttpMethod.Head, url))
 	        {

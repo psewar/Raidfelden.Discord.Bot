@@ -12,6 +12,7 @@ namespace Raidfelden.Discord.Bot.Services
         IEnumerable<ChannelConfiguration> GetChannelConfigurations(ICommandContext context);
         bool ShouldProcessRequestAnyway(ICommandContext context);
         IEnumerable<FenceConfiguration> GetFencesConfigurationForChannel(ChannelConfiguration channelConfiguration);
+        OcrConfiguration GetOcrConfiguration();
     }
 
     public class ConfigurationService : IConfigurationService
@@ -103,6 +104,13 @@ namespace Raidfelden.Discord.Bot.Services
                 return new List<FenceConfiguration>();
             }
             return _fencesConfiguration.GetFences(channelConfiguration.Fences);
+        }
+
+        public OcrConfiguration GetOcrConfiguration()
+        {
+            var result = _configuration.OcrConfiguration 
+					   ?? new OcrConfiguration();
+	        return result;
         }
     }
 }

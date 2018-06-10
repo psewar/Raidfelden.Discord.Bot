@@ -44,6 +44,7 @@ namespace Raidfelden.Discord.Bot.Tests
 			section.Bind(config);
 			ConnectionString = Configuration.GetConnectionString("ScannerDatabase");
 			ContextOptions = new DbContextOptionsBuilder().UseMySql(ConnectionString).Options;
+		    ConfigurationService = new ConfigurationService(config, null);
 	    }
 
         [TestMethod]
@@ -283,13 +284,14 @@ namespace Raidfelden.Discord.Bot.Tests
 
 	    private OcrService GetOcrService(Hydro74000Context context)
 	    {
+			
 			var localizationService =new LocalizationService();
 			var gymService = new GymService(localizationService);
 			var raidbossService = new RaidbossService();
 			var fileWatcherService = new FileWatcherService();
 			var pokemonService = new PokemonService(raidbossService, localizationService, fileWatcherService);
 			var raidService = new RaidService(context, gymService, pokemonService, raidbossService, localizationService);
-			return new OcrService(context, gymService, pokemonService, raidService);
+			return new OcrService(context, ConfigurationService, gymService, pokemonService, raidService);
 		}
 
 		private string GetOcrResult(OcrService ocrService, string filePath, TesseractEngine engine, FenceConfiguration[] fences = null)
