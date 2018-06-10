@@ -16,7 +16,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Discord.Addons.Interactive\Discord.Addons.Interactive.csproj" />
     <ProjectReference Include="..\Raidfelden.Discord.Bot\Raidfelden.Discord.Bot.csproj" />
-    <ProjectReference Include="..\Tesseract.Core\Tesseract.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -201,7 +201,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Discord.Addons.Interactive\Discord.Addons.Interactive.csproj" />
-    <ProjectReference Include="..\Tesseract.Core\Tesseract.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <XliffResource Include="MultilingualResources\Raidfelden.Discord.Bot.de.xlf" />

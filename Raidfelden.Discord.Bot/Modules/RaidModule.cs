@@ -2,9 +2,6 @@
 using Raidfelden.Discord.Bot.Configuration;
 using Raidfelden.Discord.Bot.Extensions;
 using Raidfelden.Discord.Bot.Services;
-using Raidfelden.Discord.Bot.Utilities;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,7 +10,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Tesseract;
 
 namespace Raidfelden.Discord.Bot.Modules
 {
