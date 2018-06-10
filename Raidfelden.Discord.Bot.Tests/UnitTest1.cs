@@ -250,6 +250,22 @@ namespace Raidfelden.Discord.Bot.Tests
 		}
 
 		[TestMethod]
+		public void BottomMenu900X1600()
+		{
+			using (var context = new Hydro74000Context(ContextOptions))
+			{
+				var ocrService = GetOcrService(context);
+				using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
+				{
+					var basePath = @"Ressources\Pictures\Raids\";
+					Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
+					var text = GetOcrResult(ocrService, basePath + "Nexus900x1600Egg.jpg", engine);
+					Assert.AreEqual(".raids add \"Helix Fountain\" \"Snorunt\" 41:4", text, true);
+				}
+			}
+		}
+
+		[TestMethod]
 	    public void NullRefException()
 	    {
 		    using (var context = new Hydro74000Context(ContextOptions))
@@ -270,7 +286,8 @@ namespace Raidfelden.Discord.Bot.Tests
 			var localizationService =new LocalizationService();
 			var gymService = new GymService(localizationService);
 			var raidbossService = new RaidbossService();
-			var pokemonService = new PokemonService(raidbossService, localizationService);
+			var fileWatcherService = new FileWatcherService();
+			var pokemonService = new PokemonService(raidbossService, localizationService, fileWatcherService);
 			var raidService = new RaidService(context, gymService, pokemonService, raidbossService, localizationService);
 			return new OcrService(context, gymService, pokemonService, raidService);
 		}

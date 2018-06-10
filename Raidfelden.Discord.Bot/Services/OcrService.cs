@@ -63,45 +63,53 @@ namespace Raidfelden.Discord.Bot.Services
 					image.Save("_AfterPreprocess.png");
 				}
 				string message;
-				var gymName = await GetFragmentResultAsync(image, configuration, ImageFragmentType.GymName, Engine, Context, fences);
-				var timerValue = await GetFragmentResultAsync(image, configuration, ImageFragmentType.EggTimer, Engine, Context, fences);
-				var isRaidboss = !timerValue.IsSuccess || !TimeSpan.TryParse(timerValue.Value, out TimeSpan timer);
-				if (isRaidboss)
+				var raidOcrResult = await GetFragmentResultAsync(image, configuration, Engine, Context, fences);
+				if (!raidOcrResult.Pokemon.IsSuccess || raidOcrResult.Pokemon.Results.Length == 0)
 				{
-					timerValue = await GetFragmentResultAsync(image, configuration, ImageFragmentType.RaidTimer, Engine, Context, fences);
-					if (!timerValue.IsSuccess)
-					{
-						return new ServiceResponse(false, "Die Restzeit konnte nich erkannt werden.");
-					}
-					timer = TimeSpan.Parse(timerValue.Value);
-					var pokemonName = await GetFragmentResultAsync(image, configuration, ImageFragmentType.PokemonName, Engine, Context, fences);
-					if (!pokemonName.IsSuccess)
-					{
-						return new ServiceResponse(false, "Der Raidboss konnte nich erkannt werden.");
-					}
+					return new ServiceResponse(false, "Der Raidboss konnte nich erkannt werden.");
+				}
+				if (!raidOcrResult.EggLevel.IsSuccess || raidOcrResult.Pokemon.Results.Length == 0)
+				{
+					return new ServiceResponse(false, "Das Level konnte nich erkannt werden.");
+				}
+				if (!raidOcrResult.EggTimer.IsSuccess || raidOcrResult.Pokemon.Results.Length == 0)
+				{
+					return new ServiceResponse(false, "Die Restzeit konnte nich erkannt werden.");
+				}
+				if (!raidOcrResult.Gym.IsSuccess || raidOcrResult.Pokemon.Results.Length == 0)
+				{
+					return new ServiceResponse(false, "Die Arena konnte nich erkannt werden.");
+				}
+				if (!raidOcrResult.RaidTimer.IsSuccess || raidOcrResult.Pokemon.Results.Length == 0)
+				{
+					return new ServiceResponse(false, "Die Restzeit konnte nich erkannt werden.");
+				}
+
+
+				var gym = raidOcrResult.Gym.GetFirst();
+				if (raidOcrResult.Pokemon.IsSuccess)
+				{
+					var timer = raidOcrResult.RaidTimer.GetFirst();
+					var pokemon = raidOcrResult.Pokemon.GetFirst();
 
 					if (!testMode)
 					{
-						return await RaidService.AddAsync(gymName.Value, pokemonName.Value, timer.ToString(@"mm\:ss"), interactiveLimit, fences);
+						return await RaidService.AddAsync(gym.Name, pokemon.Name, timer.ToString(@"mm\:ss"), interactiveLimit, fences);
 					}
 					else
 					{
-						message = $".raids add \"{gymName.Value}\" \"{pokemonName.Value}\" {string.Concat(timer.Minutes, ":", timer.Seconds)}";
+						message = $".raids add \"{gym.Name}\" \"{pokemon.Name}\" {string.Concat(timer.Minutes, ":", timer.Seconds)}";
 					}
 				}
 				else
 				{
-					var eggLevel = await GetFragmentResultAsync(image, configuration, ImageFragmentType.EggLevel, Engine, Context, fences);
-					if (!eggLevel.IsSuccess)
-					{
-						return new ServiceResponse(false, "Das Level konnte nich erkannt werden.");
-					}
-
+					var eggLevel = raidOcrResult.EggLevel.GetFirst();
+					var timer = raidOcrResult.EggTimer.GetFirst();
 					if (!testMode)
 					{
-						return await RaidService.AddAsync(gymName.Value, eggLevel.Value, timer.ToString(@"mm\:ss"), interactiveLimit, fences);
+						return await RaidService.AddAsync(gym.Name, eggLevel.ToString(CultureInfo.InvariantCulture), timer.ToString(@"mm\:ss"), interactiveLimit, fences);
 					}
-					else{message =$".raids add \"{gymName.Value}\" \"{eggLevel.Value}\" {string.Concat(timer.Minutes, ":", timer.Seconds)}";}
+					else{message =$".raids add \"{gym.Name}\" \"{eggLevel}\" {string.Concat(timer.Minutes, ":", timer.Seconds)}";}
 				}
 
 				var result = new ServiceResponse(true, message);
@@ -182,22 +190,50 @@ namespace Raidfelden.Discord.Bot.Services
             return true;
 		}
 
-	    private async Task<OcrResult> GetFragmentResultAsync(Image<Rgba32> image, BaseRaidImageConfiguration imageConfiguration, ImageFragmentType fragmentType, TesseractEngine engine, Hydro74000Context context, FenceConfiguration[] fences = null)
+	    private async Task<RaidOcrResult> GetFragmentResultAsync(Image<Rgba32> image, BaseRaidImageConfiguration imageConfiguration, TesseractEngine engine, Hydro74000Context context, FenceConfiguration[] fences = null)
 	    {
-		    using (var imageFragment = image.Clone(e => e.Crop(imageConfiguration[fragmentType])))
+		    var result = new RaidOcrResult();
+			var fragmentTypes = Enum.GetValues(typeof(ImageFragmentType)).Cast<ImageFragmentType>();
+		    foreach (var type in fragmentTypes)
+		    {
+			    using (var imageFragment = image.Clone(e => e.Crop(imageConfiguration[type])))
+			    {
+					switch (type)
+					{
+						case ImageFragmentType.EggTimer:
+							result.EggTimer = GetTimerValue(imageFragment, engine, type).Result;
+							break;
+						case ImageFragmentType.EggLevel:
+							result.EggLevel = GetEggLevel(imageFragment, imageConfiguration).Result;
+							break;
+						case ImageFragmentType.GymName:
+							result.Gym = GetGymName(imageFragment, engine, context, fences).Result;
+							break;
+						case ImageFragmentType.PokemonName:
+							result.Pokemon = GetPokemonName(imageFragment, imageConfiguration, engine).Result;
+							break;
+						case ImageFragmentType.RaidTimer:
+							result.RaidTimer = GetTimerValue(imageFragment, engine, type).Result;
+							break;
+					}
+				}
+		    }
+
+		    return await Task.FromResult(result);
+			/*using (var imageFragment = image.Clone(e => e.Crop(imageConfiguration[fragmentType])))
 		    {
 			    if (SaveDebugImages)
 			    {
 				    imageFragment.Save($"_{fragmentType}_Created.png");
 			    }
-			    var result = new OcrResult(false);
+			    var result = new OcrResult<T>(false, string.Empty);
 			    switch (fragmentType)
 			    {
 					case ImageFragmentType.EggLevel:
-						result= await GetEggLevel(imageFragment, imageConfiguration);
+						result= await GetEggLevel<T>(imageFragment, imageConfiguration);
 					    break;
 					case ImageFragmentType.GymName:
-						result= await GetGymName(imageFragment, engine, context, fences);
+						result= await GetGymName<T>(imageFragment, engine, context, fences);
 						break;
 					case ImageFragmentType.PokemonName:
 						result= await GetPokemonName(imageFragment, imageConfiguration, engine);
@@ -213,10 +249,10 @@ namespace Raidfelden.Discord.Bot.Services
 					imageFragment.Save($"_{fragmentType}_ZFinal.png");
 				}
 			    return result;
-		    }
+		    }*/
 	    }
 
-		private async Task<OcrResult> GetEggLevel(Image<Rgba32> imageFragment, BaseRaidImageConfiguration imageConfiguration)
+		private async Task<OcrResult<int>> GetEggLevel(Image<Rgba32> imageFragment, BaseRaidImageConfiguration imageConfiguration)
 	    {
 			byte whiteThreshold = 250;
 			// Check the locations for level 1, 3 and 5 raids
@@ -231,14 +267,14 @@ namespace Raidfelden.Discord.Bot.Services
 			// Make sure the level is within the possible range
 		    if (whitePixelCount < 1 || whitePixelCount > 5)
 		    {
-				return await Task.FromResult(new OcrResult(false));
+				return await Task.FromResult(new OcrResult<int>(false, string.Empty));
 		    }
 
-		    var results = new[] {new KeyValuePair<string, double>(whitePixelCount.ToString(CultureInfo.InvariantCulture), 1)};
-			return await Task.FromResult(new OcrResult(true, results));
+		    var results = new[] {new KeyValuePair<int, double>(whitePixelCount, 1)};
+			return await Task.FromResult(new OcrResult<int>(true, string.Empty, results));
 		}
 
-		private async Task<OcrResult> GetGymName(Image<Rgba32> imageFragment, TesseractEngine engine, Hydro74000Context context, FenceConfiguration[] fences)
+		private async Task<OcrResult<Forts>> GetGymName(Image<Rgba32> imageFragment, TesseractEngine engine, Hydro74000Context context, FenceConfiguration[] fences)
 		{
 			var multiplier = 2;
 			var size = new Size(imageFragment.Width * multiplier, imageFragment.Height * multiplier);
@@ -263,23 +299,19 @@ namespace Raidfelden.Discord.Bot.Services
 			}
 
 			var ocrResult = await GetOcrResultAsync(imageFragment, engine);
-			if (!ocrResult.IsSuccess)
-			{
-				return ocrResult;
-			}
 
-			var ocrValue = ocrResult.Results[0].Key;
-			var similarGyms = GymService.GetSimilarGymsByNameAsync(context, ocrValue, fences, 1).Result;
+
+			if (!(ocrResult.Value > 0)) return new OcrResult<Forts>(false, ocrResult.Key);
+			var similarGyms = await GymService.GetSimilarGymsByNameAsync(context, ocrResult.Key, fences, 3);
 			if (similarGyms.Count == 0)
 			{
-				return new OcrResult(false);
+				return new OcrResult<Forts>(false, ocrResult.Key);
 			}
-
-			var results = similarGyms.Select(kvp => new KeyValuePair<string, double>(kvp.Key.Name, kvp.Value)).ToArray();
-			return new OcrResult(true, results);
+			var results = similarGyms.Select(kvp => new KeyValuePair<Forts, double>(kvp.Key, kvp.Value)).ToArray();
+			return new OcrResult<Forts>(true, ocrResult.Key, results);
 		}
 
-		private async Task<OcrResult> GetPokemonName(Image<Rgba32> imageFragment, BaseRaidImageConfiguration imageConfiguration, TesseractEngine engine)
+		private async Task<OcrResult<IPokemon>> GetPokemonName(Image<Rgba32> imageFragment, BaseRaidImageConfiguration imageConfiguration, TesseractEngine engine)
 		{
 			const byte floodFillLetterTolerance = 10;
 			var floodFillLetters = new QueueLinearFloodFiller
@@ -336,34 +368,36 @@ namespace Raidfelden.Discord.Bot.Services
 			}
 
 			var ocrResult = await GetOcrResultAsync(imageFragment, engine);
-			if (!ocrResult.IsSuccess)
-			{
-				return ocrResult;
-			}
 
-			var ocrValue = ocrResult.Results[0].Key;
-			var similarPokemon = PokemonService.GetSimilarRaidbossByNameAsync(ocrValue, 1).Result;
+			if (!(ocrResult.Value > 0)) return new OcrResult<IPokemon>(false, ocrResult.Key);
+			var similarPokemon = PokemonService.GetSimilarRaidbossByNameAsync(ocrResult.Key, 3).Result;
 			if (similarPokemon.Count == 0)
 			{
-				return new OcrResult(false);
+				return new OcrResult<IPokemon>(false, ocrResult.Key);
 			}
-
-			var results = similarPokemon.Select(kvp => new KeyValuePair<string, double>(kvp.Key.Name, kvp.Value)).ToArray();
-			return new OcrResult(true, results);
+			var results = similarPokemon.Select(kvp => new KeyValuePair<IPokemon, double>(kvp.Key, kvp.Value)).ToArray();
+			return new OcrResult<IPokemon> (true, ocrResult.Key, results);
 		}
 
-		private async Task<OcrResult> GetTimerValue(Image<Rgba32> imageFragment, TesseractEngine engine, ImageFragmentType imageFragmentType)
+		private async Task<OcrResult<TimeSpan>> GetTimerValue(Image<Rgba32> imageFragment, TesseractEngine engine, ImageFragmentType imageFragmentType)
 	    {
 			imageFragment.Mutate(m => m.Invert().BinaryThreshold(0.1f));
 			if (SaveDebugImages)
 			{
 				imageFragment.Save($"_{imageFragmentType}_Step1_Binary.png");
 			}
-			return await GetOcrResultAsync(imageFragment, engine);
+			var result = await GetOcrResultAsync(imageFragment, engine);
+		    
+		    if (result.Value > 0 && TimeSpan.TryParse(result.Key, out TimeSpan timeSpan))
+		    {
+			    return new OcrResult<TimeSpan>(true, result.Key,
+				    new[] {new KeyValuePair<TimeSpan, double>(timeSpan, result.Value)});
+		    }
+			return new OcrResult<TimeSpan>(false, result.Key);
 		}
 
 
-		private async Task<OcrResult> GetOcrResultAsync(Image<Rgba32> imageFragment, TesseractEngine engine)
+		private async Task<KeyValuePair<string, double>> GetOcrResultAsync(Image<Rgba32> imageFragment, TesseractEngine engine)
 	    {
 			var tempImageFile = CreateTempImageFile(imageFragment);
 		    try
@@ -374,9 +408,7 @@ namespace Raidfelden.Discord.Bot.Services
 					{
 						var value = RemoveUnwantedCharacters(page.GetText());
 						var probability = page.GetMeanConfidence();
-						return
-							await Task.FromResult(new OcrResult(probability > 0,
-								new[] {new KeyValuePair<string, double>(value, probability),}));
+						return await Task.FromResult(new KeyValuePair<string, double>(value, probability));
 					}
 				}
 			}
@@ -498,17 +530,32 @@ namespace Raidfelden.Discord.Bot.Services
 		    Context?.Dispose();
 	    }
 
-	    private class OcrResult
+	    private class OcrResult<T>
 		{
-			public OcrResult(bool isSuccess, KeyValuePair<string, double>[] results = null)
+			public OcrResult(bool isSuccess, string ocrValue, KeyValuePair<T, double>[] results = null)
 			{
 				IsSuccess = isSuccess;
+				OcrValue = ocrValue;
 				Results = results;
 			}
 
 			public bool IsSuccess { get; }
-			public KeyValuePair<string, double>[] Results { get; }
-			public string Value { get { return Results[0].Key; } }
+			public KeyValuePair<T, double>[] Results { get; }
+			private string OcrValue { get; }
+
+			public T GetFirst()
+			{
+				return Results[0].Key;
+			}
+		}
+
+		private class RaidOcrResult
+		{
+			public OcrResult<int> EggLevel { get; set; }
+			public OcrResult<TimeSpan> EggTimer { get; set; }
+			public OcrResult<Forts> Gym { get; set; }
+			public OcrResult<IPokemon> Pokemon { get; set; }
+			public OcrResult<TimeSpan> RaidTimer { get; set; }
 		}
 	}
 }

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Raidfelden.Discord.Bot.Utilities;
 using SimMetrics.Net.Metric;
 
 namespace Raidfelden.Discord.Bot.Services
@@ -28,17 +29,33 @@ namespace Raidfelden.Discord.Bot.Services
 
 	public class PokemonService : IPokemonService
 	{
+		protected LazyConcurrentDictionary<CultureInfo, List<IPokemon>> PokemonPerCulture { get; }
+		protected IRaidbossService RaidbossService { get; }
 		protected ILocalizationService LocalizationService { get; }
-
-		public PokemonService(IRaidbossService raidbossService, ILocalizationService localizationService)
+		protected IFileWatcherService FileWatcherService { get; }
+		
+		public PokemonService(IRaidbossService raidbossService, ILocalizationService localizationService, IFileWatcherService fileWatcherService)
 		{
 			LocalizationService = localizationService;
+			FileWatcherService = fileWatcherService;
 			RaidbossService = raidbossService;
-			PokemonPerCulture = new Dictionary<CultureInfo, List<IPokemon>>();
-			var pokemon = LoadFromJson(@"de.pokemon.json");
-			PokemonPerCulture.Add(CultureInfo.GetCultureInfo("de-DE"), pokemon);
-			pokemon = LoadFromJson(@"en.pokemon.json");
-			PokemonPerCulture.Add(CultureInfo.GetCultureInfo("en-US"), pokemon);
+			PokemonPerCulture = new LazyConcurrentDictionary<CultureInfo, List<IPokemon>>();
+			LoadPokemon("de-DE");
+			LoadPokemon("en-US");
+		}
+
+		private void LoadPokemon(string culture)
+		{
+			var cultureInfo = CultureInfo.GetCultureInfo(culture);
+			var path = Path.Combine("Resources", cultureInfo.TwoLetterISOLanguageName + ".pokemon.json");
+			AddOrUpdateCache(cultureInfo, path);
+			FileWatcherService.Add(path, NotifyFilters.LastWrite, s => AddOrUpdateCache(cultureInfo, s));
+		}
+
+		private void AddOrUpdateCache(CultureInfo culture, string path)
+		{
+			var pokemon = LoadFromJson(path);
+			PokemonPerCulture.AddOrUpdate(culture, pokemon, info => pokemon);
 		}
 
 		private List<IPokemon> LoadFromJson(string jsonPath)
@@ -79,17 +96,19 @@ namespace Raidfelden.Discord.Bot.Services
 			return result;
 		}
 
-		protected Dictionary<CultureInfo, List<IPokemon>> PokemonPerCulture { get; }
-		protected IRaidbossService RaidbossService { get; }
 		protected List<IPokemon> Pokemon
         {
             get
             {
-                if (PokemonPerCulture.ContainsKey(Thread.CurrentThread.CurrentUICulture))
-                {
-                    return PokemonPerCulture[Thread.CurrentThread.CurrentUICulture];
-                }
-                return PokemonPerCulture[CultureInfo.GetCultureInfo("de-DE")];
+				if (PokemonPerCulture.TryGetValue(Thread.CurrentThread.CurrentUICulture, out List<IPokemon> pokemonForCulture))
+				{
+					return pokemonForCulture;
+				}
+				if (PokemonPerCulture.TryGetValue(CultureInfo.GetCultureInfo("de-DE"), out List<IPokemon> pokemonFallback))
+				{
+					return pokemonFallback;
+				}
+				throw new InvalidOperationException("Keine Pokemon gefunden");
             }
         }
 

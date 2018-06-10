@@ -6,6 +6,7 @@ using Raidfelden.Discord.Bot.Utilities;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -38,34 +39,35 @@ namespace Raidfelden.Discord.Bot.Modules
             {
                 using (var engine = new TesseractEngine(@"./tessdata", "deu+eng", EngineMode.Default, "bazaar"))
                 {
-                    foreach (var attachment in Context.Message.Attachments)
-                    {
-                        if (IsImageUrl(attachment.Url))
-                        {
-                            string tempImageFile = string.Empty;
-                            try
-                            {
-                                tempImageFile = Path.GetTempFileName() + "." + attachment.Url.Split('.').Last();
-                                await DownloadAsync(new Uri(attachment.Url), tempImageFile);
-                                var response = OcrService.AddRaidAsync(tempImageFile, 4, Fences, false);
-                                await ReplyWithInteractive(() => response, "OCR-Erkennung erfolgreich");
-                            }
-                            finally
-                            {
-                                try
-                                {
-                                    if (File.Exists(tempImageFile))
-                                    {
-                                        File.Delete(tempImageFile);
-                                    }
-                                }
-                                catch (Exception)
-                                {
-                                    // Ignore
-                                }
-                            }
-                        }
-                    }
+	                using (var httpClient = new HttpClient())
+	                {
+		                foreach (var attachment in Context.Message.Attachments)
+		                {
+			                if (!await IsImageUrlAsync(httpClient, attachment.Url)) continue;
+			                var tempImageFile = string.Empty;
+			                try
+			                {
+				                tempImageFile = Path.GetTempFileName() + "." + attachment.Url.Split('.').Last();
+				                await DownloadAsync(httpClient, new Uri(attachment.Url), tempImageFile);
+				                var response = OcrService.AddRaidAsync(tempImageFile, 4, Fences, false);
+				                await ReplyWithInteractive(() => response, "OCR-Erkennung erfolgreich");
+			                }
+			                finally
+			                {
+				                try
+				                {
+					                if (File.Exists(tempImageFile))
+					                {
+						                File.Delete(tempImageFile);
+					                }
+				                }
+				                catch (Exception)
+				                {
+					                // Ignore
+				                }
+			                }
+		                }
+	                }
                 }
             }
             catch (Exception ex)
@@ -75,23 +77,28 @@ namespace Raidfelden.Discord.Bot.Modules
             }
         }
 
-        private bool IsImageUrl(string url)
+        private async Task<bool> IsImageUrlAsync(HttpClient httpClient, string url)
         {
-            return true;
-        }
+	        using (var request = new HttpRequestMessage(HttpMethod.Head, url))
+	        {
+		        var response = await httpClient.SendAsync(request);
+				if (response.Headers.TryGetValues("content-type", out IEnumerable<string> values))
+				{
+					return values.Any(e => e.ToLowerInvariant().StartsWith("image/"));
+				}
+		        return false;
+	        }
+		}
 
-        private static async Task DownloadAsync(Uri requestUri, string filename)
+        private static async Task DownloadAsync(HttpClient httpClient, Uri requestUri, string filename)
         {
-            using (var httpClient = new HttpClient())
+            using (var request = new HttpRequestMessage(HttpMethod.Get, requestUri))
             {
-                using (var request = new HttpRequestMessage(HttpMethod.Get, requestUri))
+                using (
+                    Stream contentStream = await (await httpClient.SendAsync(request)).Content.ReadAsStreamAsync(),
+                    stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true))
                 {
-                    using (
-                        Stream contentStream = await (await httpClient.SendAsync(request)).Content.ReadAsStreamAsync(),
-                        stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true))
-                    {
-                        await contentStream.CopyToAsync(stream);
-                    }
+                    await contentStream.CopyToAsync(stream);
                 }
             }
         }
@@ -107,8 +114,7 @@ namespace Raidfelden.Discord.Bot.Modules
                     return;
                 }
 
-				//Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
-				//Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
+				Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
 				var response = RaidService.AddAsync(gymName, pokemonNameOrRaidLevel, timeLeft, 4, Fences);
                 await ReplyWithInteractive(() => response, "Raid erfolgreich eingetragen");
             }
@@ -129,7 +135,6 @@ namespace Raidfelden.Discord.Bot.Modules
                 {
                     return;
                 }
-
 
 				Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");				
 				var response = RaidService.HatchAsync(gymName, pokemonName, 4, Fences);

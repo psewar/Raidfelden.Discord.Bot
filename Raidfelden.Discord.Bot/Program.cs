@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Raidfelden.Discord.Bot.Resources;
 using Raidfelden.Discord.Bot.Configuration.Providers.Fences.Novabot;
 using Discord.Addons.Interactive;
@@ -99,10 +100,14 @@ namespace Raidfelden.Discord.Bot
 
         private async Task _client_DisconnectedAsync(Exception arg)
         {
-            // This is probably not needed on windows machine, but on my mac server I get frequent disconnectes from which the bot can't recover
-            // So I stop the bot with an exit code and wait for the sh script to restart the bot
-            Console.WriteLine("Got a disconnect, closing the Bot and wait for the script to restart it");
-            Environment.Exit(1);
+			// This is probably not needed on windows machine, but on my mac server I get frequent disconnectes from which the bot can't recover
+			// So I stop the bot with an exit code and wait for the sh script to restart the bot
+	        bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+	        if (!isWindows)
+	        {
+		        Console.WriteLine("Got a disconnect, closing the Bot and wait for the script to restart it");
+		        Environment.Exit(1);
+	        }
         }
 
         private Task Log(LogMessage arg)
