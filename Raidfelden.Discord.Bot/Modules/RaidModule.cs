@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using NodaTime;
 
 namespace Raidfelden.Discord.Bot.Modules
 {
@@ -31,7 +32,10 @@ namespace Raidfelden.Discord.Bot.Modules
 	    {
 		    try
 		    {
-			    using (var httpClient = new HttpClient())
+				var utcNow = SystemClock.Instance.GetCurrentInstant().InUtc();
+				// Subtract around 30 seconds to account for the delay to take and send a screenshot
+			    utcNow = utcNow.Minus(Duration.FromSeconds(30));
+				using (var httpClient = new HttpClient())
 			    {
 				    foreach (var attachment in Context.Message.Attachments)
 				    {
@@ -41,7 +45,7 @@ namespace Raidfelden.Discord.Bot.Modules
 					    {
 						    tempImageFile = Path.GetTempFileName() + "." + attachment.Url.Split('.').Last();
 						    await DownloadAsync(httpClient, new Uri(attachment.Url), tempImageFile);
-						    var response = OcrService.AddRaidAsync(tempImageFile, 4, Fences, false);
+						    var response = OcrService.AddRaidAsync(utcNow, tempImageFile, 4, Fences, false);
 						    await ReplyWithInteractive(() => response, LocalizationService.Get("Raids_Messages_Ocr_Successful_Title"));
 					    }
 					    finally
@@ -108,7 +112,8 @@ namespace Raidfelden.Discord.Bot.Modules
                 }
 
 				//Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
-				var response = RaidService.AddAsync(gymName, pokemonNameOrRaidLevel, timeLeft, 4, Fences);
+				var utcNow = SystemClock.Instance.GetCurrentInstant().InUtc();
+				var response = RaidService.AddAsync(utcNow, gymName, pokemonNameOrRaidLevel, timeLeft, 4, Fences);
                 await ReplyWithInteractive(() => response, LocalizationService.Get("Raids_Messages_Successful_Title"));
             }
             catch (Exception ex)
@@ -128,8 +133,9 @@ namespace Raidfelden.Discord.Bot.Modules
                 {
                     return;
                 }
-				
-				var response = RaidService.HatchAsync(gymName, pokemonName, 4, Fences);
+
+				var utcNow = SystemClock.Instance.GetCurrentInstant().InUtc();
+				var response = RaidService.HatchAsync(utcNow, gymName, pokemonName, 4, Fences);
                 await ReplyWithInteractive(() => response, LocalizationService.Get("Raids_Messages_Successful_Title"));
             }
             catch (Exception ex)

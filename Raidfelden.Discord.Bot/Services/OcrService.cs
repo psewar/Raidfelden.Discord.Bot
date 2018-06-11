@@ -19,12 +19,13 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Text;
+using NodaTime;
 
 namespace Raidfelden.Discord.Bot.Services
 {
 	public interface IOcrService
 	{
-		Task<ServiceResponse> AddRaidAsync(string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode);
+		Task<ServiceResponse> AddRaidAsync(ZonedDateTime requestStartInUtc, string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode);
 	}
 
 	public class OcrService : IOcrService, IDisposable
@@ -45,7 +46,7 @@ namespace Raidfelden.Discord.Bot.Services
             RaidService = raidService;
 	    }
 
-	    public async Task<ServiceResponse> AddRaidAsync(string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode)
+	    public async Task<ServiceResponse> AddRaidAsync(ZonedDateTime requestStartInUtc, string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode)
 	    {
 		    SaveDebugImages = testMode;
 			using (var image = Image.Load(filePath))
@@ -58,6 +59,16 @@ namespace Raidfelden.Discord.Bot.Services
 				}
 				string message;
 				var raidOcrResult = await GetFragmentResultAsync(image, configuration, Context, fences);
+
+				var isRaidBoss = raidOcrResult.RaidTimer.IsSuccess;
+				if (isRaidBoss)
+				{
+					
+				}
+				else
+				{
+					
+				}
 				/*
 				if (!raidOcrResult.Pokemon.IsSuccess || raidOcrResult.Pokemon.Results.Length == 0)
 				{
@@ -89,7 +100,7 @@ namespace Raidfelden.Discord.Bot.Services
 
 					if (!testMode)
 					{
-						return await RaidService.AddAsync(gym.Name, pokemon.Name, timer.ToString(@"mm\:ss"), interactiveLimit, fences);
+						return await RaidService.AddAsync(requestStartInUtc, gym.Name, pokemon.Name, timer.ToString(@"mm\:ss"), interactiveLimit, fences);
 					}
 					else
 					{
@@ -102,7 +113,7 @@ namespace Raidfelden.Discord.Bot.Services
 					var timer = raidOcrResult.EggTimer.GetFirst();
 					if (!testMode)
 					{
-						return await RaidService.AddAsync(gym.Name, eggLevel.ToString(CultureInfo.InvariantCulture), timer.ToString(@"mm\:ss"), interactiveLimit, fences);
+						return await RaidService.AddAsync(requestStartInUtc, gym.Name, eggLevel.ToString(CultureInfo.InvariantCulture), timer.ToString(@"mm\:ss"), interactiveLimit, fences);
 					}
 					else{message =$".raids add \"{gym.Name}\" \"{eggLevel}\" {string.Concat(timer.Minutes, ":", timer.Seconds)}";}
 				}

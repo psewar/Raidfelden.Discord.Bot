@@ -16,6 +16,8 @@ namespace Raidfelden.Discord.Bot.Configuration
         public string DefaultCommandPrefix { get; set; }
         public GuildConfiguration[] Guilds { get; set; }
         public OcrConfiguration OcrConfiguration { get; set; }
+	    public string Timezone { get; set; }
+
     }
 
     public class GuildConfiguration
@@ -40,7 +42,8 @@ namespace Raidfelden.Discord.Bot.Configuration
         public bool IsWildcardChannelWithFenceInName { get; set; }
         public bool IsOcrAllowed { get; set; }
 	    public string CultureCode { get; set; }
-    }
+		public string Timezone { get; set; }
+	}
 
     public class RaidChannel : ChannelConfiguration { }
 

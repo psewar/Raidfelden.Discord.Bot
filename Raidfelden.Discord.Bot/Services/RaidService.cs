@@ -12,8 +12,8 @@ namespace Raidfelden.Discord.Bot.Services
 {
     public interface IRaidService
     {
-        Task<ServiceResponse> AddAsync(string gymName, string pokemonNameOrLevel, string timeLeft, int interactiveLimit, FenceConfiguration[] fences);
-        Task<ServiceResponse> HatchAsync(string gymName, string pokemonName, int interactiveLimit, FenceConfiguration[] fences);
+        Task<ServiceResponse> AddAsync(ZonedDateTime requestStartInUtc, string gymName, string pokemonNameOrLevel, string timeLeft, int interactiveLimit, FenceConfiguration[] fences);
+        Task<ServiceResponse> HatchAsync(ZonedDateTime requestStartInUtc, string gymName, string pokemonName, int interactiveLimit, FenceConfiguration[] fences);
     }
 
     public class RaidService : IRaidService
@@ -35,15 +35,15 @@ namespace Raidfelden.Discord.Bot.Services
 
         #region Add
 
-        public async Task<ServiceResponse> AddAsync(string gymName, string pokemonNameOrLevel, string timeLeft, int interactiveLimit, FenceConfiguration[] fences)
+        public async Task<ServiceResponse> AddAsync(ZonedDateTime requestStartInUtc, string gymName, string pokemonNameOrLevel, string timeLeft, int interactiveLimit, FenceConfiguration[] fences)
         {
-			var startEndTime = GetStartEndDateTime(timeLeft);
+			var startEndTime = GetTimeSpan(timeLeft);
             if (!startEndTime.HasValue) { return new ServiceResponse(false, LocalizationService.Get("Raids_Errors_TimeFormat")); }
 
-            return await AddResolvePokemonOrLevelAsync(gymName, pokemonNameOrLevel, startEndTime.Value, interactiveLimit, fences);
+            return await AddResolvePokemonOrLevelAsync(requestStartInUtc, gymName, pokemonNameOrLevel, startEndTime.Value, interactiveLimit, fences);
         }
 
-        private async Task<ServiceResponse> AddResolvePokemonOrLevelAsync(string gymName, string pokemonNameOrLevel, DateTime startEndTime, int interactiveLimit, FenceConfiguration[] fences)
+        private async Task<ServiceResponse> AddResolvePokemonOrLevelAsync(ZonedDateTime requestStartInUtc, string gymName, string pokemonNameOrLevel, TimeSpan timeSpan, int interactiveLimit, FenceConfiguration[] fences)
         {
             if (int.TryParse(pokemonNameOrLevel, out int raidLevel))
             {
@@ -56,40 +56,45 @@ namespace Raidfelden.Discord.Bot.Services
                 {
                     return new ServiceResponse(false, LocalizationService.Get("Raids_Errors_LevelToHigh"));
                 }
-                return await AddResolveGymAsync(gymName, Convert.ToByte(raidLevel), null, null, startEndTime, interactiveLimit, fences);
+                return await AddResolveGymAsync(requestStartInUtc, gymName, Convert.ToByte(raidLevel), null, null, timeSpan, interactiveLimit, fences);
             }
 
-            var pokemonResponse = await PokemonService.GetPokemonAndRaidbossAsync(pokemonNameOrLevel, interactiveLimit, (selectedPokemonName) => AddResolvePokemonOrLevelAsync(gymName, selectedPokemonName, startEndTime, interactiveLimit, fences));
+            var pokemonResponse = await PokemonService.GetPokemonAndRaidbossAsync(pokemonNameOrLevel, interactiveLimit, (selectedPokemonName) => AddResolvePokemonOrLevelAsync(requestStartInUtc, gymName, selectedPokemonName, timeSpan, interactiveLimit, fences));
             if (!pokemonResponse.IsSuccess) { return pokemonResponse; }
 
             var pokemonAndRaidboss = pokemonResponse.Result;
             var pokemon = pokemonAndRaidboss.Key;
             var raidboss = pokemonAndRaidboss.Value;
-            return await AddResolveGymAsync(gymName, Convert.ToByte(raidboss.Level), pokemon, raidboss, startEndTime, interactiveLimit, fences);
+            return await AddResolveGymAsync(requestStartInUtc, gymName, Convert.ToByte(raidboss.Level), pokemon, raidboss, timeSpan, interactiveLimit, fences);
         }
 
-        private async Task<ServiceResponse> AddResolveGymAsync(string gymName, byte level, IPokemon pokemon, IRaidboss raidboss, DateTime startEndTime, int interactiveLimit, FenceConfiguration[] fences)
+        private async Task<ServiceResponse> AddResolveGymAsync(ZonedDateTime requestStartInUtc, string gymName, byte level, IPokemon pokemon, IRaidboss raidboss, TimeSpan timeSpan, int interactiveLimit, FenceConfiguration[] fences)
         {
-            var gymResponse = await GymService.GetGymAsync(Context, gymName, interactiveLimit, (selectedGymId) => AddResolveGymAsync(selectedGymId, level, pokemon, raidboss, startEndTime, interactiveLimit, fences), fences);
+            var gymResponse = await GymService.GetGymAsync(Context, gymName, interactiveLimit, (selectedGymId) => AddResolveGymAsync(requestStartInUtc, selectedGymId, level, pokemon, raidboss, timeSpan, interactiveLimit, fences), fences);
             if (!gymResponse.IsSuccess) { return gymResponse; }
 
-            return await AddSaveAsync(Context, gymResponse.Result, level, pokemon, raidboss, startEndTime);
+            return await AddSaveAsync(requestStartInUtc, Context, gymResponse.Result, level, pokemon, raidboss, timeSpan);
         }
 
-        private async Task<ServiceResponse> AddResolveGymAsync(int gymId, byte level, IPokemon pokemon, IRaidboss raidboss, DateTime startEndTime, int interactiveLimit, FenceConfiguration[] fences)
+        private async Task<ServiceResponse> AddResolveGymAsync(ZonedDateTime requestStartInUtc, int gymId, byte level, IPokemon pokemon, IRaidboss raidboss, TimeSpan timeSpan, int interactiveLimit, FenceConfiguration[] fences)
         {
             var gym = await Context.Forts.SingleAsync(e => e.Id == gymId);
-            return await AddSaveAsync(Context, gym, level, pokemon, raidboss, startEndTime);
+            return await AddSaveAsync(requestStartInUtc, Context, gym, level, pokemon, raidboss, timeSpan);
         }
 
-        private async Task<ServiceResponse> AddSaveAsync(Hydro74000Context context, Forts gym, byte level, IPokemon pokemon, IRaidboss raidboss, DateTime startEndTime)
+	    private readonly Duration _eggDuration = Duration.FromMinutes(60);
+		private readonly Duration _raidDuration = Duration.FromMinutes(45);
+
+        private async Task<ServiceResponse> AddSaveAsync(ZonedDateTime requestStartInUtc, Hydro74000Context context, Forts gym, byte level, IPokemon pokemon, IRaidboss raidboss, TimeSpan timeSpan)
         {
-            var localDateTime = new LocalDateTime(startEndTime.Year, startEndTime.Month, startEndTime.Day, startEndTime.Hour, startEndTime.Minute, startEndTime.Second);
-            var expiry = new ZonedDateTime(localDateTime, DateTimeZone.Utc, Offset.Zero).ToInstant();
-            var expiryUtc = expiry.Minus(Duration.FromHours(2)); //UTC Time Hotfix
+	        var utcNowAfterProcessing = SystemClock.Instance.GetCurrentInstant().InUtc();
+	        var processingTime = utcNowAfterProcessing.Minus(requestStartInUtc);
+	        var durationMinusProcessing = Duration.FromTimeSpan(timeSpan).Minus(processingTime);
+
+	        var expiry = utcNowAfterProcessing.Plus(durationMinusProcessing).ToInstant();
 
             // Create the raid entry
-            var beforeSpawnTime = SystemClock.Instance.GetCurrentInstant().Minus(Duration.FromMinutes(90)).ToUnixTimeSeconds();
+            var beforeSpawnTime = utcNowAfterProcessing.Minus(Duration.FromMinutes(105)).ToInstant().ToUnixTimeSeconds();
             var raid = context.Raids.FirstOrDefault(e => e.FortId == gym.Id && e.TimeSpawn > beforeSpawnTime);
             if (raid == null)
             {
@@ -106,9 +111,9 @@ namespace Raidfelden.Discord.Bot.Services
             if (raidboss == null)
             {
                 raid.Level = level;
-                raid.TimeSpawn = (int)expiryUtc.Minus(Duration.FromMinutes(60)).ToUnixTimeSeconds();
-                raid.TimeBattle = (int)expiryUtc.ToUnixTimeSeconds();
-                raid.TimeEnd = (int)expiryUtc.Plus(Duration.FromMinutes(45)).ToUnixTimeSeconds();
+                raid.TimeSpawn = (int)expiry.Minus(_eggDuration).ToUnixTimeSeconds();
+                raid.TimeBattle = (int)expiry.ToUnixTimeSeconds();
+                raid.TimeEnd = (int)expiry.Plus(_raidDuration).ToUnixTimeSeconds();
                 //message = $"Level {level} Raid an der Arena \"{gym.Name}\", Start um {expiry.ToString("HH:mm:ss", CultureInfo.InvariantCulture)}";
 	            message = LocalizationService.Get("Raids_Messages_EggAdded", level, gym.Name, FormatExpiry(expiry));
             }
@@ -116,9 +121,9 @@ namespace Raidfelden.Discord.Bot.Services
             {
                 raid.PokemonId = (short)raidboss.Id;
                 raid.Level = level;
-                raid.TimeSpawn = (int)expiryUtc.Minus(Duration.FromMinutes(105)).ToUnixTimeSeconds();
-                raid.TimeBattle = (int)expiryUtc.Minus(Duration.FromMinutes(45)).ToUnixTimeSeconds();
-                raid.TimeEnd = (int)expiryUtc.ToUnixTimeSeconds();
+                raid.TimeSpawn = (int)expiry.Minus(Duration.FromMinutes(105)).ToUnixTimeSeconds();
+                raid.TimeBattle = (int)expiry.Minus(Duration.FromMinutes(45)).ToUnixTimeSeconds();
+                raid.TimeEnd = (int)expiry.ToUnixTimeSeconds();
 				//message = $"{pokemon.Name} an der Arena \"{gym.Name}\", Ende um {expiry.ToString("HH:mm:ss", CultureInfo.InvariantCulture)}";
 				message = LocalizationService.Get("Raids_Messages_BossAdded", pokemon.Name, gym.Name, FormatExpiry(expiry));
 			}
@@ -127,58 +132,53 @@ namespace Raidfelden.Discord.Bot.Services
             return new ServiceResponse(true, message);
         }
 
-        private DateTime? GetStartEndDateTime(string timeLeft)
+        private TimeSpan? GetTimeSpan(string timeLeft)
         {
-            var timeParts = timeLeft.Split(":", StringSplitOptions.RemoveEmptyEntries);
-            int secondsToAdd;
-            switch (timeParts.Length)
-            {
-                case 2:
-                    var minutes = int.Parse(timeParts[0]);
-                    var seconds = int.Parse(timeParts[1]);
-                    secondsToAdd = minutes * 60 + seconds;
-                    break;
-                case 1:
-                    var minutesOnly = int.Parse(timeParts[0]);
-                    secondsToAdd = minutesOnly * 60;
-                    break;
-                default:
-                    return null;
-            }
-            return DateTime.Now.AddSeconds(secondsToAdd);
+	        if (!timeLeft.Contains(":"))
+	        {
+		        timeLeft = string.Concat(timeLeft, ":00");
+	        }
+	        if (TimeSpan.TryParseExact(timeLeft, "mm\\:ss", CultureInfo.InvariantCulture, out TimeSpan result))
+	        {
+		        return result;
+	        }
+	        return null;
         }
 
 	    private string FormatExpiry(Instant instant)
 	    {
-		    return instant.ToString("HH:mm:ss", CultureInfo.InvariantCulture);
-
+			// TODO: Use UserZone
+			var zurichZone = DateTimeZoneProviders.Tzdb["Europe/Zurich"];
+		    var userTime = instant.InZone(zurichZone);
+		    userTime = instant.InUtc();
+			return userTime.ToString("HH:mm:ss", CultureInfo.InvariantCulture);
 	    }
 
         #endregion
 
         #region Hatch
 
-        public async Task<ServiceResponse> HatchAsync(string gymName, string pokemonName, int interactiveLimit, FenceConfiguration[] fences)
+        public async Task<ServiceResponse> HatchAsync(ZonedDateTime requestStartInUtc, string gymName, string pokemonName, int interactiveLimit, FenceConfiguration[] fences)
         {
-            var pokemonResponse = await PokemonService.GetPokemonAndRaidbossAsync(pokemonName, interactiveLimit, (selectedPokemonName) => HatchAsync(gymName, selectedPokemonName, interactiveLimit, fences));
+            var pokemonResponse = await PokemonService.GetPokemonAndRaidbossAsync(pokemonName, interactiveLimit, (selectedPokemonName) => HatchAsync(requestStartInUtc, gymName, selectedPokemonName, interactiveLimit, fences));
             if (!pokemonResponse.IsSuccess) { return pokemonResponse; }
 
             var pokemonAndRaidboss = pokemonResponse.Result;
             var pokemon = pokemonAndRaidboss.Key;
             var raidboss = pokemonAndRaidboss.Value;
 
-            return await HatchResolveGymAsync(gymName, pokemon, raidboss, interactiveLimit, fences);
+            return await HatchResolveGymAsync(requestStartInUtc, gymName, pokemon, raidboss, interactiveLimit, fences);
         }
 
-        public async Task<ServiceResponse> HatchResolveGymAsync(string gymName, IPokemon pokemon, IRaidboss raidboss, int interactiveLimit, FenceConfiguration[] fences)
+        public async Task<ServiceResponse> HatchResolveGymAsync(ZonedDateTime requestStartInUtc, string gymName, IPokemon pokemon, IRaidboss raidboss, int interactiveLimit, FenceConfiguration[] fences)
         {
-            var gymResponse = await GymService.GetGymAsync(Context, gymName, interactiveLimit, (selectedGymId) => HatchResolveGymWithIdAsync(selectedGymId, pokemon, raidboss, interactiveLimit), fences);
+            var gymResponse = await GymService.GetGymAsync(Context, gymName, interactiveLimit, (selectedGymId) => HatchResolveGymWithIdAsync(requestStartInUtc, selectedGymId, pokemon, raidboss, interactiveLimit), fences);
             if (!gymResponse.IsSuccess) { return gymResponse; }
 
             return await HatchSaveAsync(Context, gymResponse.Result, pokemon, raidboss, interactiveLimit);
         }
 
-        public async Task<ServiceResponse> HatchResolveGymWithIdAsync(int gymId, IPokemon pokemon, IRaidboss raidboss, int interactiveLimit)
+        public async Task<ServiceResponse> HatchResolveGymWithIdAsync(ZonedDateTime requestStartInUtc, int gymId, IPokemon pokemon, IRaidboss raidboss, int interactiveLimit)
         {
             var gym = await Context.Forts.SingleAsync(e => e.Id == gymId);
             return await HatchSaveAsync(Context, gym, pokemon, raidboss, interactiveLimit);

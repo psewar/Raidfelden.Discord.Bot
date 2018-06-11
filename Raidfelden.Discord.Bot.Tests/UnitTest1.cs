@@ -1,8 +1,11 @@
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Globalization;
 using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using NodaTime;
+using NodaTime.Extensions;
 using Raidfelden.Discord.Bot.Configuration;
 using Raidfelden.Discord.Bot.Configuration.Providers.Fences.Novabot;
 using Raidfelden.Discord.Bot.Monocle;
@@ -268,8 +271,21 @@ namespace Raidfelden.Discord.Bot.Tests
 
 		private string GetOcrResult(OcrService ocrService, string filePath, FenceConfiguration[] fences = null)
 	    {
-		    var result = ocrService.AddRaidAsync(filePath, 4, fences, true).Result;
+			var utcNow = SystemClock.Instance.GetCurrentInstant().InUtc();
+			var result = ocrService.AddRaidAsync(utcNow, filePath, 4, fences, true).Result;
 		    return result.Message;
+	    }
+
+		[TestMethod]
+	    public void TimezoneTest()
+	    {
+		    var utcNow = SystemClock.Instance.GetCurrentInstant().InUtc();
+			var newYorkZone = DateTimeZoneProviders.Tzdb["America/New_York"];
+			var zurichZone = DateTimeZoneProviders.Tzdb["Europe/Zurich"];
+		    var newYorkTime = utcNow.WithZone(newYorkZone);
+		    var zurichTime = utcNow.WithZone(zurichZone);
+			var timeSpanToAdd = new TimeSpan(0,30,10);
+		    var zurichPlusTimeSpan = zurichTime.Plus(Duration.FromTimeSpan(timeSpanToAdd));
 	    }
     }
 }
