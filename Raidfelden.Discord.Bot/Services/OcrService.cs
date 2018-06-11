@@ -200,8 +200,8 @@ namespace Raidfelden.Discord.Bot.Services
 		    var result = new RaidOcrResult();
 			var fragmentTypes = Enum.GetValues(typeof(ImageFragmentType)).Cast<ImageFragmentType>();
 			
-			foreach (var type in fragmentTypes)
-		    //Parallel.ForEach(fragmentTypes, type =>
+			//foreach (var type in fragmentTypes)
+		    Parallel.ForEach(fragmentTypes, type =>
 		    {
 			    using (var imageFragment = image.Clone(e => e.Crop(imageConfiguration[type])))
 			    {
@@ -225,7 +225,7 @@ namespace Raidfelden.Discord.Bot.Services
 				    }
 			    }
 		    }
-			//);
+			);
 
 		    return await Task.FromResult(result);
 			/*using (var imageFragment = image.Clone(e => e.Crop(imageConfiguration[fragmentType])))
@@ -454,7 +454,7 @@ namespace Raidfelden.Discord.Bot.Services
                     arguments.Append(" " + ocrConfiguration.AdditionalParameters);
                 }
                 arguments.Append(" -l " + languages);    // Languages.
-                arguments.Append(" " + Path.Combine(tessdataDir, @"configs\bazaar"));    // Config.
+                arguments.Append(" " + Path.Combine(tessdataDir, "configs", "bazaar"));    // Config.
 
                 ProcessStartInfo info = new ProcessStartInfo();
                 //info.WorkingDirectory = tesseractPath;

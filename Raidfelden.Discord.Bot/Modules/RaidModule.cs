@@ -76,11 +76,11 @@ namespace Raidfelden.Discord.Bot.Modules
 	        using (var request = new HttpRequestMessage(HttpMethod.Head, url))
 	        {
 		        var response = await httpClient.SendAsync(request);
-				if (response.Headers.TryGetValues("content-type", out IEnumerable<string> values))
-				{
-					return values.Any(e => e.ToLowerInvariant().StartsWith("image/"));
-				}
-		        return false;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.Headers.ContentType.MediaType.StartsWith("image/");
+                }
+				return false;
 	        }
 		}
 
@@ -108,7 +108,7 @@ namespace Raidfelden.Discord.Bot.Modules
                     return;
                 }
 
-				Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
+				//Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
 				var response = RaidService.AddAsync(gymName, pokemonNameOrRaidLevel, timeLeft, 4, Fences);
                 await ReplyWithInteractive(() => response, "Raid erfolgreich eingetragen");
             }

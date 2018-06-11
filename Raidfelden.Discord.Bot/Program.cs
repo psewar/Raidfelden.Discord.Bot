@@ -49,6 +49,7 @@ namespace Raidfelden.Discord.Bot
             section.Bind(config);
 
             var cultureInfo = new CultureInfo(config.CultureCode);
+            Thread.CurrentThread.CurrentUICulture = cultureInfo;
             i18n.Culture = cultureInfo;
 			new Program().RunBotAsync(config).GetAwaiter().GetResult();
         }
@@ -78,6 +79,7 @@ namespace Raidfelden.Discord.Bot
                 .AddSingleton<IEmojiService, EmojiService>()
                 .AddSingleton<IConfigurationService>(ConfigurationService)
                 .AddSingleton<InteractiveService>()
+                .AddSingleton<IFileWatcherService, FileWatcherService>()
                 .AddScoped<IOcrService, OcrService>()
                 .AddScoped<ITestModule, TestModule>()
 				.AddScoped<ILocalizationService, LocalizationService>()
