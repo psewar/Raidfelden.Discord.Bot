@@ -65,6 +65,7 @@ namespace Raidfelden.Discord.Bot.Modules
 		    {
 			    var innerstEx = ex.GetInnermostException();
 			    Console.WriteLine(innerstEx.Message);
+				Console.WriteLine(innerstEx.StackTrace);
 				await ReplyFailureAsync(LocalizationService.Get("Raids_Errors_Unexpected", innerstEx.Message));
 			}
 	    }
