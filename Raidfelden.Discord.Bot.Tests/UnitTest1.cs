@@ -214,7 +214,7 @@ namespace Raidfelden.Discord.Bot.Tests
 				var ocrService = GetOcrService(context);
 				Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
 				var text = GetOcrResult(ocrService, basePath + "Nexus900x1600Boss.png");
-				Assert.AreEqual(".raids add \"Helix Fountain\" \"Snorunt\" 41:4", text, true);
+				Assert.AreEqual(".raids add \"Helix Fountain\" \"Snorunt\" 41:40", text, true);
 			}
 		}
 
