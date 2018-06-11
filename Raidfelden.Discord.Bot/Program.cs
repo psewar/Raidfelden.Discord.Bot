@@ -110,6 +110,7 @@ namespace Raidfelden.Discord.Bot
 		        Console.WriteLine("Got a disconnect, closing the Bot and wait for the script to restart it");
 		        Environment.Exit(1);
 	        }
+            await Task.CompletedTask;
         }
 
         private Task Log(LogMessage arg)
