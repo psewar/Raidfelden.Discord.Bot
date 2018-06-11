@@ -51,8 +51,8 @@ namespace Raidfelden.Discord.Bot.Services
 			using (var image = Image.Load(filePath))
 			{
 				var configuration = GetConfiguration(image);
-				configuration.PreProcessImage(image);
-				if (SaveDebugImages)
+                configuration.PreProcessImage(image);
+                if (SaveDebugImages)
 				{
 					image.Save("_AfterPreprocess.png");
 				}
@@ -154,7 +154,17 @@ namespace Raidfelden.Discord.Bot.Services
 				configuration = new BottomMenu1080X1920Configuration();
 			}
 
-			return configuration;
+            if (image.Height == 1600 && image.Width == 739)
+            {
+                configuration = new WithoutMenu739X1600();
+            }
+
+            if (image.Height == 1600 && image.Width == 900 && HasBottomMenu(image))
+            {
+                configuration = new BottomMenu900X1600Configuration();
+            }
+
+            return configuration;
 		}
 
 		private bool HasTopMenu(Image<Rgba32> image)
@@ -252,7 +262,12 @@ namespace Raidfelden.Discord.Bot.Services
 
 		private async Task<OcrResult<int>> GetEggLevel(Image<Rgba32> imageFragment, BaseRaidImageConfiguration imageConfiguration)
 	    {
-			byte whiteThreshold = 250;
+            if (SaveDebugImages)
+            {
+                imageFragment.Save($"_{ImageFragmentType.EggLevel}_Step1_Analyze.png");
+            }
+
+            byte whiteThreshold = 240;
 			// Check the locations for level 1, 3 and 5 raids
 			var whitePixelCount = imageConfiguration.Level5Points.Select(levelPoint => imageFragment[levelPoint.X, levelPoint.Y]).Count(pixel => pixel.R > whiteThreshold && pixel.G > whiteThreshold && pixel.B > whiteThreshold && pixel.A > whiteThreshold);
 
@@ -438,7 +453,8 @@ namespace Raidfelden.Discord.Bot.Services
                 {
                     arguments.Append(" " + ocrConfiguration.AdditionalParameters);
                 }
-                arguments.Append(" -l" + languages);    // Languages.
+                arguments.Append(" -l " + languages);    // Languages.
+                arguments.Append(" " + Path.Combine(tessdataDir, @"configs\bazaar"));    // Config.
 
                 ProcessStartInfo info = new ProcessStartInfo();
                 //info.WorkingDirectory = tesseractPath;

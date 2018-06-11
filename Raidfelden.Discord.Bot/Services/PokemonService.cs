@@ -176,7 +176,7 @@ namespace Raidfelden.Discord.Bot.Services
 					   .OrderByDescending(e => e.Rank)
 					   .Where(e => e.Rank > 0.1f);
 			var raidbosses = RaidbossService.Raidbosses.Select(e => e.Id);
-			var rankedListFiltered = rankedList.Where(e => raidbosses.Contains(e.Pokemon.Id));
+			var rankedListFiltered = rankedList.Where(e => raidbosses.Contains(e.Pokemon.Id)).Take(limit);
 			return await Task.FromResult(rankedListFiltered.ToDictionary(k => k.Pokemon, v => v.Rank));
 		}
 	}

@@ -54,15 +54,12 @@ namespace Raidfelden.Discord.Bot.Tests
 				text = GetOcrResult(ocrService, basePath + "Schweizerkreuz_am_Bahnhof.png");
 				Assert.AreEqual(".raids add \"Schweizerkreuz am Bahnhof\" \"Flunkifer\" 41:29", text, true);
 
-				text = GetOcrResult(ocrService, basePath + "RaidLevel5.png");
-				Assert.AreEqual(".raids add \"Water-Pacman at MFO Park\" \"5\" 46:15", text, true);
-
-				text = GetOcrResult(ocrService, basePath + "RaidLevel4.png");
-				Assert.AreEqual(".raids add \"Bahnhof Graffiti Seebach\" \"4\" 48:34", text, true);
-
 				text = GetOcrResult(ocrService, basePath + "A la Loko - Kyogre.png");
 				Assert.AreEqual(".raids add \"A la Loko\" \"Kyogre\" 8:7", text, true);
-			}
+
+                text = GetOcrResult(ocrService, basePath + "RestzeitNichtAuswertbar.jpg");
+                Assert.AreEqual(".raids add \"COOP in Basel\" \"5\" 56:57", text, true);
+            }
         }
 
 		[TestMethod]
@@ -216,7 +213,7 @@ namespace Raidfelden.Discord.Bot.Tests
 			{
 				var ocrService = GetOcrService(context);
 				Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
-				var text = GetOcrResult(ocrService, basePath + "Nexus900x1600Egg.jpg");
+				var text = GetOcrResult(ocrService, basePath + "Nexus900x1600Boss.png");
 				Assert.AreEqual(".raids add \"Helix Fountain\" \"Snorunt\" 41:4", text, true);
 			}
 		}
@@ -232,6 +229,31 @@ namespace Raidfelden.Discord.Bot.Tests
 				Assert.AreEqual(".raids add \"Die Venus in den Büschen\" \"4\" 49:48", text, true);
 		    }
 	    }
+        [TestMethod]
+        public void EggLevels()
+        {
+            using (var context = new Hydro74000Context(ContextOptions))
+            {
+                var ocrService = GetOcrService(context);
+                var text = GetOcrResult(ocrService, basePath + "RaidLevel5.png");
+                Assert.AreEqual(".raids add \"Water-Pacman at MFO Park\" \"5\" 46:15", text, true);
+
+                text = GetOcrResult(ocrService, basePath + "RaidLevel4.png");
+                Assert.AreEqual(".raids add \"Bahnhof Graffiti Seebach\" \"4\" 48:34", text, true);
+
+                text = GetOcrResult(ocrService, basePath + "RaidLevel3.png");
+                Assert.AreEqual(".raids add \"Metallskulptur\" \"3\" 50:25", text, true);
+
+                text = GetOcrResult(ocrService, basePath + "RaidLevel2.png");
+                Assert.AreEqual(".raids add \"Kloos Tiki\" \"2\" 47:0", text, true);
+
+                text = GetOcrResult(ocrService, basePath + "RaidLevel1.png");
+                Assert.AreEqual(".raids add \"Brunnen Sternen Oerlikon\" \"1\" 46:55", text, true);
+
+                text = GetOcrResult(ocrService, basePath + "LevelWrong3Instead5.png");
+                Assert.AreEqual(".raids add \"Hasenberg\" \"5\" 10:14", text, true);
+            }
+        }
 
 	    private OcrService GetOcrService(Hydro74000Context context)
 	    {
