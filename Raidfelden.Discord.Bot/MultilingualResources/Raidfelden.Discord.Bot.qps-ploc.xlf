@@ -78,6 +78,34 @@
           <source>{0} {3}pokemon found that contain the word fragment "{1}". Please formulate the name a little more exactly, maximum {2} may remain for the interactive mode.</source>
           <target state="new">{0} {3}pokemon found that contain the word fragment "{1}". Please formulate the name a little more exactly, maximum {2} may remain for the interactive mode.</target>
         </trans-unit>
+        <trans-unit id="Raids_Messages_Successful_Text" translate="yes" xml:space="preserve">
+          <source>Thank you {0} I added the raid with the following parameters: </source>
+          <target state="new">Thank you {0} I added the raid with the following parameters: </target>
+        </trans-unit>
+        <trans-unit id="Raids_Messages_Successful_Title" translate="yes" xml:space="preserve">
+          <source>Raid addedd successfully</source>
+          <target state="new">Raid addedd successfully</target>
+        </trans-unit>
+        <trans-unit id="Base_Messages_Reply_Failure" translate="yes" xml:space="preserve">
+          <source>Error during processing</source>
+          <target state="new">Error during processing</target>
+        </trans-unit>
+        <trans-unit id="Base_Messages_Reply_Interactive" translate="yes" xml:space="preserve">
+          <source>Interactive reaction needed</source>
+          <target state="new">Interactive reaction needed</target>
+        </trans-unit>
+        <trans-unit id="Base_Messages_Reply_Success" translate="yes" xml:space="preserve">
+          <source>Tank you {0}, I added the following informations:</source>
+          <target state="new">Tank you {0}, I added the following informations:</target>
+        </trans-unit>
+        <trans-unit id="Raids_Errors_Unexpected" translate="yes" xml:space="preserve">
+          <source>An unexcpected error occured: {0}</source>
+          <target state="new">An unexcpected error occured: {0}</target>
+        </trans-unit>
+        <trans-unit id="Raids_Messages_Ocr_Successful_Title" translate="yes" xml:space="preserve">
+          <source>OCR-Recognition successful</source>
+          <target state="new">OCR-Recognition successful</target>
+        </trans-unit>
       </group>
     </body>
   </file>

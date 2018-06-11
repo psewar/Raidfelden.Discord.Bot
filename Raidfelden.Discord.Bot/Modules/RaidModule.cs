@@ -17,14 +17,12 @@ namespace Raidfelden.Discord.Bot.Modules
     public class RaidModule : BaseModule<SocketCommandContext, RaidChannel>
     {
         protected IRaidService RaidService { get; }
-		protected ILocalizationService LocalizationService { get; }
 	    protected IOcrService OcrService;
 
         public RaidModule(IRaidService raidService, IEmojiService emojiService, IConfigurationService configurationService, IOcrService ocrService, ILocalizationService localizationService)
-            : base(configurationService, emojiService)
+            : base(configurationService, emojiService, localizationService)
         {
             RaidService = raidService;
-	        LocalizationService = localizationService;
 	        OcrService = ocrService;
         }
 
@@ -44,7 +42,7 @@ namespace Raidfelden.Discord.Bot.Modules
 						    tempImageFile = Path.GetTempFileName() + "." + attachment.Url.Split('.').Last();
 						    await DownloadAsync(httpClient, new Uri(attachment.Url), tempImageFile);
 						    var response = OcrService.AddRaidAsync(tempImageFile, 4, Fences, false);
-						    await ReplyWithInteractive(() => response, "OCR-Erkennung erfolgreich");
+						    await ReplyWithInteractive(() => response, LocalizationService.Get("Raids_Messages_Ocr_Successful_Title"));
 					    }
 					    finally
 					    {
@@ -67,8 +65,8 @@ namespace Raidfelden.Discord.Bot.Modules
 		    {
 			    var innerstEx = ex.GetInnermostException();
 			    Console.WriteLine(innerstEx.Message);
-			    await ReplyFailureAsync($"Ein unerwarteter Fehler ist aufgetreten: {innerstEx.Message}");
-		    }
+				await ReplyFailureAsync(LocalizationService.Get("Raids_Errors_Unexpected", innerstEx.Message));
+			}
 	    }
 
 	    private async Task<bool> IsImageUrlAsync(HttpClient httpClient, string url)
@@ -110,12 +108,12 @@ namespace Raidfelden.Discord.Bot.Modules
 
 				//Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
 				var response = RaidService.AddAsync(gymName, pokemonNameOrRaidLevel, timeLeft, 4, Fences);
-                await ReplyWithInteractive(() => response, "Raid erfolgreich eingetragen");
+                await ReplyWithInteractive(() => response, LocalizationService.Get("Raids_Messages_Successful_Title"));
             }
             catch (Exception ex)
             {
                 var innerstEx = ex.GetInnermostException();
-                await ReplyFailureAsync($"Ein unerwarteter Fehler ist aufgetreten: {innerstEx.Message}");
+                await ReplyFailureAsync(LocalizationService.Get("Raids_Errors_Unexpected", innerstEx.Message));
             }
         }
 
@@ -129,16 +127,15 @@ namespace Raidfelden.Discord.Bot.Modules
                 {
                     return;
                 }
-
-				Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");				
+				
 				var response = RaidService.HatchAsync(gymName, pokemonName, 4, Fences);
-                await ReplyWithInteractive(() => response, "Raid erfolgreich erweitert");
+                await ReplyWithInteractive(() => response, LocalizationService.Get("Raids_Messages_Successful_Title"));
             }
             catch (Exception ex)
             {
                 var innerstEx = ex.GetInnermostException();
-                await ReplyFailureAsync($"Ein unerwarteter Fehler ist aufgetreten: {innerstEx.Message}");
-            }
+				await ReplyFailureAsync(LocalizationService.Get("Raids_Errors_Unexpected", innerstEx.Message));
+			}
         }
 	}
 }

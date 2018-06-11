@@ -18,10 +18,11 @@ namespace Raidfelden.Discord.Bot.Modules
         where TModule : SocketCommandContext
         where TConfiguration : ChannelConfiguration
     {
-        protected BaseModule(IConfigurationService configurationService, IEmojiService emojiService) : base()
+        protected BaseModule(IConfigurationService configurationService, IEmojiService emojiService, ILocalizationService localizationService) : base()
         {
             ConfigurationService = configurationService;
             EmojiService = emojiService;
+	        LocalizationService = localizationService;
         }
 
         protected override void BeforeExecute(CommandInfo command)
@@ -37,7 +38,8 @@ namespace Raidfelden.Discord.Bot.Modules
 
 		protected IConfigurationService ConfigurationService { get; }
         protected IEmojiService EmojiService { get; }
-        protected ChannelConfiguration[] ChannelConfigurations { get; set; }
+	    protected ILocalizationService LocalizationService { get; }
+	    protected ChannelConfiguration[] ChannelConfigurations { get; set; }
 
         protected TConfiguration ChannelConfiguration
         {
@@ -72,7 +74,7 @@ namespace Raidfelden.Discord.Bot.Modules
             var result = await interactiveCallback();
             if (result.IsSuccess)
             {
-				var messageBuilder = new StringBuilder($"Vielen Dank {Context.Message.Author.Mention} ich habe die Information wie folgt eingetragen:" + Environment.NewLine);
+				var messageBuilder = new StringBuilder(LocalizationService.Get("Base_Messages_Reply_Success", Context.Message.Author.Mention) + Environment.NewLine);
 	            messageBuilder.Append(result.Message);
                 await ReplySuccessAsync(titleSuccess, messageBuilder.ToString());
             }
@@ -95,7 +97,7 @@ namespace Raidfelden.Discord.Bot.Modules
 
         protected virtual async Task ReplyFailureAsync(string message)
         {
-            var embed = BuildEmbed("Fehler bei der Verarbeitung", message, Color.Red);
+	        var embed = BuildEmbed(LocalizationService.Get("Base_Messages_Reply_Failure"), message, Color.Red);
             await ReplyEmbed(embed);
         }
 
@@ -110,7 +112,7 @@ namespace Raidfelden.Discord.Bot.Modules
                 messageBuilder.AppendLine(emoji.Name + " " + resultInterActiveCallback.Key);
                 callbackCounter++;
             }
-            var embed = BuildEmbed("Interaktive Antwort erforderlich", messageBuilder.ToString(), Color.Orange);
+            var embed = BuildEmbed(LocalizationService.Get("Base_Messages_Reply_Interactive"), messageBuilder.ToString(), Color.Orange);
             var reply = new ReactionCallbackData(string.Empty, embed, TimeSpan.FromSeconds(30));
             callbackCounter = 1;
             foreach (var resultInterActiveCallback in response.InterActiveCallbacks)

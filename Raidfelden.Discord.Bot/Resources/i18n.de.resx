@@ -66,4 +66,25 @@
   <data name="Pokemon_Errors_ToManyFound" xml:space="preserve">
     <value>{0} {3}Pokemon gefunden die das Wortfragment "{1}" enthalten. Bitte formuliere den Namen etwas exakter aus, maximal {2} dürfen übrig bleiben für den interaktiven Modus.</value>
   </data>
+  <data name="Raids_Messages_Successful_Text" xml:space="preserve">
+    <value>Vielen Dank {0}, ich habe den Raid mit folgenden Parametern eingetragen:</value>
+  </data>
+  <data name="Raids_Messages_Successful_Title" xml:space="preserve">
+    <value>Raid erfolreich eingetragen</value>
+  </data>
+  <data name="Base_Messages_Reply_Failure" xml:space="preserve">
+    <value>Fehler während der Verarbeitung</value>
+  </data>
+  <data name="Base_Messages_Reply_Interactive" xml:space="preserve">
+    <value>Interaktive Reaktion benötigt</value>
+  </data>
+  <data name="Base_Messages_Reply_Success" xml:space="preserve">
+    <value>Vielen Dank {0}, ich habe die folgenden Informationen eingetragen:</value>
+  </data>
+  <data name="Raids_Errors_Unexpected" xml:space="preserve">
+    <value>Ein unerwarteter Fehler ist aufgetreten: {0}</value>
+  </data>
+  <data name="Raids_Messages_Ocr_Successful_Title" xml:space="preserve">
+    <value>OCR-Erkenung erfolgreich</value>
+  </data>
 </root>

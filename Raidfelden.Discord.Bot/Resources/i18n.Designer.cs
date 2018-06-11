@@ -61,6 +61,33 @@ namespace Raidfelden.Discord.Bot.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error during processing.
+        /// </summary>
+        public static string Base_Messages_Reply_Failure {
+            get {
+                return ResourceManager.GetString("Base_Messages_Reply_Failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interactive reaction needed.
+        /// </summary>
+        public static string Base_Messages_Reply_Interactive {
+            get {
+                return ResourceManager.GetString("Base_Messages_Reply_Interactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tank you {0}, I added the following informations:.
+        /// </summary>
+        public static string Base_Messages_Reply_Success {
+            get {
+                return ResourceManager.GetString("Base_Messages_Reply_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Raidfelden Info Bot.
         /// </summary>
         public static string BotName {
@@ -196,6 +223,15 @@ namespace Raidfelden.Discord.Bot.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An unexcpected error occured: {0}.
+        /// </summary>
+        public static string Raids_Errors_Unexpected {
+            get {
+                return ResourceManager.GetString("Raids_Errors_Unexpected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} at the gym &quot;{1}&quot;, ends at {2}.
         /// </summary>
         public static string Raids_Messages_BossAdded {
@@ -219,6 +255,33 @@ namespace Raidfelden.Discord.Bot.Resources {
         public static string Raids_Messages_EggAdded {
             get {
                 return ResourceManager.GetString("Raids_Messages_EggAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OCR-Recognition successful.
+        /// </summary>
+        public static string Raids_Messages_Ocr_Successful_Title {
+            get {
+                return ResourceManager.GetString("Raids_Messages_Ocr_Successful_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you {0} I added the raid with the following parameters: .
+        /// </summary>
+        public static string Raids_Messages_Successful_Text {
+            get {
+                return ResourceManager.GetString("Raids_Messages_Successful_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Raid addedd successfully.
+        /// </summary>
+        public static string Raids_Messages_Successful_Title {
+            get {
+                return ResourceManager.GetString("Raids_Messages_Successful_Title", resourceCulture);
             }
         }
     }

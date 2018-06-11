@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Base_Messages_Reply_Failure" xml:space="preserve">
+    <value>Error during processing</value>
+  </data>
+  <data name="Base_Messages_Reply_Interactive" xml:space="preserve">
+    <value>Interactive reaction needed</value>
+  </data>
+  <data name="Base_Messages_Reply_Success" xml:space="preserve">
+    <value>Tank you {0}, I added the following informations:</value>
+  </data>
   <data name="BotName" xml:space="preserve">
     <value>Raidfelden Info Bot</value>
   </data>
@@ -162,6 +171,9 @@
   <data name="Raids_Errors_TimeFormat" xml:space="preserve">
     <value>The remaining time must be specified in mm or mm:ss format.</value>
   </data>
+  <data name="Raids_Errors_Unexpected" xml:space="preserve">
+    <value>An unexcpected error occured: {0}</value>
+  </data>
   <data name="Raids_Messages_BossAdded" xml:space="preserve">
     <value>{0} at the gym "{1}", ends at {2}</value>
   </data>
@@ -170,5 +182,14 @@
   </data>
   <data name="Raids_Messages_EggAdded" xml:space="preserve">
     <value>Level {0} raid at the gym "{1}", starts at {2}</value>
+  </data>
+  <data name="Raids_Messages_Ocr_Successful_Title" xml:space="preserve">
+    <value>OCR-Recognition successful</value>
+  </data>
+  <data name="Raids_Messages_Successful_Text" xml:space="preserve">
+    <value>Thank you {0} I added the raid with the following parameters: </value>
+  </data>
+  <data name="Raids_Messages_Successful_Title" xml:space="preserve">
+    <value>Raid addedd successfully</value>
   </data>
 </root>

@@ -15,8 +15,8 @@ namespace Raidfelden.Discord.Bot.Modules
     {
         private readonly IPokemonService _pokemonService;
         private readonly Hydro74000Context context;
-        public PokemonModule(Hydro74000Context Tcontext, IPokemonService pokemonService, IConfigurationService configurationService, IEmojiService emojiService)
-            :base(configurationService, emojiService)
+        public PokemonModule(Hydro74000Context Tcontext, IPokemonService pokemonService, IConfigurationService configurationService, IEmojiService emojiService, ILocalizationService localizationService)
+            :base(configurationService, emojiService, localizationService)
         {
             _pokemonService = pokemonService;
             context = Tcontext;

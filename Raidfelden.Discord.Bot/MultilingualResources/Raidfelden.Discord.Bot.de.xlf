@@ -56,8 +56,7 @@
         </trans-unit>
         <trans-unit id="Gyms_Errors_InteractiveMode" translate="yes" xml:space="preserve">
           <source>{0} gyms found containing the word fragment "{1}". Please select the appropriate arena using the number from the list.</source>
-          <target state="needs-review-translation">{0} Arenen gefunden die das Wortfragment "{1}" enthalten. Bitte wähle die passende Arena anhand der Nummer aus der Liste aus.</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="final">{0} Arenen gefunden die das Wortfragment "{1}" enthalten. Bitte wähle die passende Arena anhand der Nummer aus der Liste aus.</target>
         </trans-unit>
         <trans-unit id="Gyms_Errors_NothingFound" translate="yes" xml:space="preserve">
           <source>No arena found containing the word fragment "{0}". Did you make a typing error?</source>
@@ -78,6 +77,34 @@
         <trans-unit id="Pokemon_Errors_ToManyFound" translate="yes" xml:space="preserve">
           <source>{0} {3}pokemon found that contain the word fragment "{1}". Please formulate the name a little more exactly, maximum {2} may remain for the interactive mode.</source>
           <target state="final">{0} {3}Pokemon gefunden die das Wortfragment "{1}" enthalten. Bitte formuliere den Namen etwas exakter aus, maximal {2} dürfen übrig bleiben für den interaktiven Modus.</target>
+        </trans-unit>
+        <trans-unit id="Raids_Messages_Successful_Text" translate="yes" xml:space="preserve">
+          <source>Thank you {0} I added the raid with the following parameters: </source>
+          <target state="final">Vielen Dank {0}, ich habe den Raid mit folgenden Parametern eingetragen:</target>
+        </trans-unit>
+        <trans-unit id="Raids_Messages_Successful_Title" translate="yes" xml:space="preserve">
+          <source>Raid addedd successfully</source>
+          <target state="final">Raid erfolreich eingetragen</target>
+        </trans-unit>
+        <trans-unit id="Base_Messages_Reply_Failure" translate="yes" xml:space="preserve">
+          <source>Error during processing</source>
+          <target state="final">Fehler während der Verarbeitung</target>
+        </trans-unit>
+        <trans-unit id="Base_Messages_Reply_Interactive" translate="yes" xml:space="preserve">
+          <source>Interactive reaction needed</source>
+          <target state="final">Interaktive Reaktion benötigt</target>
+        </trans-unit>
+        <trans-unit id="Base_Messages_Reply_Success" translate="yes" xml:space="preserve">
+          <source>Tank you {0}, I added the following informations:</source>
+          <target state="final">Vielen Dank {0}, ich habe die folgenden Informationen eingetragen:</target>
+        </trans-unit>
+        <trans-unit id="Raids_Errors_Unexpected" translate="yes" xml:space="preserve">
+          <source>An unexcpected error occured: {0}</source>
+          <target state="final">Ein unerwarteter Fehler ist aufgetreten: {0}</target>
+        </trans-unit>
+        <trans-unit id="Raids_Messages_Ocr_Successful_Title" translate="yes" xml:space="preserve">
+          <source>OCR-Recognition successful</source>
+          <target state="final">OCR-Erkenung erfolgreich</target>
         </trans-unit>
       </group>
     </body>
