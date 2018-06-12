@@ -272,7 +272,8 @@ namespace Raidfelden.Discord.Bot.Tests
 		private string GetOcrResult(OcrService ocrService, string filePath, FenceConfiguration[] fences = null)
 	    {
 			var utcNow = SystemClock.Instance.GetCurrentInstant().InUtc();
-			var result = ocrService.AddRaidAsync(utcNow, filePath, 4, fences, true).Result;
+		    var channelTimeZone = DateTimeZoneProviders.Tzdb["Europe/Zurich"];
+			var result = ocrService.AddRaidAsync(utcNow, channelTimeZone, filePath, 4, fences, true).Result;
 		    return result.Message;
 	    }
 

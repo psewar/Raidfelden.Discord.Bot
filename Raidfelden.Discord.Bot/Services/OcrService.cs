@@ -25,7 +25,7 @@ namespace Raidfelden.Discord.Bot.Services
 {
 	public interface IOcrService
 	{
-		Task<ServiceResponse> AddRaidAsync(ZonedDateTime requestStartInUtc, string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode);
+		Task<ServiceResponse> AddRaidAsync(ZonedDateTime requestStartInUtc, DateTimeZone userZone, string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode);
 	}
 
 	public class OcrService : IOcrService, IDisposable
@@ -46,7 +46,7 @@ namespace Raidfelden.Discord.Bot.Services
             RaidService = raidService;
 	    }
 
-	    public async Task<ServiceResponse> AddRaidAsync(ZonedDateTime requestStartInUtc, string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode)
+	    public async Task<ServiceResponse> AddRaidAsync(ZonedDateTime requestStartInUtc, DateTimeZone userZone, string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode)
 	    {
 		    SaveDebugImages = testMode;
 			using (var image = Image.Load(filePath))
@@ -100,7 +100,7 @@ namespace Raidfelden.Discord.Bot.Services
 
 					if (!testMode)
 					{
-						return await RaidService.AddAsync(requestStartInUtc, gym.Name, pokemon.Name, timer.ToString(@"mm\:ss"), interactiveLimit, fences);
+						return await RaidService.AddAsync(requestStartInUtc, userZone, gym.Name, pokemon.Name, timer.ToString(@"mm\:ss"), interactiveLimit, fences);
 					}
 					else
 					{
@@ -113,7 +113,7 @@ namespace Raidfelden.Discord.Bot.Services
 					var timer = raidOcrResult.EggTimer.GetFirst();
 					if (!testMode)
 					{
-						return await RaidService.AddAsync(requestStartInUtc, gym.Name, eggLevel.ToString(CultureInfo.InvariantCulture), timer.ToString(@"mm\:ss"), interactiveLimit, fences);
+						return await RaidService.AddAsync(requestStartInUtc, userZone, gym.Name, eggLevel.ToString(CultureInfo.InvariantCulture), timer.ToString(@"mm\:ss"), interactiveLimit, fences);
 					}
 					else{message =$".raids add \"{gym.Name}\" \"{eggLevel}\" {string.Concat(timer.Minutes, ":", timer.Seconds)}";}
 				}

@@ -10,6 +10,7 @@ using System;
 using System.Globalization;
 using System.Text;
 using System.Threading;
+using NodaTime;
 
 namespace Raidfelden.Discord.Bot.Modules
 {
@@ -33,6 +34,7 @@ namespace Raidfelden.Discord.Bot.Modules
 	        {
 		        Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(cultureCodeChannel.CultureCode);
 	        }
+	        ChannelTimeZone = ConfigurationService.GetChannelDateTimeZone(Context);
             base.BeforeExecute(command);
         }
 
@@ -40,8 +42,9 @@ namespace Raidfelden.Discord.Bot.Modules
         protected IEmojiService EmojiService { get; }
 	    protected ILocalizationService LocalizationService { get; }
 	    protected ChannelConfiguration[] ChannelConfigurations { get; set; }
+	    protected DateTimeZone ChannelTimeZone { get; private set; }
 
-        protected TConfiguration ChannelConfiguration
+	    protected TConfiguration ChannelConfiguration
         {
             get
             {

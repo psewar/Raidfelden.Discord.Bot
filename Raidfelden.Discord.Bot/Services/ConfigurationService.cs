@@ -2,6 +2,7 @@
 using Raidfelden.Discord.Bot.Configuration;
 using System.Collections.Generic;
 using System.Linq;
+using NodaTime;
 
 namespace Raidfelden.Discord.Bot.Services
 {
@@ -13,6 +14,7 @@ namespace Raidfelden.Discord.Bot.Services
         bool ShouldProcessRequestAnyway(ICommandContext context);
         IEnumerable<FenceConfiguration> GetFencesConfigurationForChannel(ChannelConfiguration channelConfiguration);
         OcrConfiguration GetOcrConfiguration();
+	    DateTimeZone GetChannelDateTimeZone(ICommandContext context);
     }
 
     public class ConfigurationService : IConfigurationService
@@ -112,5 +114,21 @@ namespace Raidfelden.Discord.Bot.Services
 					   ?? new OcrConfiguration();
 	        return result;
         }
-    }
+
+	    public DateTimeZone GetChannelDateTimeZone(ICommandContext context)
+	    {
+		    var defaultZone = _configuration.Timezone;
+		    var channelConfigurations = GetChannelConfigurations(context);
+		    var channelZone = channelConfigurations.FirstOrDefault(e => !string.IsNullOrWhiteSpace(e.Timezone));
+		    if (channelZone != null)
+		    {
+			    return DateTimeZoneProviders.Tzdb[channelZone.Timezone];
+		    }
+		    if (defaultZone != null)
+		    {
+			    return DateTimeZoneProviders.Tzdb[defaultZone];
+		    }
+			return DateTimeZone.Utc;
+	    }
+	}
 }

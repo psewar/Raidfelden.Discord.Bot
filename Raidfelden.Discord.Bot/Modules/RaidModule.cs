@@ -3,14 +3,11 @@ using Raidfelden.Discord.Bot.Configuration;
 using Raidfelden.Discord.Bot.Extensions;
 using Raidfelden.Discord.Bot.Services;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using NodaTime;
+using System.Linq;
 
 namespace Raidfelden.Discord.Bot.Modules
 {
@@ -45,7 +42,7 @@ namespace Raidfelden.Discord.Bot.Modules
 					    {
 						    tempImageFile = Path.GetTempFileName() + "." + attachment.Url.Split('.').Last();
 						    await DownloadAsync(httpClient, new Uri(attachment.Url), tempImageFile);
-						    var response = OcrService.AddRaidAsync(utcNow, tempImageFile, 4, Fences, false);
+						    var response = OcrService.AddRaidAsync(utcNow, ChannelTimeZone, tempImageFile, 4, Fences, false);
 						    await ReplyWithInteractive(() => response, LocalizationService.Get("Raids_Messages_Ocr_Successful_Title"));
 					    }
 					    finally
@@ -113,7 +110,7 @@ namespace Raidfelden.Discord.Bot.Modules
 
 				//Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
 				var utcNow = SystemClock.Instance.GetCurrentInstant().InUtc();
-				var response = RaidService.AddAsync(utcNow, gymName, pokemonNameOrRaidLevel, timeLeft, 4, Fences);
+				var response = RaidService.AddAsync(utcNow, ChannelTimeZone, gymName, pokemonNameOrRaidLevel, timeLeft, 4, Fences);
                 await ReplyWithInteractive(() => response, LocalizationService.Get("Raids_Messages_Successful_Title"));
             }
             catch (Exception ex)
@@ -134,8 +131,7 @@ namespace Raidfelden.Discord.Bot.Modules
                     return;
                 }
 
-				var utcNow = SystemClock.Instance.GetCurrentInstant().InUtc();
-				var response = RaidService.HatchAsync(utcNow, gymName, pokemonName, 4, Fences);
+				var response = RaidService.HatchAsync(gymName, pokemonName, 4, Fences);
                 await ReplyWithInteractive(() => response, LocalizationService.Get("Raids_Messages_Successful_Title"));
             }
             catch (Exception ex)
