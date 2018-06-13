@@ -391,6 +391,10 @@ namespace Raidfelden.Discord.Bot.Services
 
                 // Start tesseract.
                 var process = Process.Start(info);
+	            if (process == null)
+	            {
+		            throw new Exception("Unable to start the OCR-Recognition service.");
+	            }
                 process.WaitForExit();
                 if (process.ExitCode == 0)
                 {
@@ -427,16 +431,9 @@ namespace Raidfelden.Discord.Bot.Services
                 bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
                 if (isWindows)
                 {
-                    // Default Windows installation
+	                // Default Windows installation
                     //tesseractPath = @"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe";
-                    if (RuntimeInformation.ProcessArchitecture == Architecture.X64)
-                    {
-                        tesseractPath = Path.Combine("x64", "tesseract.exe");
-                    }
-                    else
-                    {
-                        tesseractPath = Path.Combine("x86", "tesseract.exe");
-                    }
+	                tesseractPath = Path.Combine(RuntimeInformation.ProcessArchitecture == Architecture.X64 ? "x64" : "x86", "tesseract.exe");
                 }
                 else
                 {
