@@ -1,6 +1,6 @@
 ﻿namespace Raidfelden.Discord.Bot.Utilities.Ocr
 {
-	public enum ImageFragmentType
+	public enum RaidImageFragmentType
 	{
 		GymName,
 		PokemonName,

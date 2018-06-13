@@ -116,7 +116,9 @@ namespace Raidfelden.Discord.Bot.Modules
             catch (Exception ex)
             {
                 var innerstEx = ex.GetInnermostException();
-                await ReplyFailureAsync(LocalizationService.Get("Raids_Errors_Unexpected", innerstEx.Message));
+				Console.WriteLine(innerstEx.Message);
+				Console.WriteLine(innerstEx.StackTrace);
+				await ReplyFailureAsync(LocalizationService.Get("Raids_Errors_Unexpected", innerstEx.Message));
             }
         }
 
@@ -137,6 +139,8 @@ namespace Raidfelden.Discord.Bot.Modules
             catch (Exception ex)
             {
                 var innerstEx = ex.GetInnermostException();
+				Console.WriteLine(innerstEx.Message);
+				Console.WriteLine(innerstEx.StackTrace);
 				await ReplyFailureAsync(LocalizationService.Get("Raids_Errors_Unexpected", innerstEx.Message));
 			}
         }

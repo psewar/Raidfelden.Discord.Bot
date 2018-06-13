@@ -13,7 +13,10 @@ namespace Raidfelden.Discord.Bot.Services
     public interface IRaidService
     {
         Task<ServiceResponse> AddAsync(ZonedDateTime requestStartInUtc, DateTimeZone userZone, string gymName, string pokemonNameOrLevel, string timeLeft, int interactiveLimit, FenceConfiguration[] fences);
-        Task<ServiceResponse> HatchAsync(string gymName, string pokemonName, int interactiveLimit, FenceConfiguration[] fences);
+
+	    Task<ServiceResponse> AddResolveGymAsync(ZonedDateTime requestStartInUtc, DateTimeZone userZone, int gymId, byte level, IPokemon pokemon, IRaidboss raidboss, TimeSpan timeSpan, int interactiveLimit, FenceConfiguration[] fences);
+
+		Task<ServiceResponse> HatchAsync(string gymName, string pokemonName, int interactiveLimit, FenceConfiguration[] fences);
     }
 
     public class RaidService : IRaidService
@@ -76,7 +79,7 @@ namespace Raidfelden.Discord.Bot.Services
             return await AddSaveAsync(requestStartInUtc, userZone, Context, gymResponse.Result, level, pokemon, raidboss, timeSpan);
         }
 
-        private async Task<ServiceResponse> AddResolveGymAsync(ZonedDateTime requestStartInUtc, DateTimeZone userZone, int gymId, byte level, IPokemon pokemon, IRaidboss raidboss, TimeSpan timeSpan, int interactiveLimit, FenceConfiguration[] fences)
+        public async Task<ServiceResponse> AddResolveGymAsync(ZonedDateTime requestStartInUtc, DateTimeZone userZone, int gymId, byte level, IPokemon pokemon, IRaidboss raidboss, TimeSpan timeSpan, int interactiveLimit, FenceConfiguration[] fences)
         {
             var gym = await Context.Forts.SingleAsync(e => e.Id == gymId);
             return await AddSaveAsync(requestStartInUtc, userZone, Context, gym, level, pokemon, raidboss, timeSpan);

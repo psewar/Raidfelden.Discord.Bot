@@ -30,20 +30,27 @@ namespace Raidfelden.Discord.Bot.Services
                 return new ServiceResponse<TEntity>(true, getSuccessMessage(entity), entity);
             }
 
-            // Check if we can use the interactive Mode
-            if (entities.Count > interactiveLimit)
-            {
-                return new ServiceResponse<TEntity>(false, getErrorMessageInteractiveLimit(entities), default(TEntity));
-            }
-
-            // Add the callback actions to the interactive Mode
-            var callbacks = new Dictionary<string, Func<Task<ServiceResponse>>>(entities.Count);
-            foreach (var entity in entities)
-            {
-                callbacks.Add(getEntityName(entity), () => interactiveCallback(getEntityIdentifier(entity)));
-            }
-
-            return new ServiceResponse<TEntity>(false, getErrorMessageInteractive(entities), default(TEntity), callbacks);
+            return await GenericCreateCallbackAsync(interactiveLimit, interactiveCallback, getEntityIdentifier, getEntityName, getErrorMessageInteractiveLimit, getErrorMessageInteractive, entities);
         }
+
+	    public static async Task<ServiceResponse<TEntity>> GenericCreateCallbackAsync<TEntity, TIdentifier>(int interactiveLimit, Func<TIdentifier, Task<ServiceResponse>> interactiveCallback,
+		    Func<TEntity, TIdentifier> getEntityIdentifier, Func<TEntity, string> getEntityName, Func<List<TEntity>, string> getErrorMessageInteractiveLimit, Func<List<TEntity>, string> getErrorMessageInteractive,
+		    List<TEntity> entities)
+	    {
+			// Check if we can use the interactive Mode
+		    if (entities.Count > interactiveLimit)
+		    {
+			    return new ServiceResponse<TEntity>(false, getErrorMessageInteractiveLimit(entities), default(TEntity));
+		    }
+
+		    // Add the callback actions to the interactive Mode
+		    var callbacks = new Dictionary<string, Func<Task<ServiceResponse>>>(entities.Count);
+		    foreach (var entity in entities)
+		    {
+			    callbacks.Add(getEntityName(entity), () => interactiveCallback(getEntityIdentifier(entity)));
+		    }
+
+		    return new ServiceResponse<TEntity>(false, getErrorMessageInteractive(entities), default(TEntity), callbacks);
+	    }
     }
 }

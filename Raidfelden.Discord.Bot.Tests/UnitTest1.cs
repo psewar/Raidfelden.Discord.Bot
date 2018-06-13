@@ -266,7 +266,7 @@ namespace Raidfelden.Discord.Bot.Tests
 			var fileWatcherService = new FileWatcherService();
 			var pokemonService = new PokemonService(raidbossService, localizationService, fileWatcherService);
 			var raidService = new RaidService(context, gymService, pokemonService, raidbossService, localizationService);
-			return new OcrService(context, ConfigurationService, gymService, pokemonService, raidService);
+			return new OcrService(context, ConfigurationService, gymService, pokemonService, raidService, localizationService);
 		}
 
 		private string GetOcrResult(OcrService ocrService, string filePath, FenceConfiguration[] fences = null)
