@@ -7,6 +7,8 @@ using Raidfelden.Discord.Bot.Monocle;
 using Raidfelden.Discord.Bot.Configuration;
 using Raidfelden.Discord.Bot.Utilities;
 using GeoAPI.Geometries;
+using Geocoding;
+using Geocoding.Google;
 using Microsoft.EntityFrameworkCore;
 using SimMetrics.Net.Metric;
 
@@ -18,7 +20,7 @@ namespace Raidfelden.Discord.Bot.Services
 
 	    Task<Dictionary<Forts, double>> GetSimilarGymsByNameAsync(Hydro74000Context context, string name, FenceConfiguration[] fences = null, int limit = int.MaxValue);
 
-	    string GetGymNameWithAddition(Forts gym, List<Forts> gymList);
+		Task<string> GetGymNameWithAdditionAsync(Forts gym, List<Forts> gymList);
 
     }
 
@@ -42,7 +44,7 @@ namespace Raidfelden.Discord.Bot.Services
                 interactiveLimit,
                 interactiveCallbackAction,
                 gym => gym.Id,
-				GetGymNameWithAddition,
+				GetGymNameWithAdditionAsync,
                 gym => gym.Name,
                 () => LocalizationService.Get("Gyms_Errors_NothingFound", name),
                 list => LocalizationService.Get("Gyms_Errors_ToManyFound", list.Count, name, interactiveLimit),
@@ -50,7 +52,7 @@ namespace Raidfelden.Discord.Bot.Services
             );
         }
 
-	    public string GetGymNameWithAddition(Forts gym, List<Forts> gymList)
+	    public async Task<string> GetGymNameWithAdditionAsync(Forts gym, List<Forts> gymList)
 	    {
 			// Check if there is only one gym wth this name
 		    if (gymList.Count(e => e.Name == gym.Name) == 1)
@@ -58,7 +60,7 @@ namespace Raidfelden.Discord.Bot.Services
 			    return gym.Name;
 		    }
 
-		    string nameAddition = ThreadLocalRandom.NextLong().ToString(); // GetLocationNameFromGoogleMaps(gym.Lon, gym.Lat);
+		    string nameAddition = await GetLocationNameFromLocationAsync(gym);
 			var stringBuilder = new StringBuilder();
 		    stringBuilder.Append(gym.Name);
 		    stringBuilder.Append(" (");
@@ -67,7 +69,26 @@ namespace Raidfelden.Discord.Bot.Services
 		    return stringBuilder.ToString();
 	    }
 
-        private async Task<List<Forts>> GetGymsByNameAsync(Hydro74000Context context, string name, FenceConfiguration[] fences = null)
+	    private async Task<string> GetLocationNameFromLocationAsync(Forts gym)
+	    {
+		    if (!gym.Lat.HasValue || !gym.Lon.HasValue)
+		    {
+			    return gym.Url;
+		    }
+
+			// TODO: Get the key via DI
+		    var apiKey = Program.Config.GoogleMapsApiKeys.FirstOrDefault();
+		    if (string.IsNullOrWhiteSpace(apiKey))
+		    {
+			    return gym.Url;
+		    }
+			IGeocoder geocoder = new GoogleGeocoder() { ApiKey = apiKey };
+			var addresses = await geocoder.ReverseGeocodeAsync(gym.Lat.Value, gym.Lon.Value);
+		    var address = addresses.FirstOrDefault();
+		    return address == null ? gym.Url : address.FormattedAddress;
+	    }
+
+		private async Task<List<Forts>> GetGymsByNameAsync(Hydro74000Context context, string name, FenceConfiguration[] fences = null)
         {
             Dictionary<string, int> aliasCache = new Dictionary<string, int>();
             aliasCache.Add("spital", 37);

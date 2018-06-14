@@ -85,7 +85,7 @@ namespace Raidfelden.Discord.Bot.Services
 					(selectedPokemon) =>
 						InteractiveGymResolve(requestStartInUtc, userZone, timeLeft, GetRaidbossPokemonById(selectedPokemon, raidOcrResult).Raidboss.Level, GetRaidbossPokemonById(selectedPokemon, raidOcrResult), raidOcrResult, fences, interactiveLimit),
 					pokemon => pokemon.Pokemon.Id,
-					(pokemon, list) => pokemon.Pokemon.Name,
+					(pokemon, list) => Task.FromResult(pokemon.Pokemon.Name),
 					list => LocalizationService.Get("Pokemon_Errors_ToManyFound", list.Count, raidOcrResult.Pokemon.OcrValue, interactiveLimit, "raidboss-"),
 					list => LocalizationService.Get("Pokemon_Errors_InteractiveMode", list.Count, raidOcrResult.Pokemon.OcrValue, "raidboss-"),
 					raidOcrResult.Pokemon.Results.Select(e => e.Key).ToList());
@@ -120,7 +120,7 @@ namespace Raidfelden.Discord.Bot.Services
 				    AddRaidAsync(requestStartInUtc, userZone, selectedGym, level, raidbossPokemon,
 					    timeLeft, raidOcrResult, fences, interactiveLimit),
 			    gym => gym.Id,
-			    GymService.GetGymNameWithAddition,
+			    (gym, list) => GymService.GetGymNameWithAdditionAsync(gym, list),
 				list => LocalizationService.Get("Gyms_Errors_ToManyFound", list.Count, raidOcrResult.Gym.OcrValue, interactiveLimit),
 				list => LocalizationService.Get("Gyms_Errors_InteractiveMode", list.Count, raidOcrResult.Gym.OcrValue),
 			    raidOcrResult.Gym.Results.Select(e => e.Key).ToList());

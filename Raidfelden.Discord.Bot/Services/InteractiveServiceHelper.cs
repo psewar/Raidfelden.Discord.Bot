@@ -6,7 +6,7 @@ namespace Raidfelden.Discord.Bot.Services
 {
     public static class InteractiveServiceHelper
     {
-        public static async Task<ServiceResponse<TEntity>> GenericGetEntityWithCallback<TEntity, TIdentifier>(Task<List<TEntity>> source, Func<List<TEntity>, List<TEntity>> findExactMatch, int interactiveLimit, Func<TIdentifier, Task<ServiceResponse>> interactiveCallback, Func<TEntity, TIdentifier> getEntityIdentifier, Func<TEntity, List<TEntity>, string> getEntityName, Func<TEntity, string> getSuccessMessage, Func<string> getErrorMessageNoEntityFound, Func<List<TEntity>, string> getErrorMessageInteractiveLimit, Func<List<TEntity>, string> getErrorMessageInteractive)
+        public static async Task<ServiceResponse<TEntity>> GenericGetEntityWithCallback<TEntity, TIdentifier>(Task<List<TEntity>> source, Func<List<TEntity>, List<TEntity>> findExactMatch, int interactiveLimit, Func<TIdentifier, Task<ServiceResponse>> interactiveCallback, Func<TEntity, TIdentifier> getEntityIdentifier, Func<TEntity, List<TEntity>, Task<string>> getEntityName, Func<TEntity, string> getSuccessMessage, Func<string> getErrorMessageNoEntityFound, Func<List<TEntity>, string> getErrorMessageInteractiveLimit, Func<List<TEntity>, string> getErrorMessageInteractive)
         {
             var entities = await source;
             // Happy path, only one entity found
@@ -34,7 +34,7 @@ namespace Raidfelden.Discord.Bot.Services
         }
 
 	    public static async Task<ServiceResponse<TEntity>> GenericCreateCallbackAsync<TEntity, TIdentifier>(int interactiveLimit, Func<TIdentifier, Task<ServiceResponse>> interactiveCallback,
-		    Func<TEntity, TIdentifier> getEntityIdentifier, Func<TEntity, List<TEntity>, string> getEntityName, Func<List<TEntity>, string> getErrorMessageInteractiveLimit, Func<List<TEntity>, string> getErrorMessageInteractive,
+		    Func<TEntity, TIdentifier> getEntityIdentifier, Func<TEntity, List<TEntity>, Task<string>> getEntityName, Func<List<TEntity>, string> getErrorMessageInteractiveLimit, Func<List<TEntity>, string> getErrorMessageInteractive,
 		    List<TEntity> entities)
 	    {
 			// Check if we can use the interactive Mode
@@ -47,7 +47,7 @@ namespace Raidfelden.Discord.Bot.Services
 		    var callbacks = new Dictionary<string, Func<Task<ServiceResponse>>>(entities.Count);
 		    foreach (var entity in entities)
 		    {
-			    callbacks.Add(getEntityName(entity, entities), () => interactiveCallback(getEntityIdentifier(entity)));
+			    callbacks.Add(await getEntityName(entity, entities), () => interactiveCallback(getEntityIdentifier(entity)));
 		    }
 
 		    return new ServiceResponse<TEntity>(false, getErrorMessageInteractive(entities), default(TEntity), callbacks);
