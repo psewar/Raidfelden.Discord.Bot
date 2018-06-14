@@ -85,7 +85,7 @@ namespace Raidfelden.Discord.Bot.Services
 					(selectedPokemon) =>
 						InteractiveGymResolve(requestStartInUtc, userZone, timeLeft, GetRaidbossPokemonById(selectedPokemon, raidOcrResult).Raidboss.Level, GetRaidbossPokemonById(selectedPokemon, raidOcrResult), raidOcrResult, fences, interactiveLimit),
 					pokemon => pokemon.Pokemon.Id,
-					gym => gym.Pokemon.Name,
+					(pokemon, list) => pokemon.Pokemon.Name,
 					list => LocalizationService.Get("Pokemon_Errors_ToManyFound", list.Count, raidOcrResult.Pokemon.OcrValue, interactiveLimit, "raidboss-"),
 					list => LocalizationService.Get("Pokemon_Errors_InteractiveMode", list.Count, raidOcrResult.Pokemon.OcrValue, "raidboss-"),
 					raidOcrResult.Pokemon.Results.Select(e => e.Key).ToList());
@@ -110,12 +110,17 @@ namespace Raidfelden.Discord.Bot.Services
 			    return await AddRaidAsync(requestStartInUtc, userZone, raidOcrResult.Gym.GetFirst().Id, level, raidbossPokemon, timeLeft, raidOcrResult, fences, interactiveLimit);
 		    }
 
+		    if (raidOcrResult.Gym.Results == null || raidOcrResult.Gym.Results.Length == 0)
+		    {
+			    return new ServiceResponse(false, LocalizationService.Get("Gyms_Errors_NothingFound", raidOcrResult.Gym.OcrValue));
+		    }
+
 		    var gymCallbacks = InteractiveServiceHelper.GenericCreateCallbackAsync(interactiveLimit,
 			    (selectedGym) =>
 				    AddRaidAsync(requestStartInUtc, userZone, selectedGym, level, raidbossPokemon,
 					    timeLeft, raidOcrResult, fences, interactiveLimit),
 			    gym => gym.Id,
-			    gym => gym.Name,
+			    GymService.GetGymNameWithAddition,
 				list => LocalizationService.Get("Gyms_Errors_ToManyFound", list.Count, raidOcrResult.Gym.OcrValue, interactiveLimit),
 				list => LocalizationService.Get("Gyms_Errors_InteractiveMode", list.Count, raidOcrResult.Gym.OcrValue),
 			    raidOcrResult.Gym.Results.Select(e => e.Key).ToList());
@@ -167,6 +172,10 @@ namespace Raidfelden.Discord.Bot.Services
 
 	    private bool UseInteractiveMode<T>(OcrResult<T> result, double threshold = 0.3)
 	    {
+		    if (result.Results == null || result.Results.Length == 0)
+		    {
+			    return true;
+		    }
 		    return result.Results.First().Value < threshold;
 	    }
 

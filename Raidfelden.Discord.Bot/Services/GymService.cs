@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Raidfelden.Discord.Bot.Monocle;
 using Raidfelden.Discord.Bot.Configuration;
@@ -16,6 +17,9 @@ namespace Raidfelden.Discord.Bot.Services
         Task<ServiceResponse<Forts>> GetGymAsync(Hydro74000Context context, string name, int interactiveLimit, Func<int, Task<ServiceResponse>> interactiveCallbackAction, FenceConfiguration[] fences = null);
 
 	    Task<Dictionary<Forts, double>> GetSimilarGymsByNameAsync(Hydro74000Context context, string name, FenceConfiguration[] fences = null, int limit = int.MaxValue);
+
+	    string GetGymNameWithAddition(Forts gym, List<Forts> gymList);
+
     }
 
     public class GymService : IGymService
@@ -38,13 +42,30 @@ namespace Raidfelden.Discord.Bot.Services
                 interactiveLimit,
                 interactiveCallbackAction,
                 gym => gym.Id,
-                gym => gym.Name,
+				GetGymNameWithAddition,
                 gym => gym.Name,
                 () => LocalizationService.Get("Gyms_Errors_NothingFound", name),
                 list => LocalizationService.Get("Gyms_Errors_ToManyFound", list.Count, name, interactiveLimit),
                 list => LocalizationService.Get("Gyms_Errors_InteractiveMode", list.Count, name)
             );
         }
+
+	    public string GetGymNameWithAddition(Forts gym, List<Forts> gymList)
+	    {
+			// Check if there is only one gym wth this name
+		    if (gymList.Count(e => e.Name == gym.Name) == 1)
+		    {
+			    return gym.Name;
+		    }
+
+		    string nameAddition = ThreadLocalRandom.NextLong().ToString(); // GetLocationNameFromGoogleMaps(gym.Lon, gym.Lat);
+			var stringBuilder = new StringBuilder();
+		    stringBuilder.Append(gym.Name);
+		    stringBuilder.Append(" (");
+		    stringBuilder.Append(nameAddition);
+		    stringBuilder.Append(")");
+		    return stringBuilder.ToString();
+	    }
 
         private async Task<List<Forts>> GetGymsByNameAsync(Hydro74000Context context, string name, FenceConfiguration[] fences = null)
         {

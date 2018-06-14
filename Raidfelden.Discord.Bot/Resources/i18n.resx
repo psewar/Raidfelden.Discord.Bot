@@ -136,7 +136,7 @@
     <value>{0} gyms found containing the word fragment "{1}". Please select the appropriate arena using the number from the list.</value>
   </data>
   <data name="Gyms_Errors_NothingFound" xml:space="preserve">
-    <value>No arena found containing the word fragment "{0}". Did you make a typing error?</value>
+    <value>No gym found containing the word fragment "{0}". Did you make a typing error?</value>
   </data>
   <data name="Gyms_Errors_ToManyFound" xml:space="preserve">
     <value>{0} gyms found that contain the word fragment "{1}". Please formulate the name a little more exactly, maximum {2} may remain for the interactive mode.</value>

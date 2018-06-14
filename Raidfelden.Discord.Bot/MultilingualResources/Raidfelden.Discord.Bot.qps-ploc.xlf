@@ -59,8 +59,8 @@
           <target state="new">{0} gyms found containing the word fragment "{1}". Please select the appropriate arena using the number from the list.</target>
         </trans-unit>
         <trans-unit id="Gyms_Errors_NothingFound" translate="yes" xml:space="preserve">
-          <source>No arena found containing the word fragment "{0}". Did you make a typing error?</source>
-          <target state="new">No arena found containing the word fragment "{0}". Did you make a typing error?</target>
+          <source>No gym found containing the word fragment "{0}". Did you make a typing error?</source>
+          <target state="new">No gym found containing the word fragment "{0}". Did you make a typing error?</target>
         </trans-unit>
         <trans-unit id="Gyms_Errors_ToManyFound" translate="yes" xml:space="preserve">
           <source>{0} gyms found that contain the word fragment "{1}". Please formulate the name a little more exactly, maximum {2} may remain for the interactive mode.</source>

@@ -115,7 +115,7 @@ namespace Raidfelden.Discord.Bot.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No arena found containing the word fragment &quot;{0}&quot;. Did you make a typing error?.
+        ///   Looks up a localized string similar to No gym found containing the word fragment &quot;{0}&quot;. Did you make a typing error?.
         /// </summary>
         public static string Gyms_Errors_NothingFound {
             get {

@@ -17,7 +17,7 @@ namespace Raidfelden.Discord.Bot.Configuration
         public GuildConfiguration[] Guilds { get; set; }
         public OcrConfiguration OcrConfiguration { get; set; }
 	    public string Timezone { get; set; }
-
+	    public string[] GoogleMapsApiKeys { get; set; }
     }
 
     public class GuildConfiguration
