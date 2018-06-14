@@ -30,7 +30,12 @@ namespace Raidfelden.Discord.Bot.Services
                 return new ServiceResponse<TEntity>(true, getSuccessMessage(entity), entity);
             }
 
-            return await GenericCreateCallbackAsync(interactiveLimit, interactiveCallback, getEntityIdentifier, getEntityName, getErrorMessageInteractiveLimit, getErrorMessageInteractive, entities);
+	        var entitiesForCallback = entities;
+	        if (entitesExact.Count > 0)
+	        {
+		        entitiesForCallback = entitesExact;
+	        }
+            return await GenericCreateCallbackAsync(interactiveLimit, interactiveCallback, getEntityIdentifier, getEntityName, getErrorMessageInteractiveLimit, getErrorMessageInteractive, entitiesForCallback);
         }
 
 	    public static async Task<ServiceResponse<TEntity>> GenericCreateCallbackAsync<TEntity, TIdentifier>(int interactiveLimit, Func<TIdentifier, Task<ServiceResponse>> interactiveCallback,

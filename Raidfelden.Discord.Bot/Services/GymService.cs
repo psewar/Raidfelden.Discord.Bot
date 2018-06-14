@@ -42,7 +42,7 @@ namespace Raidfelden.Discord.Bot.Services
         {
             return await InteractiveServiceHelper.GenericGetEntityWithCallback(
                 GetGymsByNameAsync(context, name, fences),
-                list => list.Where(e => e.Name.Trim() == name.Trim()).ToList(),
+                list => list.Where(e => e.Name.ToLowerInvariant().Trim() == name.ToLowerInvariant().Trim()).ToList(),
                 interactiveLimit,
                 interactiveCallbackAction,
                 gym => gym.Id,

@@ -141,7 +141,7 @@ namespace Raidfelden.Discord.Bot.Services
 	        {
 		        timeLeft = string.Concat(timeLeft, ":00");
 	        }
-	        if (TimeSpan.TryParseExact(timeLeft, "mm\\:ss", CultureInfo.InvariantCulture, out TimeSpan result))
+	        if (TimeSpan.TryParseExact(timeLeft, "m\\:ss", CultureInfo.InvariantCulture, out TimeSpan result))
 	        {
 		        return result;
 	        }
