@@ -90,7 +90,7 @@ namespace Raidfelden.Discord.Bot.Utilities.Ocr
 				imageFragment.Save($"_{RaidImageFragmentType.GymName}_Step1_Resize.png");
 			}
 
-			imageFragment.Mutate(m => m.Resize(resizeOptions).Invert().BinaryThreshold(0.2f));
+			imageFragment.Mutate(m => m.Invert().BinaryThreshold(0.2f).Resize(resizeOptions));
 
 			if (SaveDebugImages)
 			{

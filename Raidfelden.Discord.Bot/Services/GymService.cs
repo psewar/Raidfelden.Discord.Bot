@@ -27,10 +27,12 @@ namespace Raidfelden.Discord.Bot.Services
     public class GymService : IGymService
     {
 		protected ILocalizationService LocalizationService { get; }
+		protected IConfigurationService ConfigurationService { get; }
 
-		public GymService(ILocalizationService localizationService)
+	    public GymService(ILocalizationService localizationService, IConfigurationService configurationService)
 		{
 			LocalizationService = localizationService;
+			ConfigurationService = configurationService;
 			GymsByFences = new LazyConcurrentDictionary<FenceConfiguration, int[]>();
         }
 
@@ -40,7 +42,7 @@ namespace Raidfelden.Discord.Bot.Services
         {
             return await InteractiveServiceHelper.GenericGetEntityWithCallback(
                 GetGymsByNameAsync(context, name, fences),
-                list => list.Where(e => e.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).ToList(),
+                list => list.Where(e => e.Name.Trim() == name.Trim()).ToList(),
                 interactiveLimit,
                 interactiveCallbackAction,
                 gym => gym.Id,
@@ -55,7 +57,7 @@ namespace Raidfelden.Discord.Bot.Services
 	    public async Task<string> GetGymNameWithAdditionAsync(Forts gym, List<Forts> gymList)
 	    {
 			// Check if there is only one gym wth this name
-		    if (gymList.Count(e => e.Name == gym.Name) == 1)
+		    if (gymList.Count(e => e.Name.Trim() == gym.Name.Trim()) == 1)
 		    {
 			    return gym.Name;
 		    }
@@ -76,8 +78,8 @@ namespace Raidfelden.Discord.Bot.Services
 			    return gym.Url;
 		    }
 
-			// TODO: Get the key via DI
-		    var apiKey = Program.Config.GoogleMapsApiKeys.FirstOrDefault();
+		    var config = ConfigurationService.GetAppConfiguration();
+			var apiKey = config.GoogleMapsApiKeys.FirstOrDefault();
 		    if (string.IsNullOrWhiteSpace(apiKey))
 		    {
 			    return gym.Url;
@@ -158,14 +160,23 @@ namespace Raidfelden.Discord.Bot.Services
 			{
 				return new Dictionary<Forts, double>();
 			}
-			var algorithm = new Levenstein();
+			var algorithm = new JaroWinkler();
 			var gyms = GetGyms(context, fences);
 			var rankedList =
-				gyms.Select(e => new { Gym = e, Rank = algorithm.GetSimilarity(e.Name, name) })
+				gyms.Select(e => new { Gym = e, Rank = algorithm.GetSimilarity(TrimString(e.Name), TrimString(name)) })
 					   .OrderByDescending(e => e.Rank)
 					   .Where(e => e.Rank > 0.5f)
 					   .Take(limit);
 			return await Task.FromResult(rankedList.ToDictionary(k => k.Gym, v => v.Rank));
 		}
+
+	    private static string TrimString(string value)
+	    {
+		    if (string.IsNullOrWhiteSpace(value))
+		    {
+			    return value;
+		    }
+		    return value.Trim();
+	    }
 	}
 }

@@ -52,7 +52,7 @@ namespace Raidfelden.Discord.Bot.Tests
 			{
 				var ocrService = OcrTestsHelper.GetOcrService(ConfigurationService, context);
 				Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
-				var text = OcrTestsHelper.GetOcrResult(ocrService, basePath + "1080x1920_BottomMenu_CumberlandPresbyterianChurch_Kyogre.png");
+				var text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "1080x1920_BottomMenu_CumberlandPresbyterianChurch_Kyogre.png");
 				Assert.AreEqual(".raids add \"Cumberland Presbyterian Church\" \"Kyogre\" 44:15", text, true);
 			}
 		}
@@ -64,7 +64,7 @@ namespace Raidfelden.Discord.Bot.Tests
 			{
 				var ocrService = OcrTestsHelper.GetOcrService(ConfigurationService, context);
 				Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
-				var text = OcrTestsHelper.GetOcrResult(ocrService, basePath + "750x1334_SundownRanchLake_5.png");
+				var text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "750x1334_SundownRanchLake_5.png");
 				Assert.AreEqual(".raids add \"Sundown Ranch Lake\" \"5\" 44:15", text, true);
 			}
 		}

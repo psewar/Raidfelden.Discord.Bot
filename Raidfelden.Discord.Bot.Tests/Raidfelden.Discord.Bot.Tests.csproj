@@ -91,6 +91,9 @@
     <None Update="Ressources\Pictures\Raids\Karpador.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Ressources\Pictures\Raids\Kreuz - Kyogre %28Interactive%29.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Ressources\Pictures\Raids\LevelWrong3Instead5.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -13,7 +13,7 @@ namespace Raidfelden.Discord.Bot.Tests
 		public static OcrService GetOcrService(IConfigurationService configurationService, Hydro74000Context context)
 		{
 			var localizationService = new LocalizationService();
-			var gymService = new GymService(localizationService);
+			var gymService = new GymService(localizationService, configurationService);
 			var raidbossService = new RaidbossService();
 			var fileWatcherService = new FileWatcherService();
 			var pokemonService = new PokemonService(raidbossService, localizationService, fileWatcherService);
@@ -21,12 +21,19 @@ namespace Raidfelden.Discord.Bot.Tests
 			return new OcrService(context, configurationService, gymService, pokemonService, raidService, localizationService);
 		}
 
-		public static string GetOcrResult(OcrService ocrService, string filePath, FenceConfiguration[] fences = null)
+		public static string GetOcrResultString(OcrService ocrService, string filePath, FenceConfiguration[] fences = null)
 		{
 			var utcNow = SystemClock.Instance.GetCurrentInstant().InUtc();
 			var channelTimeZone = DateTimeZoneProviders.Tzdb["Europe/Zurich"];
 			var result = ocrService.AddRaidAsync(utcNow, channelTimeZone, filePath, 4, fences, true).Result;
 			return result.Message;
+		}
+
+		public static ServiceResponse GetOcrResult(OcrService ocrService, string filePath, FenceConfiguration[] fences = null)
+		{
+			var utcNow = SystemClock.Instance.GetCurrentInstant().InUtc();
+			var channelTimeZone = DateTimeZoneProviders.Tzdb["Europe/Zurich"];
+			return ocrService.AddRaidAsync(utcNow, channelTimeZone, filePath, 4, fences, true).Result;
 		}
 	}
 }

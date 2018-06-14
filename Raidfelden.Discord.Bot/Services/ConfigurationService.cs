@@ -15,6 +15,7 @@ namespace Raidfelden.Discord.Bot.Services
         IEnumerable<FenceConfiguration> GetFencesConfigurationForChannel(ChannelConfiguration channelConfiguration);
         OcrConfiguration GetOcrConfiguration();
 	    DateTimeZone GetChannelDateTimeZone(ICommandContext context);
+	    AppConfiguration GetAppConfiguration();
     }
 
     public class ConfigurationService : IConfigurationService
@@ -28,7 +29,12 @@ namespace Raidfelden.Discord.Bot.Services
             _fencesConfiguration = fencesConfiguration;
         }
 
-        public string GetCommandPrefix(ICommandContext context)
+	    public AppConfiguration GetAppConfiguration()
+	    {
+		    return _configuration;
+	    }
+		
+		public string GetCommandPrefix(ICommandContext context)
         {
             var prefix = _configuration.DefaultCommandPrefix;
             var guild = GetGuildConfiguration(context);

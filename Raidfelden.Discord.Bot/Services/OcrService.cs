@@ -176,7 +176,13 @@ namespace Raidfelden.Discord.Bot.Services
 		    {
 			    return true;
 		    }
-		    return result.Results.First().Value < threshold;
+
+		    var bestMatch = result.Results.First().Value;
+		    if (result.Results.Skip(1).Select(e => e.Value).Any(e => e > (bestMatch - 0.05d)))
+		    {
+			    return true;
+		    }
+			return result.Results.First().Value < threshold;
 	    }
 
 		private RaidImageConfiguration GetConfiguration(Image<Rgba32> image)
