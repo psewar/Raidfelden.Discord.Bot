@@ -1,32 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
-using Raidfelden.Discord.Bot.Configuration;
-using Raidfelden.Discord.Bot.Monocle;
-using Raidfelden.Discord.Bot.Utilities.Ocr;
+using NodaTime;
+using Raidfelden.Configuration;
+using Raidfelden.Entities;
+using Raidfelden.Interfaces.Entities;
+using Raidfelden.Services.Ocr;
+using Raidfelden.Services.Ocr.RaidConfigurations;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Processing.Transforms;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
-using System.Text;
-using NodaTime;
-using Raidfelden.Discord.Bot.Models;
-using Raidfelden.Discord.Bot.Utilities.Ocr.RaidConfigurations;
 
-namespace Raidfelden.Discord.Bot.Services
+namespace Raidfelden.Services
 {
 	public interface IOcrService
 	{
-		Task<ServiceResponse> AddRaidAsync(ZonedDateTime requestStartInUtc, DateTimeZone userZone, string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode);
+		Task<ServiceResponse> AddRaidAsync(Type textResource, ZonedDateTime requestStartInUtc, DateTimeZone userZone, string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode);
 	}
 
-	public class OcrService : IOcrService, IDisposable
+	public class OcrService : IOcrService
     {
-	    protected Hydro74000Context Context { get; }
         protected IConfigurationService ConfigurationService { get; }
         protected IGymService GymService { get; }
 	    protected IPokemonService PokemonService { get; }
@@ -34,9 +33,8 @@ namespace Raidfelden.Discord.Bot.Services
 		protected ILocalizationService LocalizationService { get; }
 	    protected bool SaveDebugImages { get; private set; }
 
-	    public OcrService(Hydro74000Context context, IConfigurationService configurationService, IGymService gymService, IPokemonService pokemonService, IRaidService raidService, ILocalizationService localizationService)
+	    public OcrService(IConfigurationService configurationService, IGymService gymService, IPokemonService pokemonService, IRaidService raidService, ILocalizationService localizationService)
 	    {
-			Context = context;
             ConfigurationService = configurationService;
             GymService = gymService;
 		    PokemonService = pokemonService;
@@ -44,7 +42,7 @@ namespace Raidfelden.Discord.Bot.Services
 		    LocalizationService = localizationService;
 	    }
 
-	    public async Task<ServiceResponse> AddRaidAsync(ZonedDateTime requestStartInUtc, DateTimeZone userZone, string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode)
+	    public async Task<ServiceResponse> AddRaidAsync(Type textResource, ZonedDateTime requestStartInUtc, DateTimeZone userZone, string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode)
 	    {
 		    SaveDebugImages = testMode;
 			using (var image = Image.Load(filePath))
@@ -56,7 +54,7 @@ namespace Raidfelden.Discord.Bot.Services
 					image.Save("_AfterPreprocess.png");
 				}
 
-				var raidOcrResult = await GetRaidOcrResultAsync(image, configuration, Context, fences);
+				var raidOcrResult = await GetRaidOcrResultAsync(image, configuration, fences);
 
 				if (!raidOcrResult.IsRaidImage)
 				{
@@ -66,34 +64,34 @@ namespace Raidfelden.Discord.Bot.Services
 				if (raidOcrResult.IsRaidBoss)
 				{
 					var timeLeft = raidOcrResult.RaidTimer.GetFirst();
-					return await InteractivePokemonResolve(requestStartInUtc, userZone, timeLeft, raidOcrResult, fences, interactiveLimit);
+					return await InteractivePokemonResolve(textResource, requestStartInUtc, userZone, timeLeft, raidOcrResult, fences, interactiveLimit);
 				}
 				else
 				{
 					var timeLeft = raidOcrResult.EggTimer.GetFirst();
 					var level = raidOcrResult.EggLevel.GetFirst();
-					return await InteractiveGymResolve(requestStartInUtc, userZone, timeLeft, level, null, raidOcrResult, fences, interactiveLimit);
+					return await InteractiveGymResolve(textResource, requestStartInUtc, userZone, timeLeft, level, null, raidOcrResult, fences, interactiveLimit);
 				}
 			}
 	    }
 
-	    private async Task<ServiceResponse> InteractivePokemonResolve(ZonedDateTime requestStartInUtc, DateTimeZone userZone, TimeSpan timeLeft, RaidOcrResult raidOcrResult, FenceConfiguration[] fences, int interactiveLimit)
+	    private async Task<ServiceResponse> InteractivePokemonResolve(Type textResource, ZonedDateTime requestStartInUtc, DateTimeZone userZone, TimeSpan timeLeft, RaidOcrResult raidOcrResult, FenceConfiguration[] fences, int interactiveLimit)
 	    {
 			if (UseInteractiveMode(raidOcrResult.Pokemon))
 			{
 				var pokemonCallbacks = InteractiveServiceHelper.GenericCreateCallbackAsync(interactiveLimit,
 					(selectedPokemon) =>
-						InteractiveGymResolve(requestStartInUtc, userZone, timeLeft, GetRaidbossPokemonById(selectedPokemon, raidOcrResult).Raidboss.Level, GetRaidbossPokemonById(selectedPokemon, raidOcrResult), raidOcrResult, fences, interactiveLimit),
+						InteractiveGymResolve(textResource, requestStartInUtc, userZone, timeLeft, GetRaidbossPokemonById(selectedPokemon, raidOcrResult).Raidboss.Level, GetRaidbossPokemonById(selectedPokemon, raidOcrResult), raidOcrResult, fences, interactiveLimit),
 					pokemon => pokemon.Pokemon.Id,
 					(pokemon, list) => Task.FromResult(pokemon.Pokemon.Name),
-					list => LocalizationService.Get("Pokemon_Errors_ToManyFound", list.Count, raidOcrResult.Pokemon.OcrValue, interactiveLimit, "raidboss-"),
-					list => LocalizationService.Get("Pokemon_Errors_InteractiveMode", list.Count, raidOcrResult.Pokemon.OcrValue, "raidboss-"),
+					list => LocalizationService.Get(textResource, "Pokemon_Errors_ToManyFound", list.Count, raidOcrResult.Pokemon.OcrValue, interactiveLimit, "raidboss-"),
+					list => LocalizationService.Get(textResource, "Pokemon_Errors_InteractiveMode", list.Count, raidOcrResult.Pokemon.OcrValue, "raidboss-"),
 					raidOcrResult.Pokemon.Results.Select(e => e.Key).ToList());
 				return await pokemonCallbacks;
 			}
 
 		    var raidbossPokemon = raidOcrResult.Pokemon.GetFirst();
-		    return await InteractiveGymResolve(requestStartInUtc, userZone, timeLeft, raidbossPokemon.Raidboss.Level, raidbossPokemon, raidOcrResult, fences,
+		    return await InteractiveGymResolve(textResource, requestStartInUtc, userZone, timeLeft, raidbossPokemon.Raidboss.Level, raidbossPokemon, raidOcrResult, fences,
 			    interactiveLimit);
 	    }
 
@@ -103,31 +101,31 @@ namespace Raidfelden.Discord.Bot.Services
 
 	    }
 
-	    private async Task<ServiceResponse> InteractiveGymResolve(ZonedDateTime requestStartInUtc, DateTimeZone userZone, TimeSpan timeLeft, int level, RaidbossPokemon raidbossPokemon, RaidOcrResult raidOcrResult, FenceConfiguration[] fences, int interactiveLimit)
+	    private async Task<ServiceResponse> InteractiveGymResolve(Type textResource, ZonedDateTime requestStartInUtc, DateTimeZone userZone, TimeSpan timeLeft, int level, RaidbossPokemon raidbossPokemon, RaidOcrResult raidOcrResult, FenceConfiguration[] fences, int interactiveLimit)
 	    {
 		    if (!UseInteractiveMode(raidOcrResult.Gym))
 		    {
-			    return await AddRaidAsync(requestStartInUtc, userZone, raidOcrResult.Gym.GetFirst().Id, level, raidbossPokemon, timeLeft, raidOcrResult, fences, interactiveLimit);
+			    return await AddRaidAsync(textResource, requestStartInUtc, userZone, raidOcrResult.Gym.GetFirst().Id, level, raidbossPokemon, timeLeft, raidOcrResult, fences, interactiveLimit);
 		    }
 
 		    if (raidOcrResult.Gym.Results == null || raidOcrResult.Gym.Results.Length == 0)
 		    {
-			    return new ServiceResponse(false, LocalizationService.Get("Gyms_Errors_NothingFound", raidOcrResult.Gym.OcrValue));
+			    return new ServiceResponse(false, LocalizationService.Get(textResource, "Gyms_Errors_NothingFound", raidOcrResult.Gym.OcrValue));
 		    }
 
 		    var gymCallbacks = InteractiveServiceHelper.GenericCreateCallbackAsync(interactiveLimit,
 			    (selectedGym) =>
-				    AddRaidAsync(requestStartInUtc, userZone, selectedGym, level, raidbossPokemon,
+				    AddRaidAsync(textResource, requestStartInUtc, userZone, selectedGym, level, raidbossPokemon,
 					    timeLeft, raidOcrResult, fences, interactiveLimit),
 			    gym => gym.Id,
 			    (gym, list) => GymService.GetGymNameWithAdditionAsync(gym, list),
-				list => LocalizationService.Get("Gyms_Errors_ToManyFound", list.Count, raidOcrResult.Gym.OcrValue, interactiveLimit),
-				list => LocalizationService.Get("Gyms_Errors_InteractiveMode", list.Count, raidOcrResult.Gym.OcrValue),
+				list => LocalizationService.Get(textResource, "Gyms_Errors_ToManyFound", list.Count, raidOcrResult.Gym.OcrValue, interactiveLimit),
+				list => LocalizationService.Get(textResource, "Gyms_Errors_InteractiveMode", list.Count, raidOcrResult.Gym.OcrValue),
 			    raidOcrResult.Gym.Results.Select(e => e.Key).ToList());
 		    return await gymCallbacks;
 	    }
 
-	    private async Task<ServiceResponse> AddRaidAsync(ZonedDateTime requestStartInUtc, DateTimeZone userZone, int gymId, int level, RaidbossPokemon raidbossPokemon, TimeSpan timeLeft, RaidOcrResult raidOcrResult, FenceConfiguration[] fences, int interactiveLimit)
+	    private async Task<ServiceResponse> AddRaidAsync(Type textResource, ZonedDateTime requestStartInUtc, DateTimeZone userZone, int gymId, int level, RaidbossPokemon raidbossPokemon, TimeSpan timeLeft, RaidOcrResult raidOcrResult, FenceConfiguration[] fences, int interactiveLimit)
 	    {
 		    IPokemon pokemon = null;
 		    IRaidboss raidboss = null;
@@ -140,7 +138,7 @@ namespace Raidfelden.Discord.Bot.Services
 			// aka (Unit)TestMode
 			if (!SaveDebugImages)
 			{
-				return await RaidService.AddResolveGymAsync(requestStartInUtc, userZone, gymId, (byte)level, pokemon,
+				return await RaidService.AddResolveGymAsync(textResource, requestStartInUtc, userZone, gymId, (byte)level, pokemon,
 				raidboss, timeLeft, interactiveLimit, fences);
 			}
 			else
@@ -273,7 +271,7 @@ namespace Raidfelden.Discord.Bot.Services
             return true;
 		}
 
-	    private async Task<RaidOcrResult> GetRaidOcrResultAsync(Image<Rgba32> image, RaidImageConfiguration imageConfiguration, Hydro74000Context context, FenceConfiguration[] fences = null)
+	    private async Task<RaidOcrResult> GetRaidOcrResultAsync(Image<Rgba32> image, RaidImageConfiguration imageConfiguration, FenceConfiguration[] fences = null)
 	    {
 		    var result = new RaidOcrResult();
 			var fragmentTypes = Enum.GetValues(typeof(RaidImageFragmentType)).Cast<RaidImageFragmentType>();
@@ -292,7 +290,7 @@ namespace Raidfelden.Discord.Bot.Services
 						    result.EggLevel = GetEggLevel(imageFragment, imageConfiguration).Result;
 						    break;
 					    case RaidImageFragmentType.GymName:
-						    result.Gym = GetGym(imageFragment, imageConfiguration, context, fences).Result;
+						    result.Gym = GetGym(imageFragment, imageConfiguration, fences).Result;
 						    break;
 					    case RaidImageFragmentType.PokemonName:
 						    result.Pokemon = GetPokemon(imageFragment, imageConfiguration).Result;
@@ -335,20 +333,20 @@ namespace Raidfelden.Discord.Bot.Services
 			return await Task.FromResult(new OcrResult<int>(true, string.Empty, results));
 		}
 
-		private async Task<OcrResult<Forts>> GetGym(Image<Rgba32> imageFragment, RaidImageConfiguration imageConfiguration, Hydro74000Context context, FenceConfiguration[] fences)
+		private async Task<OcrResult<IGym>> GetGym(Image<Rgba32> imageFragment, RaidImageConfiguration imageConfiguration, FenceConfiguration[] fences)
 		{
 			imageFragment = imageConfiguration.PreProcessGymNameFragment(imageFragment);
 
 			var ocrResult = await GetOcrResultAsync(imageFragment);
 			
-			if (!(ocrResult.Value > 0)) return new OcrResult<Forts>(false, ocrResult.Key);
-			var similarGyms = await GymService.GetSimilarGymsByNameAsync(context, ocrResult.Key, fences, 3);
+			if (!(ocrResult.Value > 0)) return new OcrResult<IGym>(false, ocrResult.Key);
+			var similarGyms = await GymService.GetSimilarGymsByNameAsync(ocrResult.Key, fences, 3);
 			if (similarGyms.Count == 0)
 			{
-				return new OcrResult<Forts>(false, ocrResult.Key);
+				return new OcrResult<IGym>(false, ocrResult.Key);
 			}
-			var results = similarGyms.Select(kvp => new KeyValuePair<Forts, double>(kvp.Key, kvp.Value)).ToArray();
-			return new OcrResult<Forts>(true, ocrResult.Key, results);
+			var results = similarGyms.Select(kvp => new KeyValuePair<IGym, double>(kvp.Key, kvp.Value)).ToArray();
+			return new OcrResult<IGym>(true, ocrResult.Key, results);
 		}
 
 		private async Task<OcrResult<RaidbossPokemon>> GetPokemon(Image<Rgba32> imageFragment, RaidImageConfiguration imageConfiguration)
@@ -510,12 +508,6 @@ namespace Raidfelden.Discord.Bot.Services
 			return new string(arr).TrimEnd('\n').Trim();
 		}
 
-
-	    public void Dispose()
-	    {
-		    Context?.Dispose();
-	    }
-
 	    public class OcrResult<T>
 		{
 			public OcrResult(bool isSuccess, string ocrValue, KeyValuePair<T, double>[] results = null)
@@ -539,7 +531,7 @@ namespace Raidfelden.Discord.Bot.Services
 		{
 			public OcrResult<int> EggLevel { get; set; }
 			public OcrResult<TimeSpan> EggTimer { get; set; }
-			public OcrResult<Forts> Gym { get; set; }
+			public OcrResult<IGym> Gym { get; set; }
 			public OcrResult<RaidbossPokemon> Pokemon { get; set; }
 			public OcrResult<TimeSpan> RaidTimer { get; set; }
 

@@ -20,6 +20,9 @@ using Raidfelden.Discord.Bot.Configuration.Providers.Fences.Novabot;
 using Discord.Addons.Interactive;
 using Raidfelden.Discord.Bot.Monocle;
 using Microsoft.EntityFrameworkCore;
+using Raidfelden.Data;
+using Raidfelden.Data.Monocle;
+using Raidfelden.Services;
 
 namespace Raidfelden.Discord.Bot
 {
@@ -69,21 +72,26 @@ namespace Raidfelden.Discord.Bot
                 .AddSingleton(configuration)
                 .AddSingleton(fences)
                 .AddEntityFrameworkMySql()
-                .AddDbContext<Hydro74000Context>(options => options.UseMySql(connectionString))
+                .AddDbContext<Data.Monocle.Hydro74000Context>(options => options.UseMySql(connectionString))
+				.ConfigureMonocle()
+				.ConfigureServices()
                 .AddSingleton(_client)
                 .AddSingleton(_commands)
-                .AddSingleton<IPokemonService, PokemonService>()
-                .AddSingleton<IRaidbossService, RaidbossService>()
-                .AddSingleton<IGymService, GymService>()
-                .AddSingleton<IRaidService, RaidService>()
-                .AddSingleton<IEmojiService, EmojiService>()
-                .AddSingleton<IConfigurationService>(ConfigurationService)
-                .AddSingleton<InteractiveService>()
-                .AddSingleton<IFileWatcherService, FileWatcherService>()
-                .AddScoped<IOcrService, OcrService>()
-                .AddScoped<ITestModule, TestModule>()
-				.AddScoped<ILocalizationService, LocalizationService>()
-                .BuildServiceProvider();
+				//            .AddSingleton<IPokemonService, PokemonService>()
+				//            .AddSingleton<IRaidbossService, RaidbossService>()
+				//            .AddSingleton<IGymService, GymService>()
+				//            .AddSingleton<IRaidService, RaidService>()
+				.AddSingleton<IEmojiService, EmojiService>()
+				//            .AddSingleton<IConfigurationService>(ConfigurationService)
+				//            .AddSingleton<InteractiveService>()
+				//            .AddSingleton<IFileWatcherService, FileWatcherService>()
+				//            .AddScoped<IOcrService, OcrService>()
+				//            .AddScoped<ITestModule, TestModule>()
+				//.AddScoped<ILocalizationService, LocalizationService>()
+				.BuildServiceProvider();
+
+			var blub = (IGymRepository)ServiceProvider.GetService(typeof(IGymRepository));
+			var blub2 = blub.Get(100);
 
             string botToken = configuration.BotToken;
             // Event Subscriptions

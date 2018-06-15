@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
-using Raidfelden.Discord.Bot.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
+using Raidfelden.Entities;
 
-namespace Raidfelden.Discord.Bot.Services
+namespace Raidfelden.Services
 {
     public interface IRaidbossService
     {

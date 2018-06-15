@@ -68,8 +68,9 @@
           <target state="final">{0} Arenen gefunden die das Wortfragment "{1}" enthalten. Bitte formuliere den Namen etwas exakter aus, maximal {2} dürfen übrig bleiben für den interaktiven Modus.</target>
         </trans-unit>
         <trans-unit id="Pokemon_Errors_InteractiveMode" translate="yes" xml:space="preserve">
-          <source>{0} {2}pokemon found containing the word fragment "{1}". Please select the appropriate arena using the number from the list.</source>
-          <target state="final">{0} {2}Pokemon gefunden die das Wortfragment "{1}" enthalten. Bitte wähle das passende Pokemon anhand der Nummer aus der Liste aus.</target>
+          <source>{0} {2}pokemon found containing the word fragment "{1}". Please select the appropriate pokemon using the number from the list.</source>
+          <target state="needs-review-translation">{0} {2}Pokemon gefunden die das Wortfragment "{1}" enthalten. Bitte wähle das passende Pokemon anhand der Nummer aus der Liste aus.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Pokemon_Errors_NothingFound" translate="yes" xml:space="preserve">
           <source>No {1}pokemon found containing the word fragment "{0}". Did you make a typing error?</source>

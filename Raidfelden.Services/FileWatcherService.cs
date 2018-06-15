@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Raidfelden.Discord.Bot.Services
+namespace Raidfelden.Services
 {
 	public interface IFileWatcherService
 	{
@@ -42,12 +42,11 @@ namespace Raidfelden.Discord.Bot.Services
 		private void OnChanged(object source, FileSystemEventArgs e)
 		{
 			var watcher = (FileSystemWatcher)source;
-			if (FileSystemWatcherCache.TryGetValue(watcher, out List<Action<string>> actions))
+			
+			if (!FileSystemWatcherCache.TryGetValue(watcher, out List<Action<string>> actions)) return;
+			foreach (var action in actions)
 			{
-				foreach (var action in actions)
-				{
-					action(e.FullPath);
-				}
+				action(e.FullPath);
 			}
 		}
 

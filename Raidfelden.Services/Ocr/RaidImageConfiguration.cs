@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Raidfelden.Discord.Bot.Extensions.ImageSharp;
+using Raidfelden.Services.Extensions.ImageSharp;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
@@ -9,7 +9,7 @@ using SixLabors.ImageSharp.Processing.Filters;
 using SixLabors.ImageSharp.Processing.Transforms;
 using SixLabors.Primitives;
 
-namespace Raidfelden.Discord.Bot.Utilities.Ocr
+namespace Raidfelden.Services.Ocr
 {
     public class RaidImageConfiguration
     {

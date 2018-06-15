@@ -67,8 +67,8 @@
           <target state="new">{0} gyms found that contain the word fragment "{1}". Please formulate the name a little more exactly, maximum {2} may remain for the interactive mode.</target>
         </trans-unit>
         <trans-unit id="Pokemon_Errors_InteractiveMode" translate="yes" xml:space="preserve">
-          <source>{0} {2}pokemon found containing the word fragment "{1}". Please select the appropriate arena using the number from the list.</source>
-          <target state="new">{0} {2}pokemon found containing the word fragment "{1}". Please select the appropriate arena using the number from the list.</target>
+          <source>{0} {2}pokemon found containing the word fragment "{1}". Please select the appropriate pokemon using the number from the list.</source>
+          <target state="new">{0} {2}pokemon found containing the word fragment "{1}". Please select the appropriate pokemon using the number from the list.</target>
         </trans-unit>
         <trans-unit id="Pokemon_Errors_NothingFound" translate="yes" xml:space="preserve">
           <source>No {1}pokemon found containing the word fragment "{0}". Did you make a typing error?</source>

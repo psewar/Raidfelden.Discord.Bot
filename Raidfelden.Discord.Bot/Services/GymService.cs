@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Raidfelden.Discord.Bot.Monocle;
 using Raidfelden.Discord.Bot.Configuration;
@@ -72,8 +73,16 @@ namespace Raidfelden.Discord.Bot.Services
 		    return stringBuilder.ToString();
 	    }
 
+		private static readonly LazyConcurrentDictionary<KeyValuePair<int, string>, string> LocationLookupCache = new LazyConcurrentDictionary<KeyValuePair<int, string>, string>();
+
 	    private async Task<string> GetLocationNameFromLocationAsync(Forts gym)
 	    {
+		    var languageCode = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+
+			if (LocationLookupCache.TryGetValue(new KeyValuePair<int, string>(gym.Id, languageCode), out string value))
+		    {
+			    return value;
+		    }
 		    Debug.Assert(gym.Lat != null, "gym.Lat != null");
 		    Debug.Assert(gym.Lon != null, "gym.Lon != null");
 		    var fallback = string.Concat(gym.Lat.Value, ", ", gym.Lon.Value);
@@ -88,14 +97,20 @@ namespace Raidfelden.Discord.Bot.Services
 		    {
 			    return fallback;
 		    }
-			IGeocoder geocoder = new GoogleGeocoder() { ApiKey = apiKey };
+		    IGeocoder geocoder = new GoogleGeocoder {ApiKey = apiKey, Language = languageCode};
 			var addresses = await geocoder.ReverseGeocodeAsync(gym.Lat.Value, gym.Lon.Value);
 		    if (addresses == null)
 		    {
 			    return fallback;
 		    }
 		    var address = addresses.FirstOrDefault();
-		    return address == null ? fallback : address.FormattedAddress;
+		    if (address == null)
+		    {
+			    return fallback;
+		    }
+
+		    LocationLookupCache.AddOrUpdate(new KeyValuePair<int, string>(gym.Id, languageCode), address.FormattedAddress, i => address.FormattedAddress);
+		    return address.FormattedAddress;
 	    }
 
 		private async Task<List<Forts>> GetGymsByNameAsync(Hydro74000Context context, string name, FenceConfiguration[] fences = null)
