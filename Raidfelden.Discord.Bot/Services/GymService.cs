@@ -73,29 +73,34 @@ namespace Raidfelden.Discord.Bot.Services
 
 	    private async Task<string> GetLocationNameFromLocationAsync(Forts gym)
 	    {
+		    var fallback = gym.Url;
 		    if (!gym.Lat.HasValue || !gym.Lon.HasValue)
 		    {
-			    return gym.Url;
+			    return string.IsNullOrWhiteSpace(fallback) ? gym.Id.ToString() : fallback;
 		    }
+			if (string.IsNullOrWhiteSpace(fallback))
+			{
+				fallback = string.Concat(gym.Lat.Value, ", ", gym.Lon.Value);
+			}
 
-		    var config = ConfigurationService.GetAppConfiguration();
+			var config = ConfigurationService.GetAppConfiguration();
 		    if (config.GoogleMapsApiKeys == null)
 		    {
-			    return gym.Url;
+			    return fallback;
 		    }
 			var apiKey = config.GoogleMapsApiKeys.FirstOrDefault();
 		    if (string.IsNullOrWhiteSpace(apiKey))
 		    {
-			    return gym.Url;
+			    return fallback;
 		    }
 			IGeocoder geocoder = new GoogleGeocoder() { ApiKey = apiKey };
 			var addresses = await geocoder.ReverseGeocodeAsync(gym.Lat.Value, gym.Lon.Value);
 		    if (addresses == null)
 		    {
-			    return gym.Url;
+			    return fallback;
 		    }
 		    var address = addresses.FirstOrDefault();
-		    return address == null ? gym.Url : address.FormattedAddress;
+		    return address == null ? fallback : address.FormattedAddress;
 	    }
 
 		private async Task<List<Forts>> GetGymsByNameAsync(Hydro74000Context context, string name, FenceConfiguration[] fences = null)
