@@ -160,7 +160,7 @@ namespace Raidfelden.Discord.Bot.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} {2}pokemon found containing the word fragment &quot;{1}&quot;. Please select the appropriate arena using the number from the list..
+        ///   Looks up a localized string similar to {0} {2}pokemon found containing the word fragment &quot;{1}&quot;. Please select the appropriate pokemon using the number from the list..
         /// </summary>
         public static string Pokemon_Errors_InteractiveMode {
             get {

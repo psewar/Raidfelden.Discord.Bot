@@ -151,7 +151,7 @@
     <value>raids</value>
   </data>
   <data name="Pokemon_Errors_InteractiveMode" xml:space="preserve">
-    <value>{0} {2}pokemon found containing the word fragment "{1}". Please select the appropriate arena using the number from the list.</value>
+    <value>{0} {2}pokemon found containing the word fragment "{1}". Please select the appropriate pokemon using the number from the list.</value>
   </data>
   <data name="Pokemon_Errors_NothingFound" xml:space="preserve">
     <value>No {1}pokemon found containing the word fragment "{0}". Did you make a typing error?</value>

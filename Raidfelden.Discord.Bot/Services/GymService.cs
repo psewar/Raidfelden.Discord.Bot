@@ -79,6 +79,10 @@ namespace Raidfelden.Discord.Bot.Services
 		    }
 
 		    var config = ConfigurationService.GetAppConfiguration();
+		    if (config.GoogleMapsApiKeys == null)
+		    {
+			    return gym.Url;
+		    }
 			var apiKey = config.GoogleMapsApiKeys.FirstOrDefault();
 		    if (string.IsNullOrWhiteSpace(apiKey))
 		    {
@@ -86,6 +90,10 @@ namespace Raidfelden.Discord.Bot.Services
 		    }
 			IGeocoder geocoder = new GoogleGeocoder() { ApiKey = apiKey };
 			var addresses = await geocoder.ReverseGeocodeAsync(gym.Lat.Value, gym.Lon.Value);
+		    if (addresses == null)
+		    {
+			    return gym.Url;
+		    }
 		    var address = addresses.FirstOrDefault();
 		    return address == null ? gym.Url : address.FormattedAddress;
 	    }
