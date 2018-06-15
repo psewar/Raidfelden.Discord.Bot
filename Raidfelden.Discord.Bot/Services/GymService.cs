@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,15 +74,9 @@ namespace Raidfelden.Discord.Bot.Services
 
 	    private async Task<string> GetLocationNameFromLocationAsync(Forts gym)
 	    {
-		    var fallback = gym.Url;
-		    if (!gym.Lat.HasValue || !gym.Lon.HasValue)
-		    {
-			    return string.IsNullOrWhiteSpace(fallback) ? gym.Id.ToString() : fallback;
-		    }
-			if (string.IsNullOrWhiteSpace(fallback))
-			{
-				fallback = string.Concat(gym.Lat.Value, ", ", gym.Lon.Value);
-			}
+		    Debug.Assert(gym.Lat != null, "gym.Lat != null");
+		    Debug.Assert(gym.Lon != null, "gym.Lon != null");
+		    var fallback = string.Concat(gym.Lat.Value, ", ", gym.Lon.Value);
 
 			var config = ConfigurationService.GetAppConfiguration();
 		    if (config.GoogleMapsApiKeys == null)
