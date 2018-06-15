@@ -4,21 +4,16 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using NodaTime;
-using NodaTime.Extensions;
-using Raidfelden.Discord.Bot.Configuration;
-using Raidfelden.Discord.Bot.Configuration.Providers.Fences.Novabot;
-using Raidfelden.Discord.Bot.Monocle;
-using Raidfelden.Discord.Bot.Services;
+using Raidfelden.Services;
+using Raidfelden.Configuration;
+using Raidfelden.Data.Monocle;
 
 namespace Raidfelden.Discord.Bot.Tests
 {
     [TestClass]
     public class UnitTest1
     {
-		public IConfiguration Configuration { get; set; }
-
 		protected IConfigurationService ConfigurationService { get; set; }
 
 		public AppConfiguration Config { get; set; }
@@ -32,19 +27,10 @@ namespace Raidfelden.Discord.Bot.Tests
         public UnitTest1()
 	    {
 			Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
-			Configuration = new ConfigurationBuilder()
-						.AddNovabotGeoFencesFile("geofences.txt")
-						.AddJsonFile("settings.json")
-						.Build();
-
-			var config = new AppConfiguration();
-			Config = config;
-			var section = Configuration.GetSection("AppConfiguration");
-			section.Bind(config);
-			ConnectionString = Configuration.GetConnectionString("ScannerDatabase");
-			ContextOptions = new DbContextOptionsBuilder().UseMySql(ConnectionString).Options;
-		    ConfigurationService = new ConfigurationService(config, null);
-	    }
+		    ConfigurationService = new ConfigurationService();
+            ConnectionString = ConfigurationService.GetConnectionString("ScannerDatabase");
+            ContextOptions = new DbContextOptionsBuilder().UseMySql(ConnectionString).Options;
+        }
 
         [TestMethod]
         public void TestMethod1()

@@ -1,6 +1,8 @@
-﻿namespace Raidfelden.Data.Monocle.Entities
+﻿using Raidfelden.Entities;
+
+namespace Raidfelden.Data.Monocle.Entities
 {
-    public partial class Sightings
+    public partial class Sightings : ISighting
     {
         public long Id { get; set; }
         public short? PokemonId { get; set; }

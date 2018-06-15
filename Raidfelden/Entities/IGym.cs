@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Raidfelden.Interfaces.Entities
+﻿namespace Raidfelden.Entities
 {
     public interface IGym
     {

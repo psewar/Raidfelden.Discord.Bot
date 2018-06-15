@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Raidfelden.Interfaces.Entities;
+using Raidfelden.Entities;
 
 namespace Raidfelden.Data.Monocle.Entities
 {

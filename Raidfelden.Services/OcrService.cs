@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using NodaTime;
 using Raidfelden.Configuration;
 using Raidfelden.Entities;
-using Raidfelden.Interfaces.Entities;
 using Raidfelden.Services.Ocr;
 using Raidfelden.Services.Ocr.RaidConfigurations;
 using SixLabors.ImageSharp;
@@ -19,7 +18,7 @@ using SixLabors.ImageSharp.Processing.Transforms;
 
 namespace Raidfelden.Services
 {
-	public interface IOcrService
+    public interface IOcrService
 	{
 		Task<ServiceResponse> AddRaidAsync(Type textResource, ZonedDateTime requestStartInUtc, DateTimeZone userZone, string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode);
 	}

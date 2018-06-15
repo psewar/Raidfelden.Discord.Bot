@@ -1,4 +1,4 @@
-﻿using Raidfelden.Interfaces.Entities;
+﻿using Raidfelden.Entities;
 
 namespace Raidfelden.Data
 {

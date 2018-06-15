@@ -15,7 +15,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Discord.Addons.Interactive\Discord.Addons.Interactive.csproj" />
+    <ProjectReference Include="..\Raidfelden.Data.Monocle\Raidfelden.Data.Monocle.csproj" />
     <ProjectReference Include="..\Raidfelden.Discord.Bot\Raidfelden.Discord.Bot.csproj" />
+    <ProjectReference Include="..\Raidfelden.Services\Raidfelden.Services.csproj" />
+    <ProjectReference Include="..\Raidfelden\Raidfelden.csproj" />
   </ItemGroup>
 
   <ItemGroup>

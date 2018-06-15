@@ -1,9 +1,11 @@
 ﻿using Discord.Commands;
 using NodaTime;
-using Raidfelden.Discord.Bot.Configuration;
-using Raidfelden.Discord.Bot.Extensions;
-using Raidfelden.Discord.Bot.Monocle;
+using Raidfelden.Configuration;
+using Raidfelden.Data;
 using Raidfelden.Discord.Bot.Services;
+using Raidfelden.Entities;
+using Raidfelden.Services;
+using Raidfelden.Services.Extensions;
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -13,13 +15,16 @@ namespace Raidfelden.Discord.Bot.Modules
     [Group("pokemon")]
     public class PokemonModule : BaseModule<SocketCommandContext, PokemonChannel>
     {
+        protected ISpawnpointRepository SpawnpointRepository { get; private set; }
+        protected ISightingRepository SightingRepository { get; private set; }
         private readonly IPokemonService _pokemonService;
-        private readonly Hydro74000Context context;
-        public PokemonModule(Hydro74000Context Tcontext, IPokemonService pokemonService, IConfigurationService configurationService, IEmojiService emojiService, ILocalizationService localizationService)
+
+        public PokemonModule(ISpawnpointRepository spawnpointRepository, ISightingRepository sightingRepository, IPokemonService pokemonService, IConfigurationService configurationService, IEmojiService emojiService, ILocalizationService localizationService)
             :base(configurationService, emojiService, localizationService)
         {
+            SpawnpointRepository = spawnpointRepository;
+            SightingRepository = sightingRepository;
             _pokemonService = pokemonService;
-            context = Tcontext;
         }
 
         [Command("add"), Summary("Erlaubt es manuell Pokemon zu erfassen, die dann auf den Karten angezeigt werden.")]
@@ -50,7 +55,7 @@ namespace Raidfelden.Discord.Bot.Modules
                     return;
                 }
 
-                var sighting = new Sightings();
+                var sighting = SightingRepository.CreateInstance();
                 sighting.PokemonId = (short)pokemon.Id;
                 sighting.Cp = cp;
                 sighting.Level = (short)level;
@@ -61,7 +66,7 @@ namespace Raidfelden.Discord.Bot.Modules
                 var utcNow = SystemClock.Instance.GetCurrentInstant().InUtc();
                 var seconds = (utcNow.Minute * 60) + utcNow.Second;
 
-                var spawnpoints = await context.GetNearestSpawnpointsAsync(lat, lon);
+                var spawnpoints = await SpawnpointRepository.GetNearestSpawnpointsAsync(lat, lon);
                 foreach (var spawnpoint in spawnpoints)
                 {
                     // Ignore spawnpoints with missing despawntime
@@ -121,8 +126,8 @@ namespace Raidfelden.Discord.Bot.Modules
                     sighting.Move1 = 291;
                 }
 
-                await context.Sightings.AddAsync(sighting);
-                await context.SaveChangesAsync();
+                await SightingRepository.AddAsync(sighting);
+                await SightingRepository.SaveAsync();
                 await ReplySuccessAsync("Pokemon erfolgreich hinzugefügt", $"Danke {Context.Message.Author.Username}, ich habe das Pokemon {pokemon.Name} hinzugefügt.");
                 //await ReplyAsync($"Danke {Context.Message.Author.Username}, ich habe das Pokemon {pokemon.Name} hinzugefügt.");
 

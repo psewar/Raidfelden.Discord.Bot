@@ -2,7 +2,6 @@
 using Discord;
 using System.Threading.Tasks;
 using Raidfelden.Discord.Bot.Services;
-using Raidfelden.Discord.Bot.Configuration;
 using Raidfelden.Discord.Bot.Attributes;
 using System.Linq;
 using Discord.Addons.Interactive;
@@ -11,6 +10,10 @@ using System.Globalization;
 using System.Text;
 using System.Threading;
 using NodaTime;
+using Raidfelden.Services;
+using Raidfelden.Discord.Bot.Resources;
+using Raidfelden.Discord.Bot.Extensions;
+using Raidfelden.Configuration;
 
 namespace Raidfelden.Discord.Bot.Modules
 {
@@ -28,13 +31,14 @@ namespace Raidfelden.Discord.Bot.Modules
 
         protected override void BeforeExecute(CommandInfo command)
         {
-            ChannelConfigurations = ConfigurationService.GetChannelConfigurations(Context).ToArray();
+            var guildConfiguration = ConfigurationService.GetGuildConfiguration(Context.GetGuildId());
+            ChannelConfigurations = ConfigurationService.GetChannelConfigurations(guildConfiguration, Context.Channel.Name).ToArray();
 	        var cultureCodeChannel = ChannelConfigurations.FirstOrDefault(e => !string.IsNullOrWhiteSpace(e.CultureCode));
 	        if (cultureCodeChannel != null)
 	        {
 		        Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(cultureCodeChannel.CultureCode);
 	        }
-	        ChannelTimeZone = ConfigurationService.GetChannelDateTimeZone(Context);
+	        ChannelTimeZone = ConfigurationService.GetChannelDateTimeZone(guildConfiguration, Context.Channel.Name);
             base.BeforeExecute(command);
         }
 
@@ -64,7 +68,7 @@ namespace Raidfelden.Discord.Bot.Modules
         {
             get
             {
-                if (ChannelConfiguration == null && !ConfigurationService.ShouldProcessRequestAnyway(Context))
+                if (ChannelConfiguration == null && !ConfigurationService.ShouldProcessRequestAnyway(Context.Message.Author.Username))
                 {
                     return false;
                 }
@@ -77,7 +81,7 @@ namespace Raidfelden.Discord.Bot.Modules
             var result = await interactiveCallback();
             if (result.IsSuccess)
             {
-				var messageBuilder = new StringBuilder(LocalizationService.Get("Base_Messages_Reply_Success", Context.Message.Author.Mention) + Environment.NewLine);
+				var messageBuilder = new StringBuilder(LocalizationService.Get(typeof(i18n),"Base_Messages_Reply_Success", Context.Message.Author.Mention) + Environment.NewLine);
 	            messageBuilder.Append(result.Message);
                 await ReplySuccessAsync(titleSuccess, messageBuilder.ToString());
             }
@@ -100,7 +104,7 @@ namespace Raidfelden.Discord.Bot.Modules
 
         protected virtual async Task ReplyFailureAsync(string message)
         {
-	        var embed = BuildEmbed(LocalizationService.Get("Base_Messages_Reply_Failure"), message, Color.Red);
+	        var embed = BuildEmbed(LocalizationService.Get(typeof(i18n), "Base_Messages_Reply_Failure"), message, Color.Red);
             await ReplyEmbed(embed);
         }
 
@@ -115,7 +119,7 @@ namespace Raidfelden.Discord.Bot.Modules
                 messageBuilder.AppendLine(emoji.Name + " " + resultInterActiveCallback.Key);
                 callbackCounter++;
             }
-            var embed = BuildEmbed(LocalizationService.Get("Base_Messages_Reply_Interactive"), messageBuilder.ToString(), Color.Orange);
+            var embed = BuildEmbed(LocalizationService.Get(typeof(i18n), "Base_Messages_Reply_Interactive"), messageBuilder.ToString(), Color.Orange);
             var reply = new ReactionCallbackData(string.Empty, embed, TimeSpan.FromSeconds(30));
             callbackCounter = 1;
             foreach (var resultInterActiveCallback in response.InterActiveCallbacks)

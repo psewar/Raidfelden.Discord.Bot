@@ -1,6 +1,8 @@
 ﻿using Discord;
 using Discord.Commands;
+using Raidfelden.Discord.Bot.Extensions;
 using Raidfelden.Discord.Bot.Services;
+using Raidfelden.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -28,8 +30,8 @@ namespace Raidfelden.Discord.Bot.Modules
 
         private IEnumerable<ModuleInfo> GetModules()
         {
-            var guild = ConfigurationService.GetGuildConfiguration(Context);
-            var prefix = ConfigurationService.GetCommandPrefix(Context);
+            var guild = ConfigurationService.GetGuildConfiguration(Context.GetGuildId());
+            var prefix = ConfigurationService.GetCommandPrefix(guild);
             var raid = new ModuleInfo
             {
                 Module = "raids",

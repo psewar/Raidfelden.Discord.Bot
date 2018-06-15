@@ -11,12 +11,11 @@ using Microsoft.EntityFrameworkCore;
 using Raidfelden.Configuration;
 using Raidfelden.Data;
 using Raidfelden.Entities;
-using Raidfelden.Interfaces.Entities;
 using SimMetrics.Net.Metric;
 
 namespace Raidfelden.Services
 {
-	public interface IGymService
+    public interface IGymService
 	{
 		Task<IGym> GetGymByIdAsync(int id);
 			

@@ -1,6 +1,6 @@
 ﻿namespace Raidfelden.Data.Monocle.Entities
 {
-    public partial class Spawnpoints
+    public partial class Spawnpoints : ISpawnpoint
     {
         public int Id { get; set; }
         public long? SpawnId { get; set; }

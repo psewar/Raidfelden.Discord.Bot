@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,10 +8,12 @@ namespace Raidfelden.Data.Monocle
 {
     public static class Setup
     {
-		public static IServiceCollection ConfigureMonocle(this IServiceCollection services)
-		{
-			//services.AddDbContext<Hydro74000Context>();
-			services.AddScoped<IGymRepository, GymRepository>();
+		public static IServiceCollection ConfigureMonocle(this IServiceCollection services, string connectionString)
+        {
+            //services.AddDbContext<Hydro74000Context>();
+            services.AddDbContext<Hydro74000Context>(options => options.UseMySql(connectionString));
+            services.AddScoped<IGymRepository, GymRepository>();
+            services.AddScoped<IRaidRepository, RaidRepository>();
 			//services.AddScoped<IAccountRepository, AccountRepository>();
 			//services.AddScoped<ICommonRepository, CommonRepository>();
 			//services.AddScoped<IFortRepository, FortRepository>();

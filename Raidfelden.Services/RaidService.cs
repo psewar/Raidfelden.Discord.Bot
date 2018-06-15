@@ -5,7 +5,6 @@ using NodaTime;
 using Raidfelden.Configuration;
 using Raidfelden.Data;
 using Raidfelden.Entities;
-using Raidfelden.Interfaces.Entities;
 
 namespace Raidfelden.Services
 {

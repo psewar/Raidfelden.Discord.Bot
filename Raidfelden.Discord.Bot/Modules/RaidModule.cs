@@ -1,6 +1,4 @@
 ﻿using Discord.Commands;
-using Raidfelden.Discord.Bot.Configuration;
-using Raidfelden.Discord.Bot.Extensions;
 using Raidfelden.Discord.Bot.Services;
 using System;
 using System.IO;
@@ -8,6 +6,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using NodaTime;
 using System.Linq;
+using Raidfelden.Services;
+using Raidfelden.Discord.Bot.Resources;
+using Raidfelden.Configuration;
+using Raidfelden.Services.Extensions;
 
 namespace Raidfelden.Discord.Bot.Modules
 {
@@ -42,8 +44,8 @@ namespace Raidfelden.Discord.Bot.Modules
 					    {
 						    tempImageFile = Path.GetTempFileName() + "." + attachment.Url.Split('.').Last();
 						    await DownloadAsync(httpClient, new Uri(attachment.Url), tempImageFile);
-						    var response = OcrService.AddRaidAsync(utcNow, ChannelTimeZone, tempImageFile, 4, Fences, false);
-						    await ReplyWithInteractive(() => response, LocalizationService.Get("Raids_Messages_Ocr_Successful_Title"));
+						    var response = OcrService.AddRaidAsync(typeof(i18n), utcNow, ChannelTimeZone, tempImageFile, 4, Fences, false);
+						    await ReplyWithInteractive(() => response, LocalizationService.Get(typeof(i18n), "Raids_Messages_Ocr_Successful_Title"));
 					    }
 					    finally
 					    {
@@ -67,7 +69,7 @@ namespace Raidfelden.Discord.Bot.Modules
 			    var innerstEx = ex.GetInnermostException();
 			    Console.WriteLine(innerstEx.Message);
 				Console.WriteLine(innerstEx.StackTrace);
-				await ReplyFailureAsync(LocalizationService.Get("Raids_Errors_Unexpected", innerstEx.Message));
+				await ReplyFailureAsync(LocalizationService.Get(typeof(i18n), "Raids_Errors_Unexpected", innerstEx.Message));
 			}
 	    }
 
@@ -110,15 +112,15 @@ namespace Raidfelden.Discord.Bot.Modules
 
 				//Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
 				var utcNow = SystemClock.Instance.GetCurrentInstant().InUtc();
-				var response = RaidService.AddAsync(utcNow, ChannelTimeZone, gymName, pokemonNameOrRaidLevel, timeLeft, 4, Fences);
-                await ReplyWithInteractive(() => response, LocalizationService.Get("Raids_Messages_Successful_Title"));
+				var response = RaidService.AddAsync(typeof(i18n), utcNow, ChannelTimeZone, gymName, pokemonNameOrRaidLevel, timeLeft, 4, Fences);
+                await ReplyWithInteractive(() => response, LocalizationService.Get(typeof(i18n), "Raids_Messages_Successful_Title"));
             }
             catch (Exception ex)
             {
                 var innerstEx = ex.GetInnermostException();
 				Console.WriteLine(innerstEx.Message);
 				Console.WriteLine(innerstEx.StackTrace);
-				await ReplyFailureAsync(LocalizationService.Get("Raids_Errors_Unexpected", innerstEx.Message));
+				await ReplyFailureAsync(LocalizationService.Get(typeof(i18n), "Raids_Errors_Unexpected", innerstEx.Message));
             }
         }
 
@@ -133,15 +135,15 @@ namespace Raidfelden.Discord.Bot.Modules
                     return;
                 }
 
-				var response = RaidService.HatchAsync(gymName, pokemonName, 4, Fences);
-                await ReplyWithInteractive(() => response, LocalizationService.Get("Raids_Messages_Successful_Title"));
+				var response = RaidService.HatchAsync(typeof(i18n), gymName, pokemonName, 4, Fences);
+                await ReplyWithInteractive(() => response, LocalizationService.Get(typeof(i18n), "Raids_Messages_Successful_Title"));
             }
             catch (Exception ex)
             {
                 var innerstEx = ex.GetInnermostException();
 				Console.WriteLine(innerstEx.Message);
 				Console.WriteLine(innerstEx.StackTrace);
-				await ReplyFailureAsync(LocalizationService.Get("Raids_Errors_Unexpected", innerstEx.Message));
+				await ReplyFailureAsync(LocalizationService.Get(typeof(i18n), "Raids_Errors_Unexpected", innerstEx.Message));
 			}
         }
 	}
