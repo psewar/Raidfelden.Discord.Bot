@@ -10,10 +10,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Raidfelden.Discord.Bot.Resources;
 using Discord.Addons.Interactive;
-using Microsoft.EntityFrameworkCore;
-using Raidfelden.Data;
+using Raidfelden.Discord.Bot.Resources;
 using Raidfelden.Data.Monocle;
 using Raidfelden.Services;
 
@@ -26,25 +24,10 @@ namespace Raidfelden.Discord.Bot
 
 		public static IServiceProvider ServiceProvider { get; private set; }
 
-        //public static IConfiguration Configuration { get; set; }
-
         protected IConfigurationService ConfigurationService { get; set; }
-
-        //public static AppConfiguration Config { get; set; }
 
         static void Main(string[] args)
         {
-            //Configuration = new ConfigurationBuilder()
-            //                    .AddNovabotGeoFencesFile("geofences.txt")
-            //                    .AddJsonFile("settings.json")
-            //                    .Build();
-
-            //var config = new AppConfiguration();
-            //Config = config;
-            //var section = Configuration.GetSection("AppConfiguration");
-            //section.Bind(config);
-
-
 			new Program().RunBotAsync().GetAwaiter().GetResult();
         }
 
@@ -55,31 +38,14 @@ namespace Raidfelden.Discord.Bot
 
             ConfigurationService = new ConfigurationService();
             var connectionString = ConfigurationService.GetConnectionString("ScannerDatabase");
-            //var fencesSection = Configuration.GetSection("FencesConfiguration");
-            //var fences = new FencesConfiguration();
-            //fencesSection.Bind(fences);
-            //ConfigurationService = new ConfigurationService(configuration, fences);
+
             ServiceProvider = new ServiceCollection()
-                //.AddLocalization(options => options.ResourcesPath = "Resources")
-                //.AddSingleton(configuration)
-                //.AddSingleton(fences)
-                .AddEntityFrameworkMySql()
-                .AddDbContext<Data.Monocle.Hydro74000Context>(options => options.UseMySql(connectionString))
 				.ConfigureMonocle(connectionString)
 				.ConfigureServices()
                 .AddSingleton(_client)
                 .AddSingleton(_commands)
-				//            .AddSingleton<IPokemonService, PokemonService>()
-				//            .AddSingleton<IRaidbossService, RaidbossService>()
-				//            .AddSingleton<IGymService, GymService>()
-				//            .AddSingleton<IRaidService, RaidService>()
 				.AddSingleton<IEmojiService, EmojiService>()
-                            //            .AddSingleton<IConfigurationService>(ConfigurationService)
-                            .AddSingleton<InteractiveService>()
-                //            .AddSingleton<IFileWatcherService, FileWatcherService>()
-                //            .AddScoped<IOcrService, OcrService>()
-                //            .AddScoped<ITestModule, TestModule>()
-                //.AddScoped<ILocalizationService, LocalizationService>()
+                .AddSingleton<InteractiveService>()
                 .BuildServiceProvider();
 
             ConfigurationService = ServiceProvider.GetService<IConfigurationService>();
@@ -88,9 +54,6 @@ namespace Raidfelden.Discord.Bot
             var cultureInfo = new CultureInfo(appConfiguration.CultureCode);
             Thread.CurrentThread.CurrentUICulture = cultureInfo;
             i18n.Culture = cultureInfo;
-
-            var blub = (IGymRepository)ServiceProvider.GetService(typeof(IGymRepository));
-			var blub2 = blub.Get(100);
 
             string botToken = appConfiguration.BotToken;
             // Event Subscriptions

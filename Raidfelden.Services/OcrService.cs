@@ -18,12 +18,12 @@ using SixLabors.ImageSharp.Processing.Transforms;
 
 namespace Raidfelden.Services
 {
-    public interface IOcrService
+	public interface IOcrService
 	{
 		Task<ServiceResponse> AddRaidAsync(Type textResource, ZonedDateTime requestStartInUtc, DateTimeZone userZone, string filePath, int interactiveLimit, FenceConfiguration[] fences, bool testMode);
 	}
 
-	public class OcrService : IOcrService
+	public partial class OcrService : IOcrService
     {
         protected IConfigurationService ConfigurationService { get; }
         protected IGymService GymService { get; }
@@ -57,7 +57,7 @@ namespace Raidfelden.Services
 
 				if (!raidOcrResult.IsRaidImage)
 				{
-					return new ServiceResponse(false, "The picture is probably not a raid image");
+					return new ServiceResponse(false, "Raids_Errors_NotAnRaidImage");
 				}
 
 				if (raidOcrResult.IsRaidBoss)
@@ -510,55 +510,6 @@ namespace Raidfelden.Services
 										 || c == '-'
 										 || c == ':')));
 			return new string(arr).TrimEnd('\n').Trim();
-		}
-
-	    public class OcrResult<T>
-		{
-			public OcrResult(bool isSuccess, string ocrValue, KeyValuePair<T, double>[] results = null)
-			{
-				IsSuccess = isSuccess;
-				OcrValue = ocrValue;
-				Results = results;
-			}
-
-			public bool IsSuccess { get; }
-			public KeyValuePair<T, double>[] Results { get; }
-			public string OcrValue { get; }
-
-			public T GetFirst()
-			{
-				return Results[0].Key;
-			}
-		}
-
-		public class RaidOcrResult
-		{
-			public OcrResult<int> EggLevel { get; set; }
-			public OcrResult<TimeSpan> EggTimer { get; set; }
-			public OcrResult<IGym> Gym { get; set; }
-			public OcrResult<RaidbossPokemon> Pokemon { get; set; }
-			public OcrResult<TimeSpan> RaidTimer { get; set; }
-
-			public bool IsRaidImage => EggTimer.IsSuccess || RaidTimer.IsSuccess;
-			public bool IsRaidBoss => RaidTimer.IsSuccess && Pokemon.IsSuccess;
-
-			public bool IsSuccess
-			{
-				get
-				{
-					if (!IsRaidImage)
-					{
-						return false;
-					}
-
-					if (IsRaidBoss)
-					{
-						return Gym.IsSuccess && Pokemon.IsSuccess && RaidTimer.IsSuccess;
-					}
-
-					return Gym.IsSuccess && EggLevel.IsSuccess && EggTimer.IsSuccess;
-				}
-			}
 		}
 	}
 }

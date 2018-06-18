@@ -214,6 +214,15 @@ namespace Raidfelden.Discord.Bot.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The picture is probably not a raid image.
+        /// </summary>
+        public static string Raids_Errors_NotAnRaidImage {
+            get {
+                return ResourceManager.GetString("Raids_Errors_NotAnRaidImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The remaining time must be specified in mm or mm:ss format..
         /// </summary>
         public static string Raids_Errors_TimeFormat {

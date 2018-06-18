@@ -106,6 +106,10 @@
           <source>OCR-Recognition successful</source>
           <target state="new">OCR-Recognition successful</target>
         </trans-unit>
+        <trans-unit id="Raids_Errors_NotAnRaidImage" translate="yes" xml:space="preserve">
+          <source>The picture is probably not a raid image</source>
+          <target state="new">The picture is probably not a raid image</target>
+        </trans-unit>
       </group>
     </body>
   </file>

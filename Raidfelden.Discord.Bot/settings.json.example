@@ -4,6 +4,7 @@
   },
     "AppConfiguration": {
         "CultureCode": "de-DE",
+        "TimeZone": "Europe/Zurich",
         "BotToken": "<DiscordBotToken>",
         "DefaultCommandPrefix": ".",
         "Guilds": [
@@ -59,6 +60,6 @@
         "GoogleMapsApiKeys": [
             "<ApiKey1>",
             "<ApiKey2>"
-        ] 
+        ]
     }
 }

@@ -60,8 +60,7 @@
         </trans-unit>
         <trans-unit id="Gyms_Errors_NothingFound" translate="yes" xml:space="preserve">
           <source>No gym found containing the word fragment "{0}". Did you make a typing error?</source>
-          <target state="needs-review-translation">Keine Arena gefunden die das Wortfragment "{0}" enthält. Hast du Dich eventuell vertippt?</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="final">Keine Arena gefunden die das Wortfragment "{0}" enthält. Hast du Dich eventuell vertippt?</target>
         </trans-unit>
         <trans-unit id="Gyms_Errors_ToManyFound" translate="yes" xml:space="preserve">
           <source>{0} gyms found that contain the word fragment "{1}". Please formulate the name a little more exactly, maximum {2} may remain for the interactive mode.</source>
@@ -69,8 +68,7 @@
         </trans-unit>
         <trans-unit id="Pokemon_Errors_InteractiveMode" translate="yes" xml:space="preserve">
           <source>{0} {2}pokemon found containing the word fragment "{1}". Please select the appropriate pokemon using the number from the list.</source>
-          <target state="needs-review-translation">{0} {2}Pokemon gefunden die das Wortfragment "{1}" enthalten. Bitte wähle das passende Pokemon anhand der Nummer aus der Liste aus.</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="final">{0} {2}Pokemon gefunden die das Wortfragment "{1}" enthalten. Bitte wähle das passende Pokemon anhand der Nummer aus der Liste aus.</target>
         </trans-unit>
         <trans-unit id="Pokemon_Errors_NothingFound" translate="yes" xml:space="preserve">
           <source>No {1}pokemon found containing the word fragment "{0}". Did you make a typing error?</source>
@@ -78,7 +76,7 @@
         </trans-unit>
         <trans-unit id="Pokemon_Errors_ToManyFound" translate="yes" xml:space="preserve">
           <source>{0} {3}pokemon found that contain the word fragment "{1}". Please formulate the name a little more exactly, maximum {2} may remain for the interactive mode.</source>
-          <target state="final">{0} {3}Pokemon gefunden die das Wortfragment "{1}" enthalten. Bitte formuliere den Namen etwas exakter aus, maximal {2} dürfen übrig bleiben für den interaktiven Modus.</target>
+          <target state="final">{0} {3}Pokemon gefunden die das Wortfragment "{1}" enthalten. Bitte formuliere den Namen etwas exakter aus, maximal {2} dürfen für den interaktiven Modus übrig bleiben.</target>
         </trans-unit>
         <trans-unit id="Raids_Messages_Successful_Text" translate="yes" xml:space="preserve">
           <source>Thank you {0} I added the raid with the following parameters: </source>
@@ -107,6 +105,10 @@
         <trans-unit id="Raids_Messages_Ocr_Successful_Title" translate="yes" xml:space="preserve">
           <source>OCR-Recognition successful</source>
           <target state="final">OCR-Erkenung erfolgreich</target>
+        </trans-unit>
+        <trans-unit id="Raids_Errors_NotAnRaidImage" translate="yes" xml:space="preserve">
+          <source>The picture is probably not a raid image</source>
+          <target state="final">Das Bild ist vermutlich kein Raid Screenshot</target>
         </trans-unit>
       </group>
     </body>
