@@ -197,6 +197,20 @@ namespace Raidfelden.Discord.Bot.Tests
 		}
 
 		[TestMethod]
+		public void BottomMenu720X1280()
+		{
+			using (var context = new Hydro74000Context(ContextOptions))
+			{
+				var ocrService = OcrTestsHelper.GetOcrService(ConfigurationService, context);
+				var text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "BottomMenu854x1717_Egg.png");
+				Assert.AreEqual(".raids add \"Triple slider\" \"2\" 43:1", text, true);
+
+				text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "BottomMenu854x1717_Boss.png");
+				Assert.AreEqual(".raids add \"Spielplatz Erlenmatt\" \"Tyracroc\" 23:12", text, true);
+			}
+		}
+
+		[TestMethod]
 		public void BottomMenu900X1600()
 		{
 			using (var context = new Hydro74000Context(ContextOptions))

@@ -229,6 +229,11 @@ namespace Raidfelden.Services
                 configuration = new BottomMenu900X1600Configuration();
             }
 
+			if (image.Height == 1280 && image.Width == 720 && HasBottomMenu(image))
+			{
+				configuration = new BottomMenu720X1280Configuration();
+			}
+
 			configuration.SaveDebugImages = SaveDebugImages;
 
 			return configuration;

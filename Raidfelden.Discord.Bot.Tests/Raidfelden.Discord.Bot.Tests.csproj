@@ -22,6 +22,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Ressources\Pictures\Raids\BottomMenu854x1717_Boss.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\BottomMenu854x1717_Egg.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Ressources\Pictures\Raids\A la Loko - Kyogre.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
