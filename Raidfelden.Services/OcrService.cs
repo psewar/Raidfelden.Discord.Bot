@@ -195,6 +195,8 @@ namespace Raidfelden.Services
 					}
 					else
 					{
+						//configuration = new WithoutMenu1080X2220Configuration();
+						//configuration.BottomMenuHeight = GetBottomMenuHeight(image);
 						configuration = new BottomMenu1080X2220Configuration();
 					}
 				}
@@ -214,9 +216,19 @@ namespace Raidfelden.Services
 				configuration = new IPhoneXImageConfiguration();
 			}
 
+			if (image.Height == 2160 && image.Width == 1080 && HasBottomMenu(image))
+			{
+				configuration = new BottomMenu1080X2160Configuration();
+			}
+
 			if (image.Height == 1920 && image.Width == 1080 && HasBottomMenu(image))
 			{
-				configuration = new BottomMenu1080X1920Configuration();
+				configuration.BottomMenuHeight = GetBottomMenuHeight(image);
+				if (configuration.BottomMenuHeight < 50)
+				{
+					configuration.BottomMenuHeight = 128;
+				}
+				//configuration = new BottomMenu1080X1920Configuration();
 			}
 
             if (image.Height == 1600 && image.Width == 739)
@@ -274,6 +286,24 @@ namespace Raidfelden.Services
             }
             return true;
 		}
+
+	    private int GetBottomMenuHeight(Image<Rgba32> image)
+	    {
+		    int counter = 0;
+			var color = image[0, image.Height - 1];
+			for (int i = image.Height -2; i >= 0; i--)
+		    {
+			    if (image[0, i] == color)
+			    {
+				    counter++;
+			    }
+			    else
+			    {
+				    return counter;
+			    }
+		    }
+			return counter;
+	    }
 
 	    private async Task<RaidOcrResult> GetRaidOcrResultAsync(Image<Rgba32> image, RaidImageConfiguration imageConfiguration, FenceConfiguration[] fences = null)
 	    {
