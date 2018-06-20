@@ -53,7 +53,7 @@ namespace Raidfelden.Services
 					image.Save("_AfterPreprocess.png");
 				}
 
-				var raidOcrResult = await GetRaidOcrResultAsync(image, configuration, fences);
+				var raidOcrResult = await GetRaidOcrResultAsync(image, configuration, interactiveLimit, fences);
 
 				if (!raidOcrResult.IsRaidImage)
 				{
@@ -219,6 +219,7 @@ namespace Raidfelden.Services
 			if (image.Height == 2160 && image.Width == 1080 && HasBottomMenu(image))
 			{
 				configuration = new BottomMenu1080X2160Configuration();
+				configuration.BottomMenuHeight = GetBottomMenuHeight(image);
 			}
 
 			if (image.Height == 1920 && image.Width == 1080 && HasBottomMenu(image))
@@ -305,7 +306,7 @@ namespace Raidfelden.Services
 			return counter;
 	    }
 
-	    private async Task<RaidOcrResult> GetRaidOcrResultAsync(Image<Rgba32> image, RaidImageConfiguration imageConfiguration, FenceConfiguration[] fences = null)
+	    private async Task<RaidOcrResult> GetRaidOcrResultAsync(Image<Rgba32> image, RaidImageConfiguration imageConfiguration, int interactiveLimit, FenceConfiguration[] fences = null)
 	    {
 		    var result = new RaidOcrResult();
 			var fragmentTypes = Enum.GetValues(typeof(RaidImageFragmentType)).Cast<RaidImageFragmentType>();
@@ -324,10 +325,10 @@ namespace Raidfelden.Services
 						    result.EggLevel = GetEggLevel(imageFragment, imageConfiguration).Result;
 						    break;
 					    case RaidImageFragmentType.GymName:
-						    result.Gym = GetGym(imageFragment, imageConfiguration, fences).Result;
+						    result.Gym = GetGym(imageFragment, imageConfiguration, fences, interactiveLimit).Result;
 						    break;
 						case RaidImageFragmentType.PokemonName:
-							result.Pokemon = GetPokemon(imageFragment, imageConfiguration).Result;
+							result.Pokemon = GetPokemon(imageFragment, imageConfiguration, interactiveLimit).Result;
 							break;
 						case RaidImageFragmentType.PokemonCp:
 							result.PokemonCp = GetPokemonCp(imageFragment, imageConfiguration).Result;
@@ -386,14 +387,14 @@ namespace Raidfelden.Services
 			return await Task.FromResult(new OcrResult<int>(true, string.Empty, results));
 		}
 
-		private async Task<OcrResult<IGym>> GetGym(Image<Rgba32> imageFragment, RaidImageConfiguration imageConfiguration, FenceConfiguration[] fences)
+		private async Task<OcrResult<IGym>> GetGym(Image<Rgba32> imageFragment, RaidImageConfiguration imageConfiguration, FenceConfiguration[] fences, int interactiveLimit)
 		{
 			imageFragment = imageConfiguration.PreProcessGymNameFragment(imageFragment);
 
 			var ocrResult = await GetOcrResultAsync(imageFragment);
 			
 			if (!(ocrResult.Value > 0)) return new OcrResult<IGym>(false, ocrResult.Key);
-			var similarGyms = await GymService.GetSimilarGymsByNameAsync(ocrResult.Key, fences, 3);
+			var similarGyms = await GymService.GetSimilarGymsByNameAsync(ocrResult.Key, fences, interactiveLimit * 2);
 			if (similarGyms.Count == 0)
 			{
 				return new OcrResult<IGym>(false, ocrResult.Key);
@@ -402,14 +403,14 @@ namespace Raidfelden.Services
 			return new OcrResult<IGym>(true, ocrResult.Key, results);
 		}
 
-		private async Task<OcrResult<RaidbossPokemon>> GetPokemon(Image<Rgba32> imageFragment, RaidImageConfiguration imageConfiguration)
+		private async Task<OcrResult<RaidbossPokemon>> GetPokemon(Image<Rgba32> imageFragment, RaidImageConfiguration imageConfiguration, int interactiveLimit)
 		{
 			imageFragment = imageConfiguration.PreProcessPokemonNameFragment(imageFragment);
 
 			var ocrResult = await GetOcrResultAsync(imageFragment);
 
 			if (!(ocrResult.Value > 0)) return new OcrResult<RaidbossPokemon>(false, ocrResult.Key);
-			var similarPokemon = PokemonService.GetSimilarRaidbossByNameAsync(ocrResult.Key, 3).Result;
+			var similarPokemon = PokemonService.GetSimilarRaidbossByNameAsync(ocrResult.Key, interactiveLimit * 2).Result;
 			if (similarPokemon.Count == 0)
 			{
 				return new OcrResult<RaidbossPokemon>(false, ocrResult.Key);
