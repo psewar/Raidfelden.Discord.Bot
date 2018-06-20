@@ -7,6 +7,7 @@
         "TimeZone": "Europe/Zurich",
         "BotToken": "<DiscordBotToken>",
         "DefaultCommandPrefix": ".",
+        "InteractiveReactionLimit": 4,
         "Guilds": [
             {
                 "GuildId": "12345678901234567890",

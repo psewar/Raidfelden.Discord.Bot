@@ -21,6 +21,7 @@ namespace Raidfelden.Services.Ocr
 
 	    protected virtual Rectangle GymNamePosition => new Rectangle(220, ModifiedHeight(110), 860, 100);
 		protected virtual Rectangle PokemonNamePosition => new Rectangle(0, ModifiedHeight(480), 1080, 140);
+		protected virtual Rectangle PokemonCpPosition => new Rectangle(220, ModifiedHeight(330), 700, 140);
 		protected virtual Rectangle RaidTimerPosition => new Rectangle(820, ModifiedHeight(1150), 180, 50);
         protected virtual Rectangle EggTimerPosition => new Rectangle(400, ModifiedHeight(385), 270, 70);
         protected virtual Rectangle EggLevelPosition => new Rectangle(285, ModifiedHeight(545), 510, 80);
@@ -30,6 +31,7 @@ namespace Raidfelden.Services.Ocr
 		public virtual List<Point> Level4Points => new List<Point> { new Point(95, 24), new Point(202, 24), new Point(308, 24), new Point(414, 24) };
 
 		public virtual Rgba32 PokemonNameBorderColor => new Rgba32(168, 185, 189, 255);
+	    public virtual Rgba32 TextColor => Rgba32.White;
 
 		protected virtual int ResizeWidth { get; }
         protected virtual int ResizeHeight { get; }
@@ -55,6 +57,8 @@ namespace Raidfelden.Services.Ocr
                         return GymNamePosition;
                     case RaidImageFragmentType.PokemonName:
                         return PokemonNamePosition;
+					case RaidImageFragmentType.PokemonCp:
+		                return PokemonCpPosition;
                     case RaidImageFragmentType.RaidTimer:
                         return RaidTimerPosition;
                 }
@@ -123,7 +127,7 @@ namespace Raidfelden.Services.Ocr
 				}
 			};
 			var borderColor = PokemonNameBorderColor;
-			foreach (var encapsulatedPixel in GetEncapsulatedPixels(imageFragment, Rgba32.White, borderColor, 30))
+			foreach (var encapsulatedPixel in GetEncapsulatedPixels(imageFragment, TextColor, borderColor, 30))
 			{
 				floodFillLetters.FloodFill(encapsulatedPixel);
 			}
@@ -152,7 +156,7 @@ namespace Raidfelden.Services.Ocr
 					[2] = floodFillBorderTolerance
 				}
 			};
-			foreach (var point in PixelsWithColorAtBorder(imageFragment, Rgba32.White))
+			foreach (var point in PixelsWithColorAtBorder(imageFragment, TextColor))
 			{
 				floodFillBorders.FloodFill(point);
 			}
@@ -167,7 +171,71 @@ namespace Raidfelden.Services.Ocr
 		    return imageFragment;
 	    }
 
-	    public Image<Rgba32> PreProcessTimerFragment(Image<Rgba32> imageFragment, RaidImageFragmentType imageFragmentType)
+		public virtual Image<Rgba32> PreProcessPokemonCpFragment(Image<Rgba32> imageFragment)
+		{
+			return PreProcessPokemonInfo(imageFragment, RaidImageFragmentType.PokemonCp);
+		}
+
+	    private Image<Rgba32> PreProcessPokemonInfo(Image<Rgba32> imageFragment, RaidImageFragmentType imageFragmentType)
+	    {
+			const byte floodFillLetterTolerance = 10;
+			var floodFillLetters = new QueueLinearFloodFiller
+			{
+				Bitmap = imageFragment,
+				FillColor = Rgba32.Black,
+				Tolerance =
+				{
+					[0] = floodFillLetterTolerance,
+					[1] = floodFillLetterTolerance,
+					[2] = floodFillLetterTolerance
+				}
+			};
+			var borderColor = PokemonNameBorderColor;
+			foreach (var encapsulatedPixel in GetEncapsulatedPixels(imageFragment, TextColor, borderColor, 30))
+			{
+				floodFillLetters.FloodFill(encapsulatedPixel);
+			}
+
+			if (SaveDebugImages)
+			{
+				imageFragment.Save($"_{imageFragmentType}_Step1_FloodFillLetters.png");
+			}
+
+			imageFragment.Mutate(m => m.BinaryThreshold(0.01f).Invert());
+
+			if (SaveDebugImages)
+			{
+				imageFragment.Save($"_{imageFragmentType}_Step2_Binary.png");
+			}
+
+			const byte floodFillBorderTolerance = 1;
+			var floodFillBorders = new QueueLinearFloodFiller
+			{
+				Bitmap = imageFragment,
+				FillColor = Rgba32.Black,
+				Tolerance =
+				{
+					[0] = floodFillBorderTolerance,
+					[1] = floodFillBorderTolerance,
+					[2] = floodFillBorderTolerance
+				}
+			};
+			foreach (var point in PixelsWithColorAtBorder(imageFragment, TextColor))
+			{
+				floodFillBorders.FloodFill(point);
+			}
+
+			imageFragment.Mutate(m => m.Invert());
+
+			if (SaveDebugImages)
+			{
+				imageFragment.Save($"_{imageFragmentType}_Step3_BlackBorderEntriesRemoved.png");
+			}
+
+			return imageFragment;
+		}
+
+		public Image<Rgba32> PreProcessTimerFragment(Image<Rgba32> imageFragment, RaidImageFragmentType imageFragmentType)
 	    {
 			imageFragment.Mutate(m => m.Invert().BinaryThreshold(0.1f));
 			if (SaveDebugImages)
@@ -189,6 +257,8 @@ namespace Raidfelden.Services.Ocr
 					if (image[x, y] != color) continue;
 					var leftBorderFound = false;
 					var rightBorderFound = false;
+					var topBorderFound = false;
+					var bottomBorderFound = false;
 					// Ok we found a pixel with the given color, let's check if it's encapsulated
 					var maxDistance = maxDistanceToSearch ?? Math.Max(x, imageWidth - x);
 					for (var increment = 1; increment < maxDistance; increment++)
@@ -205,7 +275,7 @@ namespace Raidfelden.Services.Ocr
 
 						// Check right
 						var xRight = x + increment;
-						if (xRight <= (imageWidth - 1) && !rightBorderFound)
+						if (xRight < (imageWidth-1) && !rightBorderFound)
 						{
 							if (IsColorWithinTolerance(image[xRight, y], borderColor, colorTolerance))
 							{
@@ -213,11 +283,41 @@ namespace Raidfelden.Services.Ocr
 							}
 						}
 
-						if (!leftBorderFound || !rightBorderFound) continue;
-						yield return new Point(x, y);
-						leftBorderFound = rightBorderFound = false;
-						// We do not have to check more pixels as they lay within the same border
-						x = Math.Min(xRight, imageWidth);
+						if (leftBorderFound && rightBorderFound)
+						{
+							yield return new Point(x, y);
+							leftBorderFound = rightBorderFound = false;
+							// We do not have to check more pixels as they lay within the same border
+							//x = Math.Min(xRight, imageWidth-1);
+						}
+
+						// Check top
+						var yTop = y - increment;
+						if (yTop >= 0 && !topBorderFound)
+						{
+							if (IsColorWithinTolerance(image[x, yTop], borderColor, colorTolerance))
+							{
+								topBorderFound = true;
+							}
+						}
+
+						// Check bottom
+						var yBottom = y + increment;
+						if (yBottom < (imageHeight-1) && !bottomBorderFound)
+						{
+							if (IsColorWithinTolerance(image[x, yBottom], borderColor, colorTolerance))
+							{
+								bottomBorderFound = true;
+							}
+						}
+
+						if (topBorderFound && bottomBorderFound)
+						{
+							yield return new Point(x, y);
+							topBorderFound = bottomBorderFound = false;
+							// We do not have to check more pixels as they lay within the same border
+							//y = Math.Min(yBottom, imageHeight - 1);
+						}
 					}
 				}
 			}

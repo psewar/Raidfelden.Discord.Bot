@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="fr" original="RAIDFELDEN.DISCORD.BOT/RESOURCES/I18N.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6900.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="RAIDFELDEN.DISCORD.BOT/RESOURCES/I18N.RESX" datatype="resx">
+        <trans-unit id="Base_Messages_Reply_Failure" translate="yes" xml:space="preserve">
+          <source>Error during processing</source>
+          <target state="new">Error during processing</target>
+        </trans-unit>
+        <trans-unit id="Base_Messages_Reply_Interactive" translate="yes" xml:space="preserve">
+          <source>Interactive reaction needed</source>
+          <target state="new">Interactive reaction needed</target>
+        </trans-unit>
+        <trans-unit id="Base_Messages_Reply_Success" translate="yes" xml:space="preserve">
+          <source>Tank you {0}, I added the following informations:</source>
+          <target state="new">Tank you {0}, I added the following informations:</target>
+        </trans-unit>
+        <trans-unit id="BotName" translate="yes" xml:space="preserve">
+          <source>Raidfelden Info Bot</source>
+          <target state="new">Raidfelden Info Bot</target>
+        </trans-unit>
+        <trans-unit id="BotPrefix" translate="yes" xml:space="preserve">
+          <source>.</source>
+          <target state="new">.</target>
+        </trans-unit>
+        <trans-unit id="Gyms_Errors_InteractiveMode" translate="yes" xml:space="preserve">
+          <source>{0} gyms found containing the word fragment "{1}". Please select the appropriate arena using the number from the list.</source>
+          <target state="new">{0} gyms found containing the word fragment "{1}". Please select the appropriate arena using the number from the list.</target>
+        </trans-unit>
+        <trans-unit id="Gyms_Errors_NothingFound" translate="yes" xml:space="preserve">
+          <source>No gym found containing the word fragment "{0}". Did you make a typing error?</source>
+          <target state="new">No gym found containing the word fragment "{0}". Did you make a typing error?</target>
+        </trans-unit>
+        <trans-unit id="Gyms_Errors_ToManyFound" translate="yes" xml:space="preserve">
+          <source>{0} gyms found that contain the word fragment "{1}". Please formulate the name a little more exactly, maximum {2} may remain for the interactive mode.</source>
+          <target state="new">{0} gyms found that contain the word fragment "{1}". Please formulate the name a little more exactly, maximum {2} may remain for the interactive mode.</target>
+        </trans-unit>
+        <trans-unit id="ModuleRaidsCommandAdd" translate="yes" xml:space="preserve">
+          <source>add</source>
+          <target state="new">add</target>
+        </trans-unit>
+        <trans-unit id="ModuleRaidsCommandAddDescription" translate="yes" xml:space="preserve">
+          <source>Command to add raids to the map</source>
+          <target state="new">Command to add raids to the map</target>
+        </trans-unit>
+        <trans-unit id="ModuleRaidsIdentifier" translate="yes" xml:space="preserve">
+          <source>raids</source>
+          <target state="new">raids</target>
+        </trans-unit>
+        <trans-unit id="Pokemon_Errors_InteractiveMode" translate="yes" xml:space="preserve">
+          <source>{0} {2}pokemon found containing the word fragment "{1}". Please select the appropriate pokemon using the number from the list.</source>
+          <target state="new">{0} {2}pokemon found containing the word fragment "{1}". Please select the appropriate pokemon using the number from the list.</target>
+        </trans-unit>
+        <trans-unit id="Pokemon_Errors_NothingFound" translate="yes" xml:space="preserve">
+          <source>No {1}pokemon found containing the word fragment "{0}". Did you make a typing error?</source>
+          <target state="new">No {1}pokemon found containing the word fragment "{0}". Did you make a typing error?</target>
+        </trans-unit>
+        <trans-unit id="Pokemon_Errors_ToManyFound" translate="yes" xml:space="preserve">
+          <source>{0} {3}pokemon found that contain the word fragment "{1}". Please formulate the name a little more exactly, maximum {2} may remain for the interactive mode.</source>
+          <target state="new">{0} {3}pokemon found that contain the word fragment "{1}". Please formulate the name a little more exactly, maximum {2} may remain for the interactive mode.</target>
+        </trans-unit>
+        <trans-unit id="Raids_Errors_Hatch_NoEntryFound" translate="yes" xml:space="preserve">
+          <source>Currently there is no raid registered at the gym "{0}".</source>
+          <target state="new">Currently there is no raid registered at the gym "{0}".</target>
+        </trans-unit>
+        <trans-unit id="Raids_Errors_LevelToHigh" translate="yes" xml:space="preserve">
+          <source>The maximum permissible value for a raid level is 5.</source>
+          <target state="new">The maximum permissible value for a raid level is 5.</target>
+        </trans-unit>
+        <trans-unit id="Raids_Errors_LevelToLow" translate="yes" xml:space="preserve">
+          <source>The smallest permissible value for a raid level is 1</source>
+          <target state="new">The smallest permissible value for a raid level is 1</target>
+        </trans-unit>
+        <trans-unit id="Raids_Errors_NotAnRaidImage" translate="yes" xml:space="preserve">
+          <source>The picture is probably not a raid image</source>
+          <target state="new">The picture is probably not a raid image</target>
+        </trans-unit>
+        <trans-unit id="Raids_Errors_TimeFormat" translate="yes" xml:space="preserve">
+          <source>The remaining time must be specified in mm or mm:ss format.</source>
+          <target state="new">The remaining time must be specified in mm or mm:ss format.</target>
+        </trans-unit>
+        <trans-unit id="Raids_Errors_Unexpected" translate="yes" xml:space="preserve">
+          <source>An unexcpected error occured: {0}</source>
+          <target state="new">An unexcpected error occured: {0}</target>
+        </trans-unit>
+        <trans-unit id="Raids_Messages_BossAdded" translate="yes" xml:space="preserve">
+          <source>{0} at the gym "{1}", ends at {2}</source>
+          <target state="new">{0} at the gym "{1}", ends at {2}</target>
+        </trans-unit>
+        <trans-unit id="Raids_Messages_BossHatched" translate="yes" xml:space="preserve">
+          <source>{0} is now the new raid boss at the arena "{1}".</source>
+          <target state="new">{0} is now the new raid boss at the arena "{1}".</target>
+        </trans-unit>
+        <trans-unit id="Raids_Messages_EggAdded" translate="yes" xml:space="preserve">
+          <source>Level {0} raid at the gym "{1}", starts at {2}</source>
+          <target state="new">Level {0} raid at the gym "{1}", starts at {2}</target>
+        </trans-unit>
+        <trans-unit id="Raids_Messages_Ocr_Successful_Title" translate="yes" xml:space="preserve">
+          <source>OCR-Recognition successful</source>
+          <target state="new">OCR-Recognition successful</target>
+        </trans-unit>
+        <trans-unit id="Raids_Messages_Successful_Text" translate="yes" xml:space="preserve">
+          <source>Thank you {0} I added the raid with the following parameters: </source>
+          <target state="new">Thank you {0} I added the raid with the following parameters: </target>
+        </trans-unit>
+        <trans-unit id="Raids_Messages_Successful_Title" translate="yes" xml:space="preserve">
+          <source>Raid addedd successfully</source>
+          <target state="new">Raid addedd successfully</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

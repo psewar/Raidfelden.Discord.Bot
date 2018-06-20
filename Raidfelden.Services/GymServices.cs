@@ -97,7 +97,7 @@ namespace Raidfelden.Services
 			var config = ConfigurationService.GetAppConfiguration();
 			if (config.GoogleMapsApiKeys == null)
 			{
-				Console.WriteLine("GLNFL: No AppConfoiguration found");
+				Console.WriteLine("GLNFL: No GoogleMapsApiKeys Config Section found");
 				return fallback;
 			}
 			var apiKey = config.GoogleMapsApiKeys.FirstOrDefault();

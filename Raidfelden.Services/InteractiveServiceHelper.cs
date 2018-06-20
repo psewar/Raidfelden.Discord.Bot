@@ -47,9 +47,16 @@ namespace Raidfelden.Services
 
 		    // Add the callback actions to the interactive Mode
 		    var callbacks = new Dictionary<string, Func<Task<ServiceResponse>>>(entities.Count);
+		    var counter = 1;
 		    foreach (var entity in entities)
 		    {
-			    callbacks.Add(await getEntityName(entity, entities), () => interactiveCallback(getEntityIdentifier(entity)));
+			    var entityName = await getEntityName(entity, entities);
+			    if (callbacks.ContainsKey(entityName))
+			    {
+				    entityName = $"{entityName} ({counter})";
+				    counter++;
+			    }
+				callbacks.Add(entityName, () => interactiveCallback(getEntityIdentifier(entity)));
 		    }
 
 		    return new ServiceResponse<TEntity>(false, getErrorMessageInteractive(entities), default(TEntity), callbacks);

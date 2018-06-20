@@ -57,7 +57,7 @@ namespace Raidfelden.Services
 
 				if (!raidOcrResult.IsRaidImage)
 				{
-					return new ServiceResponse(false, "Raids_Errors_NotAnRaidImage");
+					return new ServiceResponse(false, LocalizationService.Get(textResource, "Raids_Errors_NotAnRaidImage"));
 				}
 
 				if (raidOcrResult.IsRaidBoss)
@@ -326,16 +326,35 @@ namespace Raidfelden.Services
 					    case RaidImageFragmentType.GymName:
 						    result.Gym = GetGym(imageFragment, imageConfiguration, fences).Result;
 						    break;
-					    case RaidImageFragmentType.PokemonName:
-						    result.Pokemon = GetPokemon(imageFragment, imageConfiguration).Result;
-						    break;
-					    case RaidImageFragmentType.RaidTimer:
+						case RaidImageFragmentType.PokemonName:
+							result.Pokemon = GetPokemon(imageFragment, imageConfiguration).Result;
+							break;
+						case RaidImageFragmentType.PokemonCp:
+							result.PokemonCp = GetPokemonCp(imageFragment, imageConfiguration).Result;
+							break;
+						case RaidImageFragmentType.RaidTimer:
 						    result.RaidTimer = GetTimerValue(imageFragment, imageConfiguration, type).Result;
 						    break;
 				    }
 			    }
 		    }
 			);
+
+		    if (result.PokemonCp.IsSuccess && result.Pokemon.IsSuccess)
+		    {
+			    if (result.Pokemon.Results.Length > 1)
+			    {
+				    var pokemonWithCp =
+					    result.Pokemon.Results.Where(e => e.Value == 1d || e.Key.Raidboss.Cp == result.PokemonCp.GetFirst())
+						    .Select(e => new KeyValuePair<RaidbossPokemon, double>(e.Key, Math.Max(e.Value * 2, 1)))
+						    .ToArray();
+
+				    if (pokemonWithCp.Length > 0)
+				    {
+					    result.Pokemon = new OcrResult<RaidbossPokemon>(true, result.Pokemon.OcrValue, pokemonWithCp);
+				    }
+			    }
+		    }
 
 		    return await Task.FromResult(result);
 	    }
@@ -398,6 +417,25 @@ namespace Raidfelden.Services
 			var results = similarPokemon.Select(kvp => new KeyValuePair<RaidbossPokemon, double>(kvp.Key, kvp.Value)).ToArray();
 			return new OcrResult<RaidbossPokemon> (true, ocrResult.Key, results);
 		}
+
+	    private async Task<OcrResult<int>> GetPokemonCp(Image<Rgba32> image, RaidImageConfiguration imageConfiguration)
+	    {
+		    var imageFragment = imageConfiguration.PreProcessPokemonCpFragment(image);
+			var ocrResult = await GetOcrResultAsync(imageFragment);
+			if (!(ocrResult.Value > 0)) return new OcrResult<int>(false, ocrResult.Key);
+		    var cpString = ocrResult.Key.ToLowerInvariant();
+		    if (cpString.StartsWith("cp") || cpString.StartsWith("03") || cpString.StartsWith("c3") || cpString.StartsWith("0p"))
+		    {
+			    cpString = ocrResult.Key.Substring(2).ToLowerInvariant();
+		    }
+			var cp = GetDigitsOnly(cpString);
+		    cp = cp.Substring(Math.Max(cp.Length - 5, 0));
+		    if (!int.TryParse(cp, out int result))
+		    {
+			    return new OcrResult<int>(false, ocrResult.Key);
+		    }
+		    return new OcrResult<int>(true, ocrResult.Key, new[] {new KeyValuePair<int, double>(result, ocrResult.Value)});
+	    }
 
 		private async Task<OcrResult<TimeSpan>> GetTimerValue(Image<Rgba32> imageFragment, RaidImageConfiguration imageConfiguration, RaidImageFragmentType imageFragmentType)
 		{
@@ -541,5 +579,12 @@ namespace Raidfelden.Services
 										 || c == ':')));
 			return new string(arr).TrimEnd('\n').Trim();
 		}
-	}
+
+	    private static string GetDigitsOnly(string input)
+	    {
+		    var arr = input.ToCharArray();
+		    arr = Array.FindAll(arr, char.IsDigit);
+		    return new string(arr);
+	    }
+    }
 }

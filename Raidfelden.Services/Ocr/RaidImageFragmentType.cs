@@ -4,6 +4,7 @@
 	{
 		GymName,
 		PokemonName,
+		PokemonCp,
 		RaidTimer,
 		EggTimer,
 		EggLevel

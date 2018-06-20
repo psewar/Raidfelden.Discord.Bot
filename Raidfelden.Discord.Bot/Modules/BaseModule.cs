@@ -27,6 +27,7 @@ namespace Raidfelden.Discord.Bot.Modules
             ConfigurationService = configurationService;
             EmojiService = emojiService;
 	        LocalizationService = localizationService;
+	        InteractiveReactionLimit = ConfigurationService.GetAppConfiguration().InteractiveReactionLimit;
         }
 
         protected override void BeforeExecute(CommandInfo command)
@@ -47,6 +48,7 @@ namespace Raidfelden.Discord.Bot.Modules
 	    protected ILocalizationService LocalizationService { get; }
 	    protected ChannelConfiguration[] ChannelConfigurations { get; set; }
 	    protected DateTimeZone ChannelTimeZone { get; private set; }
+	    protected int InteractiveReactionLimit { get; private set; }
 
 	    protected TConfiguration ChannelConfiguration
         {

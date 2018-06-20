@@ -10,7 +10,8 @@
         public string CultureCode { get; set; }
         public string BotToken { get; set; }
         public string DefaultCommandPrefix { get; set; }
-        public GuildConfiguration[] Guilds { get; set; }
+	    public int InteractiveReactionLimit { get; set; }
+	    public GuildConfiguration[] Guilds { get; set; }
         public OcrConfiguration OcrConfiguration { get; set; }
 	    public string Timezone { get; set; }
 	    public string[] GoogleMapsApiKeys { get; set; }

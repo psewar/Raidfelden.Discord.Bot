@@ -12,6 +12,7 @@ namespace Raidfelden.Services
 			public OcrResult<TimeSpan> EggTimer { get; set; }
 			public OcrResult<IGym> Gym { get; set; }
 			public OcrResult<RaidbossPokemon> Pokemon { get; set; }
+			public OcrResult<int> PokemonCp { get; set; }
 			public OcrResult<TimeSpan> RaidTimer { get; set; }
 
 			public bool IsRaidImage => EggTimer.IsSuccess || RaidTimer.IsSuccess;

@@ -76,8 +76,8 @@ namespace Raidfelden.Discord.Bot.Tests
 				Assert.AreEqual(".raids add \"Theilsiefje Säule\" \"Absol\" 44:24", text, true);
 
 				// Raidboss blocks part of the name - Could be possible to fix
-				//text = GetOcrResult(ocrService, basePath + "HoOhAsAmonitas.png", engine);
-				//Assert.AreEqual(".raids add \"Steinmann am Rhein\" \"Ho-Oh\" 25:16", text, true);
+				text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "HoOhAsAmonitas.png");
+				Assert.AreEqual(".raids add \"Steinmann am Rhein \" \"Ho-Oh\" 25:16", text, true);
 
 				// Raidboss blocks part of the name -- No way this is gonna work ^^
 				//text = GetOcrResult(ocrService, basePath + "BHF Pratteln - Ho-Oh.png", engine);
@@ -86,6 +86,17 @@ namespace Raidfelden.Discord.Bot.Tests
 	    }
 
 	    [TestMethod]
+	    public void CpChecks()
+	    {
+		    using (var context = new Hydro74000Context(ContextOptions))
+		    {
+			    var ocrService = OcrTestsHelper.GetOcrService(ConfigurationService, context);
+			    var text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "HoOhAsAmonitas.png");
+				Assert.AreEqual(".raids add \"Steinmann am Rhein \" \"Ho-Oh\" 25:16", text, true);
+			}
+	    }
+
+		[TestMethod]
 	    public void GymNameCorrections()
 	    {
 			using (var context = new Hydro74000Context(ContextOptions))
