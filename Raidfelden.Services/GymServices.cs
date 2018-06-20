@@ -86,33 +86,37 @@ namespace Raidfelden.Services
 		private async Task<string> GetLocationNameFromLocationAsync(IGym gym)
 		{
 			var languageCode = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
-
+			Console.WriteLine("GetLocationNameFromLocationAsync enter with: " + languageCode);
 			if (LocationLookupCache.TryGetValue(new KeyValuePair<int, string>(gym.Id, languageCode), out string value))
 			{
 				return value;
 			}
 
 			var fallback = string.Concat(gym.Latitude, ", ", gym.Longitude);
-
+			Console.WriteLine("GLNFL: Fallback defined as " + fallback);
 			var config = ConfigurationService.GetAppConfiguration();
 			if (config.GoogleMapsApiKeys == null)
 			{
+				Console.WriteLine("GLNFL: No AppConfoiguration found");
 				return fallback;
 			}
 			var apiKey = config.GoogleMapsApiKeys.FirstOrDefault();
 			if (string.IsNullOrWhiteSpace(apiKey))
 			{
+				Console.WriteLine("GLNFL: No Api-Key found");
 				return fallback;
 			}
 			IGeocoder geocoder = new GoogleGeocoder { ApiKey = apiKey, Language = languageCode };
 			var addresses = await geocoder.ReverseGeocodeAsync(gym.Latitude, gym.Longitude);
 			if (addresses == null)
 			{
+				Console.WriteLine("GLNFL: Google Api returend null");
 				return fallback;
 			}
 			var address = addresses.FirstOrDefault();
 			if (address == null)
 			{
+				Console.WriteLine("GLNFL: Google Api returend no addresses");
 				return fallback;
 			}
 
