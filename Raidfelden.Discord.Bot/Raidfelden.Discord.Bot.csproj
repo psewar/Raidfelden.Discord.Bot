@@ -17,6 +17,7 @@
   </Target>
   <ItemGroup>
     <None Remove="MultilingualResources\Raidfelden.Discord.Bot.de.xlf" />
+    <None Remove="MultilingualResources\Raidfelden.Discord.Bot.fr.xlf" />
     <None Remove="MultilingualResources\Raidfelden.Discord.Bot.qps-ploc.xlf" />
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +57,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Resources\en.pokemon.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\fr.pokemon.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="run.sh">
@@ -139,6 +143,9 @@
   </ItemGroup>
   <ItemGroup>
     <XliffResource Include="MultilingualResources\Raidfelden.Discord.Bot.de.xlf" />
+    <XliffResource Include="MultilingualResources\Raidfelden.Discord.Bot.fr.xlf">
+      <SubType>Designer</SubType>
+    </XliffResource>
     <XliffResource Include="MultilingualResources\Raidfelden.Discord.Bot.qps-ploc.xlf" />
   </ItemGroup>
   <ItemGroup>

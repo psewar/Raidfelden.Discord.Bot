@@ -51,5 +51,17 @@ namespace Raidfelden.Discord.Bot.Tests
 				Assert.AreEqual(".raids add \"Sundown Ranch Lake\" \"5\" 44:15", text, true);
 			}
 		}
+
+		[TestMethod]
+		public void Ntx_BottomMenu1080X2160()
+		{
+			using (var context = new Hydro74000Context(ContextOptions))
+			{
+				var ocrService = OcrTestsHelper.GetOcrService(ConfigurationService, context);
+				Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
+				var text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "BottomMenu1080x2160Level1Instead2.png");
+				Assert.AreEqual(".raids add \"Sundown Ranch Lake\" \"5\" 44:15", text, true);
+			}
+		}
 	}
 }
