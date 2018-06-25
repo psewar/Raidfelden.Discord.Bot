@@ -168,6 +168,9 @@
   <data name="Raids_Errors_LevelToLow" xml:space="preserve">
     <value>The smallest permissible value for a raid level is 1</value>
   </data>
+  <data name="Raids_Errors_NotAnRaidImage" xml:space="preserve">
+    <value>The picture is probably not a raid image</value>
+  </data>
   <data name="Raids_Errors_TimeFormat" xml:space="preserve">
     <value>The remaining time must be specified in mm or mm:ss format.</value>
   </data>

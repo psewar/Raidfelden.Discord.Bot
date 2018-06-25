@@ -15,10 +15,28 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Discord.Addons.Interactive\Discord.Addons.Interactive.csproj" />
+    <ProjectReference Include="..\Raidfelden.Data.Monocle\Raidfelden.Data.Monocle.csproj" />
     <ProjectReference Include="..\Raidfelden.Discord.Bot\Raidfelden.Discord.Bot.csproj" />
+    <ProjectReference Include="..\Raidfelden.Services\Raidfelden.Services.csproj" />
+    <ProjectReference Include="..\Raidfelden\Raidfelden.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Ressources\Pictures\Raids\1080x2160Level4Instead5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\BottomBarSmall1080x1920Level5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\BottomMenu1080x2160Boss.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\BottomMenu854x1717_Boss.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\BottomMenu854x1717_Egg.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Ressources\Pictures\Raids\A la Loko - Kyogre.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -121,6 +139,9 @@
     <None Update="Ressources\Pictures\Raids\Ntx\750x1334_ValleyCreekChurch_5.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Ressources\Pictures\Raids\Ntx\BottomMenu1080x2160Level1Instead2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Ressources\Pictures\Raids\NullRefException1.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -149,6 +170,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Ressources\Pictures\Raids\Screenshot_20180519-172950.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\WithoutMenu1080x1920.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Ressources\Pictures\Raids\ZurLandskrone-Karpador.jpg">

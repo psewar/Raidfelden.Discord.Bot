@@ -1,26 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
+﻿using System.Globalization;
 using System.Threading;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Raidfelden.Discord.Bot.Configuration;
-using Raidfelden.Discord.Bot.Configuration.Providers.Fences.Novabot;
-using Raidfelden.Discord.Bot.Monocle;
-using Raidfelden.Discord.Bot.Services;
+using Raidfelden.Services;
+using Raidfelden.Data.Monocle;
 
 namespace Raidfelden.Discord.Bot.Tests
 {
-	[TestClass]
+    [TestClass]
 	public class NtxMapTests
     {
-		public IConfiguration Configuration { get; set; }
-
 		protected IConfigurationService ConfigurationService { get; set; }
-
-		public AppConfiguration Config { get; set; }
 
 		public string ConnectionString { get; set; }
 
@@ -31,18 +21,11 @@ namespace Raidfelden.Discord.Bot.Tests
 		public NtxMapTests()
 		{
 			Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
-			Configuration = new ConfigurationBuilder()
-						.AddNovabotGeoFencesFile("geofences.txt")
-						.AddJsonFile("settings.json")
-						.Build();
 
-			var config = new AppConfiguration();
-			Config = config;
-			var section = Configuration.GetSection("AppConfiguration");
-			section.Bind(config);
-			ConnectionString = Configuration.GetConnectionString("ScannerDatabase");
+            ConfigurationService = new ConfigurationService();
+            ConnectionString = ConfigurationService.GetConnectionString("ScannerDatabase");
 			ContextOptions = new DbContextOptionsBuilder().UseMySql(ConnectionString).Options;
-			ConfigurationService = new ConfigurationService(config, null);
+			
 		}
 
 		[TestMethod]
@@ -65,6 +48,18 @@ namespace Raidfelden.Discord.Bot.Tests
 				var ocrService = OcrTestsHelper.GetOcrService(ConfigurationService, context);
 				Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
 				var text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "750x1334_SundownRanchLake_5.png");
+				Assert.AreEqual(".raids add \"Sundown Ranch Lake\" \"5\" 44:15", text, true);
+			}
+		}
+
+		[TestMethod]
+		public void Ntx_BottomMenu1080X2160()
+		{
+			using (var context = new Hydro74000Context(ContextOptions))
+			{
+				var ocrService = OcrTestsHelper.GetOcrService(ConfigurationService, context);
+				Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
+				var text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "BottomMenu1080x2160Level1Instead2.png");
 				Assert.AreEqual(".raids add \"Sundown Ranch Lake\" \"5\" 44:15", text, true);
 			}
 		}

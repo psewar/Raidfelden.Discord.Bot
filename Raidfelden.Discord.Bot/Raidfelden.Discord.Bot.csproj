@@ -17,6 +17,7 @@
   </Target>
   <ItemGroup>
     <None Remove="MultilingualResources\Raidfelden.Discord.Bot.de.xlf" />
+    <None Remove="MultilingualResources\Raidfelden.Discord.Bot.fr.xlf" />
     <None Remove="MultilingualResources\Raidfelden.Discord.Bot.qps-ploc.xlf" />
   </ItemGroup>
   <ItemGroup>
@@ -24,14 +25,14 @@
     <PackageReference Include="GeoAPI" Version="1.7.5-pre020" />
     <PackageReference Include="Geocoding.Core" Version="4.0.1" />
     <PackageReference Include="Geocoding.Google" Version="4.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
-    <PackageReference Include="NodaTime" Version="2.2.6" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.0" />
+    <PackageReference Include="NodaTime" Version="2.3.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.0-rc1-final" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
     <PackageReference Include="SimMetrics.Net" Version="1.0.4" />
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0004" />
@@ -58,6 +59,9 @@
     <None Update="Resources\en.pokemon.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\fr.pokemon.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="run.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -65,7 +69,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="settings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="tessdata\configs\bazaar">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -133,9 +137,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Discord.Addons.Interactive\Discord.Addons.Interactive.csproj" />
+    <ProjectReference Include="..\Raidfelden.Data.Monocle\Raidfelden.Data.Monocle.csproj" />
+    <ProjectReference Include="..\Raidfelden.Services\Raidfelden.Services.csproj" />
+    <ProjectReference Include="..\Raidfelden\Raidfelden.csproj" />
   </ItemGroup>
   <ItemGroup>
     <XliffResource Include="MultilingualResources\Raidfelden.Discord.Bot.de.xlf" />
+    <XliffResource Include="MultilingualResources\Raidfelden.Discord.Bot.fr.xlf">
+      <SubType>Designer</SubType>
+    </XliffResource>
     <XliffResource Include="MultilingualResources\Raidfelden.Discord.Bot.qps-ploc.xlf" />
   </ItemGroup>
   <ItemGroup>

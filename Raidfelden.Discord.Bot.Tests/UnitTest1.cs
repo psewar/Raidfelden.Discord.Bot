@@ -4,21 +4,16 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using NodaTime;
-using NodaTime.Extensions;
-using Raidfelden.Discord.Bot.Configuration;
-using Raidfelden.Discord.Bot.Configuration.Providers.Fences.Novabot;
-using Raidfelden.Discord.Bot.Monocle;
-using Raidfelden.Discord.Bot.Services;
+using Raidfelden.Services;
+using Raidfelden.Configuration;
+using Raidfelden.Data.Monocle;
 
 namespace Raidfelden.Discord.Bot.Tests
 {
     [TestClass]
     public class UnitTest1
     {
-		public IConfiguration Configuration { get; set; }
-
 		protected IConfigurationService ConfigurationService { get; set; }
 
 		public AppConfiguration Config { get; set; }
@@ -32,19 +27,10 @@ namespace Raidfelden.Discord.Bot.Tests
         public UnitTest1()
 	    {
 			Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("de-DE");
-			Configuration = new ConfigurationBuilder()
-						.AddNovabotGeoFencesFile("geofences.txt")
-						.AddJsonFile("settings.json")
-						.Build();
-
-			var config = new AppConfiguration();
-			Config = config;
-			var section = Configuration.GetSection("AppConfiguration");
-			section.Bind(config);
-			ConnectionString = Configuration.GetConnectionString("ScannerDatabase");
-			ContextOptions = new DbContextOptionsBuilder().UseMySql(ConnectionString).Options;
-		    ConfigurationService = new ConfigurationService(config, null);
-	    }
+		    ConfigurationService = new ConfigurationService();
+            ConnectionString = ConfigurationService.GetConnectionString("ScannerDatabase");
+            ContextOptions = new DbContextOptionsBuilder().UseMySql(ConnectionString).Options;
+        }
 
         [TestMethod]
         public void TestMethod1()
@@ -90,8 +76,8 @@ namespace Raidfelden.Discord.Bot.Tests
 				Assert.AreEqual(".raids add \"Theilsiefje Säule\" \"Absol\" 44:24", text, true);
 
 				// Raidboss blocks part of the name - Could be possible to fix
-				//text = GetOcrResult(ocrService, basePath + "HoOhAsAmonitas.png", engine);
-				//Assert.AreEqual(".raids add \"Steinmann am Rhein\" \"Ho-Oh\" 25:16", text, true);
+				text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "HoOhAsAmonitas.png");
+				Assert.AreEqual(".raids add \"Steinmann am Rhein \" \"Ho-Oh\" 25:16", text, true);
 
 				// Raidboss blocks part of the name -- No way this is gonna work ^^
 				//text = GetOcrResult(ocrService, basePath + "BHF Pratteln - Ho-Oh.png", engine);
@@ -100,6 +86,17 @@ namespace Raidfelden.Discord.Bot.Tests
 	    }
 
 	    [TestMethod]
+	    public void CpChecks()
+	    {
+		    using (var context = new Hydro74000Context(ContextOptions))
+		    {
+			    var ocrService = OcrTestsHelper.GetOcrService(ConfigurationService, context);
+			    var text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "HoOhAsAmonitas.png");
+				Assert.AreEqual(".raids add \"Steinmann am Rhein \" \"Ho-Oh\" 25:16", text, true);
+			}
+	    }
+
+		[TestMethod]
 	    public void GymNameCorrections()
 	    {
 			using (var context = new Hydro74000Context(ContextOptions))
@@ -150,11 +147,14 @@ namespace Raidfelden.Discord.Bot.Tests
 
 				text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "GymNameNotRecognized1080X1920.jpg");
 				Assert.AreEqual(".raids add \"Kleinbasler Basiliskenbrünnchen\" \"5\" 37:51", text, true);
+
+				text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "BottomBarSmall1080x1920Level5.jpg");
+				Assert.AreEqual(".raids add \"FC Münchenstein Sportanlage AU\" \"5\" 22:24", text, true);
 			}
 		}
 
 	    [TestMethod]
-	    public void WithoutMenuBar1080x1920Correction()
+	    public void WithoutMenuBar1080X1920Correction()
 	    {
 			using (var context = new Hydro74000Context(ContextOptions))
 			{
@@ -165,6 +165,9 @@ namespace Raidfelden.Discord.Bot.Tests
 
 				var text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "Egg1080x2220.jpg");
 				Assert.AreEqual(".raids add \"Moderne Konferenz\" \"5\" 55:9", text, true);
+
+				text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "WithoutMenu1080x1920.jpg");
+				Assert.AreEqual(".raids add \"St. Johanns Ring Antique House\" \"2\" 40:13", text, true);
 			}
 		}
 
@@ -211,6 +214,37 @@ namespace Raidfelden.Discord.Bot.Tests
 		}
 
 		[TestMethod]
+		public void BottomMenu1080X2160()
+		{
+			using (var context = new Hydro74000Context(ContextOptions))
+			{
+				var ocrService = OcrTestsHelper.GetOcrService(ConfigurationService, context);
+				var text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "1080x2160Level4Instead5.png");
+				Assert.AreEqual(".raids add \"des Zeichners Zeichnung\" \"5\" 23:17", text, true);
+
+				//var interactiveResult = OcrTestsHelper.GetOcrResult(ocrService, basePath + "BottomMenu1080x2160Boss.png");
+				//var result = interactiveResult.InterActiveCallbacks.First().Value();
+				//// This gym does not exist in the database so just take one that does to let this test finish successfully
+				//text = result.Result.Message;
+				//Assert.AreEqual(".raids add \"Iron Snail Fountain\" \"Walraisa\" 35:31", text, true);
+			}
+		}
+
+		[TestMethod]
+		public void BottomMenu720X1280()
+		{
+			using (var context = new Hydro74000Context(ContextOptions))
+			{
+				var ocrService = OcrTestsHelper.GetOcrService(ConfigurationService, context);
+				var text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "BottomMenu854x1717_Egg.png");
+				Assert.AreEqual(".raids add \"Triple slider\" \"2\" 43:1", text, true);
+
+				text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "BottomMenu854x1717_Boss.png");
+				Assert.AreEqual(".raids add \"Spielplatz Erlenmatt\" \"Tyracroc\" 23:12", text, true);
+			}
+		}
+
+		[TestMethod]
 		public void BottomMenu900X1600()
 		{
 			using (var context = new Hydro74000Context(ContextOptions))
@@ -246,7 +280,7 @@ namespace Raidfelden.Discord.Bot.Tests
 				var result = interactiveResult.InterActiveCallbacks.Skip(2).First().Value();
 				// Raid successfully added
 				var text = result.Result.Message;
-				Assert.AreEqual(".raids add \"Kreuz\" \"Kyogre\" 8:7", text, true);
+				Assert.AreEqual(".raids add \"Kreuz \" \"Kyogre\" 8:7", text, true);
 			}
 		}
 
@@ -273,7 +307,7 @@ namespace Raidfelden.Discord.Bot.Tests
 
                 text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "LevelWrong3Instead5.png");
                 Assert.AreEqual(".raids add \"Hasenberg\" \"5\" 10:14", text, true);
-            }
+			}
         }
 
 	    

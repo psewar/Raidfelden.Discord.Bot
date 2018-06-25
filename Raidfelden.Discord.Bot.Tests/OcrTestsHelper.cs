@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NodaTime;
-using Raidfelden.Discord.Bot.Configuration;
-using Raidfelden.Discord.Bot.Monocle;
-using Raidfelden.Discord.Bot.Services;
+﻿using NodaTime;
+using Raidfelden.Services;
+using Raidfelden.Configuration;
+using Raidfelden.Discord.Bot.Resources;
+using Raidfelden.Data;
+using Raidfelden.Data.Monocle;
 
 namespace Raidfelden.Discord.Bot.Tests
 {
@@ -12,20 +11,22 @@ namespace Raidfelden.Discord.Bot.Tests
     {
 		public static OcrService GetOcrService(IConfigurationService configurationService, Hydro74000Context context)
 		{
+            IGymRepository gymRepository = new GymRepository(context);
+            IRaidRepository raidRepository = new RaidRepository(context);
 			var localizationService = new LocalizationService();
-			var gymService = new GymService(localizationService, configurationService);
+			var gymService = new GymService(gymRepository, localizationService, configurationService);
 			var raidbossService = new RaidbossService();
 			var fileWatcherService = new FileWatcherService();
 			var pokemonService = new PokemonService(raidbossService, localizationService, fileWatcherService);
-			var raidService = new RaidService(context, gymService, pokemonService, raidbossService, localizationService);
-			return new OcrService(context, configurationService, gymService, pokemonService, raidService, localizationService);
+			var raidService = new RaidService(raidRepository, gymService, pokemonService, raidbossService, localizationService);
+			return new OcrService(configurationService, gymService, pokemonService, raidService, localizationService);
 		}
 
 		public static string GetOcrResultString(OcrService ocrService, string filePath, FenceConfiguration[] fences = null)
 		{
 			var utcNow = SystemClock.Instance.GetCurrentInstant().InUtc();
 			var channelTimeZone = DateTimeZoneProviders.Tzdb["Europe/Zurich"];
-			var result = ocrService.AddRaidAsync(utcNow, channelTimeZone, filePath, 4, fences, true).Result;
+			var result = ocrService.AddRaidAsync(typeof(i18n), utcNow, channelTimeZone, filePath, 4, fences, true).Result;
 			return result.Message;
 		}
 
@@ -33,7 +34,7 @@ namespace Raidfelden.Discord.Bot.Tests
 		{
 			var utcNow = SystemClock.Instance.GetCurrentInstant().InUtc();
 			var channelTimeZone = DateTimeZoneProviders.Tzdb["Europe/Zurich"];
-			return ocrService.AddRaidAsync(utcNow, channelTimeZone, filePath, 4, fences, true).Result;
+			return ocrService.AddRaidAsync(typeof(i18n), utcNow, channelTimeZone, filePath, 4, fences, true).Result;
 		}
 	}
 }

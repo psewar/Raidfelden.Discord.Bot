@@ -64,7 +64,7 @@
     <value>Kein {1}Pokemon gefunden das das Wortfragment "{0}" enthält. Hast du Dich eventuell vertippt?</value>
   </data>
   <data name="Pokemon_Errors_ToManyFound" xml:space="preserve">
-    <value>{0} {3}Pokemon gefunden die das Wortfragment "{1}" enthalten. Bitte formuliere den Namen etwas exakter aus, maximal {2} dürfen übrig bleiben für den interaktiven Modus.</value>
+    <value>{0} {3}Pokemon gefunden die das Wortfragment "{1}" enthalten. Bitte formuliere den Namen etwas exakter aus, maximal {2} dürfen für den interaktiven Modus übrig bleiben.</value>
   </data>
   <data name="Raids_Messages_Successful_Text" xml:space="preserve">
     <value>Vielen Dank {0}, ich habe den Raid mit folgenden Parametern eingetragen:</value>
@@ -86,5 +86,8 @@
   </data>
   <data name="Raids_Messages_Ocr_Successful_Title" xml:space="preserve">
     <value>OCR-Erkenung erfolgreich</value>
+  </data>
+  <data name="Raids_Errors_NotAnRaidImage" xml:space="preserve">
+    <value>Das Bild ist vermutlich kein Raid Screenshot</value>
   </data>
 </root>

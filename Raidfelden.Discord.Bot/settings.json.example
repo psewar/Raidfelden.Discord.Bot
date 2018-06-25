@@ -4,8 +4,10 @@
   },
     "AppConfiguration": {
         "CultureCode": "de-DE",
+        "TimeZone": "Europe/Zurich",
         "BotToken": "<DiscordBotToken>",
         "DefaultCommandPrefix": ".",
+        "InteractiveReactionLimit": 4,
         "Guilds": [
             {
                 "GuildId": "12345678901234567890",
@@ -59,6 +61,6 @@
         "GoogleMapsApiKeys": [
             "<ApiKey1>",
             "<ApiKey2>"
-        ] 
+        ]
     }
 }

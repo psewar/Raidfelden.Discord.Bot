@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Base_Messages_Reply_Failure" xml:space="preserve">
+    <value>Erreur lors du traitement</value>
+  </data>
+  <data name="Base_Messages_Reply_Interactive" xml:space="preserve">
+    <value>Intéraction manuelle requise</value>
+  </data>
+  <data name="Base_Messages_Reply_Success" xml:space="preserve">
+    <value>Merci {0}, je viens d'ajouter les informations suivantes:</value>
+  </data>
+  <data name="BotName" xml:space="preserve">
+    <value>Bot d'Info Raidfelden</value>
+  </data>
+  <data name="Gyms_Errors_InteractiveMode" xml:space="preserve">
+    <value>{0} arènes trouvées contenant le mot "{1}". Veuillez sélectionner la bonne arène grâce au chiffre correspondant dans la liste.</value>
+  </data>
+  <data name="Gyms_Errors_NothingFound" xml:space="preserve">
+    <value>Aucune arène trouvée contenant le mot "{0}". Etes-vous sûr de votre saisie?</value>
+  </data>
+  <data name="Gyms_Errors_ToManyFound" xml:space="preserve">
+    <value>{0} arènes trouvées contenant le mot "{1}". Veuillez reformuler plus précisément le nom, plus que {2} au maximum pour le mode intéractif.</value>
+  </data>
+  <data name="ModuleRaidsCommandAdd" xml:space="preserve">
+    <value>ajouter</value>
+  </data>
+  <data name="ModuleRaidsCommandAddDescription" xml:space="preserve">
+    <value>Commande pour ajouter des raids à la carte</value>
+  </data>
+  <data name="ModuleRaidsIdentifier" xml:space="preserve">
+    <value>raids</value>
+  </data>
+  <data name="Pokemon_Errors_InteractiveMode" xml:space="preserve">
+    <value>{0} {2}pokemon trouvé contenant le mot "{1}". Veuillez selectionner le bon pokemon grâce au chiffre correspondant dans la liste.</value>
+  </data>
+  <data name="Pokemon_Errors_NothingFound" xml:space="preserve">
+    <value>Auncun {1}pokemon trouvé contenant le mot "{0}". Etes-vous sûr de votre saisie?</value>
+  </data>
+  <data name="Pokemon_Errors_ToManyFound" xml:space="preserve">
+    <value>{0} {3}pokemon trouvé contenant le mot "{1}". Veuillez reformuler plus précisément le nom, plus que {2} au maximum pour le mode intéractif.</value>
+  </data>
+  <data name="Raids_Errors_Hatch_NoEntryFound" xml:space="preserve">
+    <value>Pour le moment aucun raid n'est annoncé à cette arène "{0}".</value>
+  </data>
+  <data name="Raids_Errors_LevelToHigh" xml:space="preserve">
+    <value>Le niveau maximum d'un aid est 5.</value>
+  </data>
+  <data name="Raids_Errors_LevelToLow" xml:space="preserve">
+    <value>Le niveau minimum d'un raid est 1.</value>
+  </data>
+  <data name="Raids_Errors_NotAnRaidImage" xml:space="preserve">
+    <value>Cette image n'est sans doute pas un image de raid</value>
+  </data>
+  <data name="Raids_Errors_TimeFormat" xml:space="preserve">
+    <value>Le temps restant doit être mentionné dans le format en mm ou en mm:ss.</value>
+  </data>
+  <data name="Raids_Errors_Unexpected" xml:space="preserve">
+    <value>Une erreur non prévue est survenue: {0}</value>
+  </data>
+  <data name="Raids_Messages_BossAdded" xml:space="preserve">
+    <value>{0} dans l'arène "{1}", se termine à {2}</value>
+  </data>
+  <data name="Raids_Messages_BossHatched" xml:space="preserve">
+    <value>{0} est le boss de rais dans l'arène "{1}".</value>
+  </data>
+  <data name="Raids_Messages_EggAdded" xml:space="preserve">
+    <value>Le raid de niveau {0} à l'arène "{1}", commence à {2}</value>
+  </data>
+  <data name="Raids_Messages_Ocr_Successful_Title" xml:space="preserve">
+    <value>Succès de la reconnaissance OCR </value>
+  </data>
+  <data name="Raids_Messages_Successful_Text" xml:space="preserve">
+    <value>Merci {0} j'ai ajouté le raid avec les paramètres suivants:</value>
+  </data>
+  <data name="Raids_Messages_Successful_Title" xml:space="preserve">
+    <value>Raid ajouté avec succès</value>
+  </data>
+</root>
