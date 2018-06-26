@@ -150,6 +150,15 @@ namespace Raidfelden.Discord.Bot.Tests
 
 				text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "BottomBarSmall1080x1920Level5.jpg");
 				Assert.AreEqual(".raids add \"FC Münchenstein Sportanlage AU\" \"5\" 22:24", text, true);
+
+				text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "BottomBarSmall1080x1920Level5Blumenrad.jpg");
+				Assert.AreEqual(".raids add \"Blumenrad\" \"5\" 52:18", text, true);
+
+				text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "BottomBarSmall1080x1920Regice.jpg");
+				Assert.AreEqual(".raids add \"Kirche Schulstrasse\" \"Regice\" 20:30", text, true);
+
+				text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "BottomBar1080x1920Level5.jpg");
+				Assert.AreEqual(".raids add \"Gundeldinger Krippe\" \"5\" 24:59", text, true);
 			}
 		}
 
@@ -165,8 +174,16 @@ namespace Raidfelden.Discord.Bot.Tests
 
 				var text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "Egg1080x2220.jpg");
 				Assert.AreEqual(".raids add \"Moderne Konferenz\" \"5\" 55:9", text, true);
+			}
+		}
 
-				text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "WithoutMenu1080x1920.jpg");
+		[TestMethod]
+		public void BottomBarSmall1080X1920()
+		{
+			using (var context = new Hydro74000Context(ContextOptions))
+			{
+				var ocrService = OcrTestsHelper.GetOcrService(ConfigurationService, context);
+				var text = OcrTestsHelper.GetOcrResultString(ocrService, basePath + "WithoutMenu1080x1920.jpg");
 				Assert.AreEqual(".raids add \"St. Johanns Ring Antique House\" \"2\" 40:13", text, true);
 			}
 		}

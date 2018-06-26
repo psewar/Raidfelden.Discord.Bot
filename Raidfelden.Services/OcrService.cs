@@ -112,15 +112,27 @@ namespace Raidfelden.Services
 			    return new ServiceResponse(false, LocalizationService.Get(textResource, "Gyms_Errors_NothingFound", raidOcrResult.Gym.OcrValue));
 		    }
 
-		    var gymCallbacks = InteractiveServiceHelper.GenericCreateCallbackAsync(interactiveLimit,
+			// If the interactive response limit is reached try to select the all gyms with the same name as from the ocr result
+		    var gyms = raidOcrResult.Gym.Results.Select(e => e.Key).ToList();
+		    if (gyms.Count > interactiveLimit)
+		    {
+			    var ocrString = raidOcrResult.Gym.OcrValue.Trim().ToLowerInvariant();
+			    gyms = gyms.Where(e => e.Name.Trim().ToLowerInvariant() == ocrString).ToList();
+				// If we didn't found any return to the precious state
+			    if (gyms.Count == 0)
+			    {
+					gyms = raidOcrResult.Gym.Results.Select(e => e.Key).ToList();
+				}
+		    }
+
+			var gymCallbacks = InteractiveServiceHelper.GenericCreateCallbackAsync(interactiveLimit,
 			    (selectedGym) =>
 				    AddRaidAsync(textResource, requestStartInUtc, userZone, selectedGym, level, raidbossPokemon,
 					    timeLeft, raidOcrResult, fences, interactiveLimit),
 			    gym => gym.Id,
 			    (gym, list) => GymService.GetGymNameWithAdditionAsync(gym, list),
 				list => LocalizationService.Get(textResource, "Gyms_Errors_ToManyFound", list.Count, raidOcrResult.Gym.OcrValue, interactiveLimit),
-				list => LocalizationService.Get(textResource, "Gyms_Errors_InteractiveMode", list.Count, raidOcrResult.Gym.OcrValue),
-			    raidOcrResult.Gym.Results.Select(e => e.Key).ToList());
+				list => LocalizationService.Get(textResource, "Gyms_Errors_InteractiveMode", list.Count, raidOcrResult.Gym.OcrValue), gyms);
 		    return await gymCallbacks;
 	    }
 
@@ -172,6 +184,11 @@ namespace Raidfelden.Services
 		    if (result.Results == null || result.Results.Length == 0)
 		    {
 			    return true;
+		    }
+
+		    if (result.Results.Length == 1)
+		    {
+			    return false;
 		    }
 
 		    var bestMatch = result.Results.First().Value;
@@ -227,9 +244,13 @@ namespace Raidfelden.Services
 				configuration.BottomMenuHeight = GetBottomMenuHeight(image);
 				if (configuration.BottomMenuHeight < 50)
 				{
-					configuration.BottomMenuHeight = 128;
+					configuration = new BottomBarSmall1080X1920Configuration();
 				}
-				//configuration = new BottomMenu1080X1920Configuration();
+				else
+				{
+					configuration = new BottomMenu1080X1920Configuration();
+				}
+
 			}
 
             if (image.Height == 1600 && image.Width == 739)

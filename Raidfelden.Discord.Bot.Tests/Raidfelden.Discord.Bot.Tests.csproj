@@ -25,7 +25,16 @@
     <None Update="Ressources\Pictures\Raids\1080x2160Level4Instead5.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Ressources\Pictures\Raids\BottomBar1080x1920Level5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Ressources\Pictures\Raids\BottomBarSmall1080x1920Level5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\BottomBarSmall1080x1920Level5Blumenrad.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\BottomBarSmall1080x1920Regice.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Ressources\Pictures\Raids\BottomMenu1080x2160Boss.png">

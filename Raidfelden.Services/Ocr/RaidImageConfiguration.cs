@@ -13,19 +13,13 @@ namespace Raidfelden.Services.Ocr
 {
     public class RaidImageConfiguration
     {
-	    protected int ModifiedHeight(int baseHeight)
-	    {
-		    var bottomMenuPercentageSize = BottomMenuHeight / 1920d;
-		    return (int)(baseHeight * (1 - bottomMenuPercentageSize));
-	    }
-
-	    protected virtual Rectangle GymNamePosition => new Rectangle(220, ModifiedHeight(110), 860, 100);
-		protected virtual Rectangle PokemonNamePosition => new Rectangle(0, ModifiedHeight(480), 1080, 140);
-		protected virtual Rectangle PokemonCpPosition => new Rectangle(220, ModifiedHeight(330), 700, 140);
-		protected virtual Rectangle RaidTimerPosition => new Rectangle(820, ModifiedHeight(1150), 180, 50);
-        protected virtual Rectangle EggTimerPosition => new Rectangle(400, ModifiedHeight(385), 270, 70);
-        protected virtual Rectangle EggLevelPosition => new Rectangle(285, ModifiedHeight(545), 510, 80);
-
+		protected virtual Rectangle GymNamePosition => new Rectangle(220, 115, 860, 90);
+		protected virtual Rectangle PokemonNamePosition => new Rectangle(0, 480, 1080, 140);
+		protected virtual Rectangle PokemonCpPosition => new Rectangle(220, 330, 700, 140);
+		protected virtual Rectangle RaidTimerPosition => new Rectangle(820, 1150, 180, 50);
+		protected virtual Rectangle EggTimerPosition => new Rectangle(400, 385, 270, 70);
+		protected virtual Rectangle EggLevelPosition => new Rectangle(285, 545, 510, 80);
+		
 		// Points to detect the raid level on non hatched raid images these contain the lower level ones also
 		public virtual List<Point> Level5Points => new List<Point> { new Point(42, 24), new Point(148, 24), new Point(254, 24), new Point(360, 24), new Point(466, 24) };
 		public virtual List<Point> Level4Points => new List<Point> { new Point(95, 24), new Point(202, 24), new Point(308, 24), new Point(414, 24) };
