@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raidfelden", "Raidfelden\Ra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raidfelden.Data.Monocle", "Raidfelden.Data.Monocle\Raidfelden.Data.Monocle.csproj", "{451CDAAE-6945-46FE-BC78-56FD3F42E850}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Raidfelden.Services", "Raidfelden.Services\Raidfelden.Services.csproj", "{6AFEBDAB-94C3-4487-8E2B-C7FB2CE3DCA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Raidfelden.Services", "Raidfelden.Services\Raidfelden.Services.csproj", "{6AFEBDAB-94C3-4487-8E2B-C7FB2CE3DCA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Raidfelden.Data.Pokemon", "Raidfelden.Data.Pokemon\Raidfelden.Data.Pokemon.csproj", "{5DB1845C-98E1-428F-B02E-851965FA4FA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{6AFEBDAB-94C3-4487-8E2B-C7FB2CE3DCA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AFEBDAB-94C3-4487-8E2B-C7FB2CE3DCA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AFEBDAB-94C3-4487-8E2B-C7FB2CE3DCA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DB1845C-98E1-428F-B02E-851965FA4FA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DB1845C-98E1-428F-B02E-851965FA4FA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DB1845C-98E1-428F-B02E-851965FA4FA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DB1845C-98E1-428F-B02E-851965FA4FA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
