@@ -28,6 +28,10 @@ namespace Raidfelden.Discord.Bot.Modules
             EmojiService = emojiService;
 	        LocalizationService = localizationService;
 	        InteractiveReactionLimit = ConfigurationService.GetAppConfiguration().InteractiveReactionLimit;
+	        if (InteractiveReactionLimit == 0)
+	        {
+		        InteractiveReactionLimit = 4;
+	        }
         }
 
         protected override void BeforeExecute(CommandInfo command)
