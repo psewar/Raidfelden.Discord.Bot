@@ -22,7 +22,7 @@ namespace Raidfelden.Discord.Bot.Tests
 			return new OcrService(configurationService, gymService, pokemonService, raidService, localizationService);
 		}
 
-		public static string GetOcrResultString(OcrService ocrService, string filePath, FenceConfiguration[] fences = null)
+		public static string GetOcrResultString(IOcrService ocrService, string filePath, FenceConfiguration[] fences = null)
 		{
 			var utcNow = SystemClock.Instance.GetCurrentInstant().InUtc();
 			var channelTimeZone = DateTimeZoneProviders.Tzdb["Europe/Zurich"];

@@ -17,5 +17,7 @@ namespace Raidfelden.Data.Monocle.Entities
         public int? Cp { get; set; }
 
         public Forts Fort { get; set; }
-    }
+
+		IGym IRaid.Gym => Fort;
+	}
 }

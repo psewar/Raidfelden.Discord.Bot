@@ -3,11 +3,11 @@ using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Processing.Transforms;
 using SixLabors.Primitives;
 
-namespace Raidfelden.Services.Ocr.RaidConfigurations
+namespace Raidfelden.Services.Ocr.RaidConfigurations.Ric1440X2960
 {
-	public class GalaxyS9BottomMenuImageConfiguration : RaidImageConfiguration
+	public class Ric1440X2960BottomBar : RaidImageConfiguration
 	{
-		public GalaxyS9BottomMenuImageConfiguration() : base(1080, 1920) { }
+		public Ric1440X2960BottomBar() : base(1080, 1920) { }
 
 		public override void PreProcessImage<TPixel>(Image<TPixel> image)
 		{

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Raidfelden.Entities;
 
-namespace Raidfelden.Data.Pokemon
+namespace Raidfelden.Data.Pokemon.Entities
 {
     public partial class User : IUser
     {
@@ -15,11 +14,12 @@ namespace Raidfelden.Data.Pokemon
         public string Name { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public sbyte Active { get; set; }
+        public bool Active { get; set; }
         public ulong? DiscordId { get; set; }
         public string DiscordMention { get; set; }
-        public sbyte IsTradeAllowed { get; set; }
+        public bool IsTradeAllowed { get; set; }
+		public string FriendshipCode { get; set; }
 
-        public ICollection<Trade> Trades { get; set; }
+		public ICollection<Trade> Trades { get; set; }
     }
 }

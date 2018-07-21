@@ -29,10 +29,28 @@ namespace Raidfelden.Data.Monocle.Entities
         public ICollection<GymDefenders> GymDefenders { get; set; }
         public ICollection<Raids> Raids { get; set; }
 
-	    string IGym.PictureUrl => Url;
+	    string IGym.PictureUrl
+	    {
+		    get { return Url; }
+		    set { Url = value; }
+	    }
 
-	    double IGym.Latitude => Lat ?? default(double);
+	    double ILocation.Latitude
+	    {
+			get { return Lat.Value; }
+			set { Lat = value; }
+	    }
 
-	    double IGym.Longitude => Lon ?? default(double);
-    }
+	    double ILocation.Longitude
+		{
+			get { return Lon.Value; }
+			set { Lon = value; }
+		}
+
+	    ulong IGym.WeatherCellId
+	    {
+			get { return WeatherCellId.Value; }
+		    set { WeatherCellId = value; }
+	    }
+	}
 }

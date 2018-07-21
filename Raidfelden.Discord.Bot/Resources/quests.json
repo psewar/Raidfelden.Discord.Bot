@@ -1,0 +1,507 @@
+﻿{
+    "1": {
+        "cat": "Gym/Raid",
+        "name": "Battle in a Gym.",
+        "key": "quest_battle_gym_singular"
+    },
+    "2": {
+        "cat": "Gym/Raid",
+        "name": "Battle in a Gym 3 times",
+        "key": "quest_battle_gym_plural"
+    },
+    "3": {
+        "cat": "Gym/Raid",
+        "name": "Battle in a Gym 5 times",
+        "key": "quest_battle_gym_plural"
+    },
+    "4": {
+        "cat": "Gym/Raid",
+        "name": "Win a Gym battle.",
+        "key": "quest_win_gym_singular"
+    },
+    "5": {
+        "cat": "Gym/Raid",
+        "name": "Win 3 Gym battles.",
+        "key": "quest_win_gym_plural"
+    },
+    "6": {
+        "cat": "Gym/Raid",
+        "name": "Battle in a raid.",
+        "key": "quest_battle_raid_singular"
+    },
+    "7": {
+        "cat": "Gym/Raid",
+        "name": "Battle in {0} raids.",
+        "key": "quest_battle_raid_plural"
+    },
+    "8": {
+        "cat": "Gym/Raid",
+        "name": "Win a raid.",
+        "key": "quest_win_raid_singular"
+    },
+    "9": {
+        "cat": "Gym/Raid",
+        "name": "Win 2 raids.",
+        "key": "quest_win_raid_plural"
+    },
+    "10": {
+        "cat": "Gym/Raid",
+        "name": "Win 3 raids.",
+        "key": "quest_win_raid_plural"
+    },
+    "11": {
+        "cat": "Gym/Raid",
+        "name": "Win 5 raids.",
+        "key": "quest_win_raid_plural"
+    },
+    "12": {
+        "cat": "Gym/Raid",
+        "name": "Win a level 3 or higher raid.",
+        "key": "quest_win_raid_3_singular"
+    },
+    "13": {
+        "cat": "Gym/Raid",
+        "name": "Win {0} level 3 or higher raids.",
+        "key": "quest_win_raid_3_plural"
+    },
+    "14": {
+        "cat": "Gym/Raid",
+        "name": "Use a supereffective Charged Attack in a Gym battle.",
+        "key": "quest_battle_supereffective_charge_singular"
+    },
+    "15": {
+        "cat": "Gym/Raid",
+        "name": "Use a supereffective Charged Attack in 5 Gym battles.",
+        "key": "quest_battle_supereffective_charge_plural"
+    },
+    "16": {
+        "cat": "Gym/Raid",
+        "name": "Use a supereffective Charged Attack in 7 Gym battles.",
+        "key": "quest_battle_supereffective_charge_plural"
+    },
+    "17": {
+        "cat": "Catch",
+        "name": "Use 5 Berries to help catch Pokémon.",
+        "key": "quest_catch_feed_plural"
+    },
+    "18": {
+        "cat": "Catch",
+        "name": "Catch 10 Pokémon.",
+        "key": "quest_catch_pokemon_plural"
+    },
+    "19": {
+        "cat": "Catch",
+        "name": "Catch a Pokémon.",
+        "key": "quest_catch_pokemon_singular"
+    },
+    "20": {
+        "cat": "Catch",
+        "name": "Catch a Ditto.",
+        "key": "quest_catch_special0_singular"
+    },
+    "21": {
+        "cat": "Catch",
+        "name": "Catch {0} Ditto.",
+        "key": "quest_catch_special0_plural"
+    },
+    "22": {
+        "cat": "Catch",
+        "name": "Catch an Oddish/Bellsprout",
+        "key": "quest_catch_special1_singular"
+    },
+    "23": {
+        "cat": "Catch",
+        "name": "Catch a Swablu",
+        "key": "quest_catch_special2_singular"
+    },
+    "24": {
+        "cat": "Catch",
+        "name": "Catch a Pidgey/ Murkrow",
+        "key": "quest_catch_special3_singular"
+    },
+    "25": {
+        "cat": "Catch",
+        "name": "Catch a Treeko/Mudkip",
+        "key": "quest_catch_special4_singular"
+    },
+    "26": {
+        "cat": "Catch",
+        "name": "Catch a Meowth/Skitty",
+        "key": "quest_catch_special5_singular"
+    },
+    "27": {
+        "cat": "Catch",
+        "name": "Catch 3 Oddish/Bellsprout",
+        "key": "quest_catch_special1_singular"
+    },
+    "28": {
+        "cat": "Catch",
+        "name": "Catch 3 Swablu",
+        "key": "quest_catch_special2_plural"
+    },
+    "29": {
+        "cat": "Catch",
+        "name": "Catch 3 Pidgey/ Murkrow",
+        "key": "quest_catch_special3_plural"
+    },
+    "30": {
+        "cat": "Catch",
+        "name": "Catch 3 Treeko/Mudkip",
+        "key": "quest_catch_special4_plural"
+    },
+    "31": {
+        "cat": "Catch",
+        "name": "Catch 3 Meowth/Skitty",
+        "key": "quest_catch_special5_plural"
+    },
+    "32": {
+        "cat": "Catch",
+        "name": "Catch 3/10 X-type Pokémon.",
+        "key": ""
+    },
+    "33": {
+        "cat": "Catch",
+        "name": "[Poison-type]",
+        "key": "quest_catch_type_poison_singular"
+    },
+    "34": {
+        "cat": "Catch",
+        "name": "[Bug-type]",
+        "key": "quest_catch_type_bug_singular"
+    },
+    "35": {
+        "cat": "Catch",
+        "name": "[Dark-type]",
+        "key": "quest_catch_type_dark_singular"
+    },
+    "36": {
+        "cat": "Catch",
+        "name": "[Electric-type]",
+        "key": "quest_catch_type_electric_singular"
+    },
+    "37": {
+        "cat": "Catch",
+        "name": "[Flying-type]",
+        "key": "quest_catch_type_flying_singular"
+    },
+    "38": {
+        "cat": "Catch",
+        "name": "[Fire-type]",
+        "key": "quest_catch_type_fire_singular"
+    },
+    "39": {
+        "cat": "Catch",
+        "name": "Catch 5 Fire-type Pokemon",
+        "key": "quest_catch_type_fire_plural"
+    },
+    "40": {
+        "cat": "Catch",
+        "name": "Catch a Dragon-type Pokemon",
+        "key": "quest_catch_type_dragon_singular"
+    },
+    "41": {
+        "cat": "Catch",
+        "name": "Catch 3 Dragon-type Pokemon",
+        "key": "quest_catch_type_dragon_plural"
+    },
+    "42": {
+        "cat": "Catch",
+        "name": "Catch {0} Electric Pokémon with Nice Throws.",
+        "key": "quest_land_nice_electric_plural"
+    },
+    "43": {
+        "cat": "Catch",
+        "name": "Catch {0} Water-, Electric-, or Bug-Type Pokémon.",
+        "key": "quest_catch_types_rainy_plural"
+    },
+    "44": {
+        "cat": "Catch",
+        "name": "Catch a Water-, Electric-, or Bug-Type Pokémon.",
+        "key": "quest_catch_types_rainy_singular"
+    },
+    "45": {
+        "cat": "Catch",
+        "name": "Catch {0} Ice- or Steel-Type Pokémon.",
+        "key": "quest_catch_types_snowy_plural"
+    },
+    "46": {
+        "cat": "Catch",
+        "name": "Catch an Ice- or Steel-Type Pokémon.",
+        "key": "quest_catch_types_snowy_singular"
+    },
+    "47": {
+        "cat": "Catch",
+        "name": "Catch {0} Flying-, Psychic- or Dragon-Type Pokémon.",
+        "key": "quest_catch_types_windy_plural"
+    },
+    "48": {
+        "cat": "Catch",
+        "name": "Catch a Flying-, Psychic- or Dragon-Type Pokémon.",
+        "key": "quest_catch_types_windy_singular"
+    },
+    "49": {
+        "cat": "Catch",
+        "name": "Catch 3 Grass-, Fire-, or Ground-type Pokémon.",
+        "key": "quest_catch_types_sunny_plural"
+    },
+    "50": {
+        "cat": "Catch",
+        "name": "Catch a Grass-, Fire-, or Ground-type Pokémon.",
+        "key": "quest_catch_types_sunny_singular"
+    },
+    "51": {
+        "cat": "Catch",
+        "name": "Catch a Pokémon with Weather Boost.",
+        "key": "quest_catch_weather_boost_singular"
+    },
+    "52": {
+        "cat": "Catch",
+        "name": "Catch 5 Pokémon with Weather Boost.",
+        "key": "quest_catch_weather_boost_plural"
+    },
+    "53": {
+        "cat": "Catch",
+        "name": "Catch 10 Pokémon with Weather Boost.",
+        "key": "quest_catch_weather_boost_plural"
+    },
+    "54": {
+        "cat": "Catch",
+        "name": "Catch 20 Pokémon with Weather Boost.",
+        "key": "quest_catch_weather_boost_plural"
+    },
+    "55": {
+        "cat": "Evolve",
+        "name": "Evolve a Pokémon.",
+        "key": "quest_evolve_singular"
+    },
+    "56": {
+        "cat": "Evolve",
+        "name": "Evolve {0} Pokémon.",
+        "key": "quest_evolve_plural"
+    },
+    "57": {
+        "cat": "Evolve",
+        "name": "Evolve {0} Electric-type Pokémon.",
+        "key": "quest_evolve_type_electric_plural"
+    },
+    "58": {
+        "cat": "Evolve",
+        "name": "Evolve an Electric-Type Pokémon.",
+        "key": "quest_evolve_type_electric_singular"
+    },
+    "59": {
+        "cat": "Evolve",
+        "name": "Evolve 5 Fire-type Pokémon.",
+        "key": "quest_evolve_type_fire_plural"
+    },
+    "60": {
+        "cat": "Evolve",
+        "name": "Evolve a Fire-type Pokémon.",
+        "key": "quest_evolve_type_fire_singular"
+    },
+    "61": {
+        "cat": "Evolve",
+        "name": "Evolve {0} Flying-Type Pokémon.",
+        "key": "quest_evolve_type_flying_plural"
+    },
+    "62": {
+        "cat": "Evolve",
+        "name": "Evolve a Flying-Type Pokémon.",
+        "key": "quest_evolve_type_flying_singular"
+    },
+    "63": {
+        "cat": "Evolve",
+        "name": "Evolve {0} Ice-Type Pokémon.",
+        "key": "quest_evolve_type_ice_plural"
+    },
+    "64": {
+        "cat": "Evolve",
+        "name": "Evolve an Ice-Type Pokémon.",
+        "key": "quest_evolve_type_ice_singular"
+    },
+    "65": {
+        "cat": "Evolve",
+        "name": "Evolve {0} Water-Type Pokémon.",
+        "key": "quest_evolve_type_water_plural"
+    },
+    "66": {
+        "cat": "Evolve",
+        "name": "Evolve a Water-Type Pokémon.",
+        "key": "quest_evolve_type_water_singular"
+    },
+    "67": {
+        "cat": "Evolve",
+        "name": "Evolve a Magikarp.",
+        "key": "quest_evolve_special0_singular"
+    },
+    "68": {
+        "cat": "Throw",
+        "name": "Make a Nice Throw.",
+        "key": "quest_land_nice_singular"
+    },
+    "69": {
+        "cat": "Throw",
+        "name": "Make 3 Nice Throws.",
+        "key": "quest_land_nice_plural"
+    },
+    "70": {
+        "cat": "Throw",
+        "name": "Make 5 Nice Throws.",
+        "key": "quest_land_nice_plural"
+    },
+    "71": {
+        "cat": "Throw",
+        "name": "Make 2 Nice Throws in a row.",
+        "key": "quest_land_inarow_nice_plural"
+    },
+    "72": {
+        "cat": "Throw",
+        "name": "Make 3 Nice Throws in a row.",
+        "key": "quest_land_inarow_nice_plural"
+    },
+    "73": {
+        "cat": "Throw",
+        "name": "Make 2 Nice Curveball Throws in a row.",
+        "key": "quest_land_inarow_nice_curveball_plural"
+    },
+    "74": {
+        "cat": "Throw",
+        "name": "Make 3 Nice Curveball Throws in a row.",
+        "key": "quest_land_inarow_nice_curveball_plural"
+    },
+    "75": {
+        "cat": "Throw",
+        "name": "Make a Great Throw.",
+        "key": "quest_land_great_singular"
+    },
+    "76": {
+        "cat": "Throw",
+        "name": "Make 3 Great Throws.",
+        "key": "quest_land_great_plural"
+    },
+    "77": {
+        "cat": "Throw",
+        "name": "Make 5 Great Throws.",
+        "key": "quest_land_great_plural"
+    },
+    "78": {
+        "cat": "Throw",
+        "name": "Make 10 Great Throws.",
+        "key": "quest_land_great_plural"
+    },
+    "79": {
+        "cat": "Throw",
+        "name": "Make 3 Great Throws in a row.",
+        "key": "quest_land_inarow_great_plural"
+    },
+    "80": {
+        "cat": "Throw",
+        "name": "Make 5 Great Throws in a row.",
+        "key": "quest_land_inarow_great_plural"
+    },
+    "81": {
+        "cat": "Throw",
+        "name": "Make a Great Curveball Throw.",
+        "key": "quest_land_great_curveball_singular"
+    },
+    "82": {
+        "cat": "Throw",
+        "name": "Make 3 Great Curveball Throws.",
+        "key": "quest_land_great_curveball_plural"
+    },
+    "83": {
+        "cat": "Throw",
+        "name": "Make 2 Great Curveball Throws in a row.",
+        "key": "quest_land_great_curveball_plural"
+    },
+    "84": {
+        "cat": "Throw",
+        "name": "Make 3 Great Curveball Throws in a row.",
+        "key": "quest_land_great_curveball_plural"
+    },
+    "85": {
+        "cat": "Throw",
+        "name": "Make an Excellent Throw.",
+        "key": "quest_land_excellent_singular"
+    },
+    "86": {
+        "cat": "Throw",
+        "name": "Make 3 Excellent Throws.",
+        "key": "quest_land_excellent_plural"
+    },
+    "87": {
+        "cat": "Throw",
+        "name": "Make 3 Excellent Throws in a row.",
+        "key": "quest_land_inarow_excellent_plural"
+    },
+    "88": {
+        "cat": "Throw",
+        "name": "Make an Excellent Curveball Throw.",
+        "key": "quest_land_excellent_curveball_singular"
+    },
+    "89": {
+        "cat": "Throw",
+        "name": "Make {0} Excellent Curveball Throws.",
+        "key": "quest_land_excellent_curveball_plural"
+    },
+    "90": {
+        "cat": "Throw",
+        "name": "Make {0} Excellent Curveball Throws in a row.",
+        "key": "quest_land_inarow_excellent_curveball_plural"
+    },
+    "91": {
+        "cat": "Throw",
+        "name": "Make 5 Curveball Throws in a row.",
+        "key": "quest_land_inarow_curveball_plural"
+    },
+    "92": {
+        "cat": "Spin",
+        "name": "Spin 3 PokéStops you haven't visited before.",
+        "key": "quest_visit_pokestop_new_plural"
+    },
+    "93": {
+        "cat": "Spin",
+        "name": "Spin a PokéStop you haven't visited before.",
+        "key": "quest_visit_pokestop_new_singular"
+    },
+    "94": {
+        "cat": "Spin",
+        "name": "Spin 10 PokéStops.",
+        "key": "quest_visit_pokestops_plural"
+    },
+    "95": {
+        "cat": "Spin",
+        "name": "Spin a PokéStop.",
+        "key": "quest_visit_pokestops_singular"
+    },
+    "96": {
+        "cat": "Miscellaneous",
+        "name": "Hatch an Egg.",
+        "key": "quest_hatch_egg_singular"
+    },
+    "97": {
+        "cat": "Miscellaneous",
+        "name": "Hatch 3 Eggs.",
+        "key": "quest_hatch_egg_plural"
+    },
+    "98": {
+        "cat": "Miscellaneous",
+        "name": "Hatch 5 Eggs.",
+        "key": "quest_hatch_egg_plural"
+    },
+    "99": {
+        "cat": "Miscellaneous",
+        "name": "Power up Pokémon 5 times.",
+        "key": "quest_power_up_plural"
+    },
+    "100": {
+        "cat": "Miscellaneous",
+        "name": "Power up a Pokémon.",
+        "key": "quest_power_up_singular"
+    },
+    "101": {
+        "cat": "Miscellaneous",
+        "name": "Earn a Candy walking with your buddy.",
+        "key": "quest_walk_buddy_singular"
+    }
+}

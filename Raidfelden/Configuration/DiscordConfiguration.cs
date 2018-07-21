@@ -46,6 +46,8 @@
 
     public class PokemonChannel : ChannelConfiguration { }
 
+	public class QuestChannel : ChannelConfiguration { }
+
     public class OcrConfiguration
     {
         public string PathToTesseract { get; set; }

@@ -1,4 +1,5 @@
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.Primitives;
 
 namespace Raidfelden.Services.Ocr.RaidConfigurations
@@ -16,6 +17,11 @@ namespace Raidfelden.Services.Ocr.RaidConfigurations
 
 		public BottomMenu1080X2160Configuration() : base(1080, 2160) { }
 
-		public override void PreProcessImage<TPixel>(Image<TPixel> image) { }
+		public override void PreProcessImage<TPixel>(Image<TPixel> image)
+		{
+			// 143 works
+			// 120 does not
+			BottomMenuHeight = (image as Image<Rgba32>).GetBottomBarHeight();
+		}
 	}
 }

@@ -5,12 +5,15 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NodaTime;
 using Raidfelden.Configuration;
 using Raidfelden.Entities;
 using Raidfelden.Services.Ocr;
 using Raidfelden.Services.Ocr.RaidConfigurations;
+using Raidfelden.Services.Ocr.RaidConfigurations.Ric1080X2220;
+using Raidfelden.Services.Ocr.RaidConfigurations.Ric1440X2960;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
@@ -46,7 +49,7 @@ namespace Raidfelden.Services
 		    SaveDebugImages = testMode;
 			using (var image = Image.Load(filePath))
 			{
-				var configuration = GetConfiguration(image);
+				var configuration = image.GetRaidImageConfiguration(testMode);
                 configuration.PreProcessImage(image);
                 if (SaveDebugImages)
 				{
@@ -76,7 +79,7 @@ namespace Raidfelden.Services
 
 	    private async Task<ServiceResponse> InteractivePokemonResolve(Type textResource, ZonedDateTime requestStartInUtc, DateTimeZone userZone, TimeSpan timeLeft, RaidOcrResult raidOcrResult, FenceConfiguration[] fences, int interactiveLimit)
 	    {
-			if (UseInteractiveMode(raidOcrResult.Pokemon))
+			if (InteractiveServiceHelper.UseInteractiveMode(raidOcrResult.Pokemon.Results))
 			{
 				var pokemonCallbacks = InteractiveServiceHelper.GenericCreateCallbackAsync(interactiveLimit,
 					(selectedPokemon) =>
@@ -102,27 +105,27 @@ namespace Raidfelden.Services
 
 	    private async Task<ServiceResponse> InteractiveGymResolve(Type textResource, ZonedDateTime requestStartInUtc, DateTimeZone userZone, TimeSpan timeLeft, int level, RaidbossPokemon raidbossPokemon, RaidOcrResult raidOcrResult, FenceConfiguration[] fences, int interactiveLimit)
 	    {
-		    if (!UseInteractiveMode(raidOcrResult.Gym))
-		    {
-			    return await AddRaidAsync(textResource, requestStartInUtc, userZone, raidOcrResult.Gym.GetFirst().Id, level, raidbossPokemon, timeLeft, raidOcrResult, fences, interactiveLimit);
-		    }
+			if (!InteractiveServiceHelper.UseInteractiveMode(raidOcrResult.Gym.Results))
+			{
+				return await AddRaidAsync(textResource, requestStartInUtc, userZone, raidOcrResult.Gym.GetFirst().Id, level, raidbossPokemon, timeLeft, raidOcrResult, fences, interactiveLimit);
+			}
 
-		    if (raidOcrResult.Gym.Results == null || raidOcrResult.Gym.Results.Length == 0)
-		    {
-			    return new ServiceResponse(false, LocalizationService.Get(textResource, "Gyms_Errors_NothingFound", raidOcrResult.Gym.OcrValue));
-		    }
+			if (raidOcrResult.Gym.Results == null || raidOcrResult.Gym.Results.Length == 0)
+			{
+				return new ServiceResponse(false, LocalizationService.Get(textResource, "Gyms_Errors_NothingFound", raidOcrResult.Gym.OcrValue));
+			}
 
-		    var gymCallbacks = InteractiveServiceHelper.GenericCreateCallbackAsync(interactiveLimit,
-			    (selectedGym) =>
-				    AddRaidAsync(textResource, requestStartInUtc, userZone, selectedGym, level, raidbossPokemon,
-					    timeLeft, raidOcrResult, fences, interactiveLimit),
-			    gym => gym.Id,
-			    (gym, list) => GymService.GetGymNameWithAdditionAsync(gym, list),
+			var gymCallbacks = InteractiveServiceHelper.GenericCreateCallbackAsync(interactiveLimit,
+				(selectedGym) =>
+					AddRaidAsync(textResource, requestStartInUtc, userZone, selectedGym, level, raidbossPokemon,
+						timeLeft, raidOcrResult, fences, interactiveLimit),
+				gym => gym.Id,
+				(gym, list) => GymService.GetGymNameWithAdditionAsync(gym, list),
 				list => LocalizationService.Get(textResource, "Gyms_Errors_ToManyFound", list.Count, raidOcrResult.Gym.OcrValue, interactiveLimit),
 				list => LocalizationService.Get(textResource, "Gyms_Errors_InteractiveMode", list.Count, raidOcrResult.Gym.OcrValue),
-			    raidOcrResult.Gym.Results.Select(e => e.Key).ToList());
-		    return await gymCallbacks;
-	    }
+				raidOcrResult.Gym.Results.Select(e => e.Key).ToList());
+			return await gymCallbacks;
+		}
 
 	    private async Task<ServiceResponse> AddRaidAsync(Type textResource, ZonedDateTime requestStartInUtc, DateTimeZone userZone, int gymId, int level, RaidbossPokemon raidbossPokemon, TimeSpan timeLeft, RaidOcrResult raidOcrResult, FenceConfiguration[] fences, int interactiveLimit)
 	    {
@@ -167,145 +170,6 @@ namespace Raidfelden.Services
 			return await Task.FromResult(result);
 		}
 
-	    private bool UseInteractiveMode<T>(OcrResult<T> result, double threshold = 0.3)
-	    {
-		    if (result.Results == null || result.Results.Length == 0)
-		    {
-			    return true;
-		    }
-
-		    var bestMatch = result.Results.First().Value;
-		    if (result.Results.Skip(1).Select(e => e.Value).Any(e => e > (bestMatch - 0.05d)))
-		    {
-			    return true;
-		    }
-			return result.Results.First().Value < threshold;
-	    }
-
-		private RaidImageConfiguration GetConfiguration(Image<Rgba32> image)
-		{
-			var configuration = new RaidImageConfiguration(1080, 1920);
-			if (image.Height == 2220 && image.Width == 1080)
-			{
-				if (HasBottomMenu(image))
-				{
-					if (HasTopMenu(image))
-					{
-						configuration = new BothMenu1080X2220Configuration();
-					}
-					else
-					{
-						//configuration = new WithoutMenu1080X2220Configuration();
-						//configuration.BottomMenuHeight = GetBottomMenuHeight(image);
-						configuration = new BottomMenu1080X2220Configuration();
-					}
-				}
-				else
-				{
-					configuration = new WithoutMenu1080X2220Configuration();
-				}
-			}
-
-			if (image.Height == 2960 && HasBottomMenu(image))
-			{
-				configuration = new GalaxyS9BottomMenuImageConfiguration();
-			}
-
-			if (image.Height == 2436 && image.Width == 1125)
-			{
-				configuration = new IPhoneXImageConfiguration();
-			}
-
-			if (image.Height == 2160 && image.Width == 1080 && HasBottomMenu(image))
-			{
-				configuration = new BottomMenu1080X2160Configuration();
-				configuration.BottomMenuHeight = GetBottomMenuHeight(image);
-			}
-
-			if (image.Height == 1920 && image.Width == 1080 && HasBottomMenu(image))
-			{
-				configuration.BottomMenuHeight = GetBottomMenuHeight(image);
-				if (configuration.BottomMenuHeight < 50)
-				{
-					configuration.BottomMenuHeight = 128;
-				}
-				//configuration = new BottomMenu1080X1920Configuration();
-			}
-
-            if (image.Height == 1600 && image.Width == 739)
-            {
-                configuration = new WithoutMenu739X1600();
-            }
-
-            if (image.Height == 1600 && image.Width == 900 && HasBottomMenu(image))
-            {
-                configuration = new BottomMenu900X1600Configuration();
-            }
-
-			if (image.Height == 1280 && image.Width == 720 && HasBottomMenu(image))
-			{
-				configuration = new BottomMenu720X1280Configuration();
-			}
-
-			configuration.SaveDebugImages = SaveDebugImages;
-
-			return configuration;
-		}
-
-		private bool HasTopMenu(Image<Rgba32> image)
-		{
-			// If the whole line has the exact same color it probably is a menu
-			var color = image[0, 0];
-
-			for (int x = 1; x < image.Width; x++)
-			{
-				if (image[x, 0] != color)
-				{
-					return false;
-				}
-			}
-
-			// Check if it might be an (IPhone) open hot spot info instead
-			if (RaidImageConfiguration.IsColorWithinTolerance(color, new Rgba32(36, 132, 232, 255), 5))
-			{
-				return false;
-			}
-
-			return true;
-		}
-
-		private bool HasBottomMenu(Image<Rgba32> image)
-		{
-            // If the whole line has the exact same color it probably is a menu
-            var color = image[0, image.Height - 1];
-            for (int x = 1; x < image.Width; x++)
-            {
-                if (image[x, image.Height -1] != color)
-                {
-                    return false;
-                }
-            }
-            return true;
-		}
-
-	    private int GetBottomMenuHeight(Image<Rgba32> image)
-	    {
-		    int counter = 0;
-			var color = image[0, image.Height - 1];
-			for (int i = image.Height -2; i >= 0; i--)
-		    {
-			    if (image[0, i] == color)
-			    {
-				    counter++;
-			    }
-			    else
-			    {
-				    return counter;
-			    }
-		    }
-			return counter;
-	    }
-
 	    private async Task<RaidOcrResult> GetRaidOcrResultAsync(Image<Rgba32> image, RaidImageConfiguration imageConfiguration, int interactiveLimit, FenceConfiguration[] fences = null)
 	    {
 		    var result = new RaidOcrResult();
@@ -341,20 +205,17 @@ namespace Raidfelden.Services
 		    }
 			);
 
-		    if (result.PokemonCp.IsSuccess && result.Pokemon.IsSuccess)
-		    {
-			    if (result.Pokemon.Results.Length > 1)
-			    {
-				    var pokemonWithCp =
-					    result.Pokemon.Results.Where(e => e.Value == 1d || e.Key.Raidboss.Cp == result.PokemonCp.GetFirst())
-						    .Select(e => new KeyValuePair<RaidbossPokemon, double>(e.Key, Math.Max(e.Value * 2, 1)))
-						    .ToArray();
+		    if (result.PokemonCp.IsSuccess && result.Pokemon.IsSuccess && result.Pokemon.Results.Length > 1)
+			{
+				var pokemonWithCp =
+					result.Pokemon.Results.Where(e => e.Value == 1d || e.Key.Raidboss.Cp == result.PokemonCp.GetFirst())
+						.Select(e => new KeyValuePair<RaidbossPokemon, double>(e.Key, Math.Max(e.Value * 2, 1)))
+						.ToArray();
 
-				    if (pokemonWithCp.Length > 0)
-				    {
-					    result.Pokemon = new OcrResult<RaidbossPokemon>(true, result.Pokemon.OcrValue, pokemonWithCp);
-				    }
-			    }
+				if (pokemonWithCp.Length > 0)
+				{
+					result.Pokemon = new OcrResult<RaidbossPokemon>(true, result.Pokemon.OcrValue, pokemonWithCp);
+				}
 		    }
 
 		    return await Task.FromResult(result);
@@ -399,6 +260,14 @@ namespace Raidfelden.Services
 			{
 				return new OcrResult<IGym>(false, ocrResult.Key);
 			}
+
+			// Check if there are exact matches
+			var exactMatches = similarGyms.Where(e => e.Value == 1).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+			if (exactMatches.Count > 0)
+			{
+				similarGyms = exactMatches;
+			}
+
 			var results = similarGyms.Select(kvp => new KeyValuePair<IGym, double>(kvp.Key, kvp.Value)).ToArray();
 			return new OcrResult<IGym>(true, ocrResult.Key, results);
 		}
@@ -442,10 +311,13 @@ namespace Raidfelden.Services
 		{
 			imageFragment = imageConfiguration.PreProcessTimerFragment(imageFragment, imageFragmentType);
 			var result = await GetOcrResultAsync(imageFragment);
-		    
-		    if (result.Value > 0 && TimeSpan.TryParse(result.Key, out TimeSpan timeSpan))
+			// Remove all characters which can not be part of a timespan
+			var arr = result.Key.ToCharArray();
+			arr = Array.FindAll(arr, (c => (char.IsDigit(c) || c == ':')));
+			var stringCleaned = new string(arr);
+			if (result.Value > 0 && TimeSpan.TryParse(stringCleaned, out TimeSpan timeSpan))
 		    {
-			    return new OcrResult<TimeSpan>(true, result.Key,
+			    return new OcrResult<TimeSpan>(true, stringCleaned,
 				    new[] {new KeyValuePair<TimeSpan, double>(timeSpan, result.Value)});
 		    }
 			return new OcrResult<TimeSpan>(false, result.Key);
@@ -570,6 +442,12 @@ namespace Raidfelden.Services
 		{
 			//return input;
 			input = input.Replace("—", "-");
+			input = input.Replace("\n", " ");
+			input = input.Replace(Environment.NewLine, " ");
+			// Replace multiple whitespaces with just one
+			RegexOptions options = RegexOptions.None;
+			Regex regex = new Regex("[ ]{2,}", options);
+			input = regex.Replace(input, " ");
 			var arr = input.ToCharArray();
 
 			arr = Array.FindAll(arr, (c => (char.IsLetterOrDigit(c)

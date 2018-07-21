@@ -1,16 +1,17 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Raidfelden.Data.Pokemon.Entities;
 
 namespace Raidfelden.Data.Pokemon
 {
-    public partial class raidfeldenContext : DbContext
+    public partial class RaidfeldenContext : DbContext
     {
-        public raidfeldenContext()
+        public RaidfeldenContext()
         {
         }
 
-        public raidfeldenContext(DbContextOptions<raidfeldenContext> options)
+        public RaidfeldenContext(DbContextOptions<RaidfeldenContext> options)
             : base(options)
         {
         }
@@ -56,13 +57,13 @@ namespace Raidfelden.Data.Pokemon
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
                 entity.Property(e => e.Active)
-                    .HasColumnType("tinyint(1)")
+                    .HasColumnType("bool")
                     .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.DiscordMention).HasColumnType("varchar(255)");
 
                 entity.Property(e => e.IsTradeAllowed)
-                    .HasColumnType("tinyint(1)")
+                    .HasColumnType("bool")
                     .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.Latitude).HasColumnType("double(18,14)");

@@ -1,7 +1,8 @@
 ﻿{
-  "ConnectionStrings": {
-    "ScannerDatabase": "<ConnectionString>"
-  },
+    "ConnectionStrings": {
+        "ScannerDatabase": "<ConnectionString>",
+        "PokemonDatabase": "<ConnectionString>"
+    },
     "AppConfiguration": {
         "CultureCode": "de-DE",
         "TimeZone": "Europe/Zurich",

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using NodaTime;
 using Raidfelden.Configuration;
@@ -15,6 +17,11 @@ namespace Raidfelden.Services
 	    Task<ServiceResponse> AddResolveGymAsync(Type textResource, ZonedDateTime requestStartInUtc, DateTimeZone userZone, int gymId, byte level, IPokemon pokemon, IRaidboss raidboss, TimeSpan timeSpan, int interactiveLimit, FenceConfiguration[] fences);
 
 		Task<ServiceResponse> HatchAsync(Type textResource, string gymName, string pokemonName, int interactiveLimit, FenceConfiguration[] fences);
+
+	    Task<ServiceResponse> GetRaidList(Type textResource, ZonedDateTime requestStartInUtc, DateTimeZone userZone,
+		    string pokemonNameOrLevel, FenceConfiguration[] fences, string orderType, int interactiveLimit,
+		    Func<RaidListInfo, string> formatResult);
+
     }
 
     public class RaidService : IRaidService
@@ -63,8 +70,8 @@ namespace Raidfelden.Services
             if (!pokemonResponse.IsSuccess) { return pokemonResponse; }
 
             var pokemonAndRaidboss = pokemonResponse.Result;
-            var pokemon = pokemonAndRaidboss.Key;
-            var raidboss = pokemonAndRaidboss.Value;
+            var pokemon = pokemonAndRaidboss.Pokemon;
+            var raidboss = pokemonAndRaidboss.Raidboss;
             return await AddResolveGymAsync(textResource, requestStartInUtc, userZone, gymName, Convert.ToByte(raidboss.Level), pokemon, raidboss, timeSpan, interactiveLimit, fences);
         }
 
@@ -133,11 +140,22 @@ namespace Raidfelden.Services
 	        {
 		        timeLeft = string.Concat(timeLeft, ":00");
 	        }
-	        if (TimeSpan.TryParseExact(timeLeft, "m\\:ss", CultureInfo.InvariantCulture, out TimeSpan result))
+			
+	        var timeParts = timeLeft.Split(':');
+			if (timeParts.Length != 2)
+			{
+				return null;
+			}
+			if (!int.TryParse(timeParts[0], out int minutes))
 	        {
-		        return result;
-	        }
-	        return null;
+				return null;
+			}
+			if (!int.TryParse(timeParts[1], out int seconds))
+			{
+				return null;
+			}
+
+	        return new TimeSpan(0, minutes, seconds);
         }
 
 	    private string FormatExpiry(Instant instant, DateTimeZone userZone)
@@ -156,8 +174,8 @@ namespace Raidfelden.Services
             if (!pokemonResponse.IsSuccess) { return pokemonResponse; }
 
             var pokemonAndRaidboss = pokemonResponse.Result;
-            var pokemon = pokemonAndRaidboss.Key;
-            var raidboss = pokemonAndRaidboss.Value;
+            var pokemon = pokemonAndRaidboss.Pokemon;
+            var raidboss = pokemonAndRaidboss.Raidboss;
 
             return await HatchResolveGymAsync(textResource, gymName, pokemon, raidboss, interactiveLimit, fences);
         }
@@ -190,6 +208,97 @@ namespace Raidfelden.Services
 			return new ServiceResponse(true, LocalizationService.Get(textResource, "Raids_Messages_BossHatched", pokemon.Name, gym.Name));
 		}
 
-        #endregion
-    }
+		#endregion
+
+		#region List
+
+	    public async Task<ServiceResponse> GetRaidList(Type textResource, ZonedDateTime requestStartInUtc, DateTimeZone userZone, string pokemonNameOrLevel, FenceConfiguration[] fences, string orderType, int interactiveLimit, Func<RaidListInfo, string> formatResult)
+	    {
+		    var order = GetRaidListOrder(orderType);
+		    var startTime = Instant.FromDateTimeUtc(new DateTime(2018, 5, 1, 0, 0, 0).ToUniversalTime()).ToUnixTimeSeconds();
+			if (int.TryParse(pokemonNameOrLevel, out int raidLevel))
+		    {
+			    if (raidLevel < 1)
+			    {
+				    return new ServiceResponse<RaidListInfo>(false, LocalizationService.Get(textResource, "Raids_Errors_LevelToLow"), null);
+			    }
+			    if (raidLevel > 5)
+			    {
+				    return new ServiceResponse<RaidListInfo>(false, LocalizationService.Get(textResource, "Raids_Errors_LevelToHigh"), null);
+			    }
+
+			    // Query Level
+			    var raids = await RaidRepository.FindAllWithGymsAsync(e => e.TimeSpawn > startTime && e.Level == raidLevel);
+			    return await GetListResult(raidLevel, null, raids, order, formatResult);
+		    }
+		    else
+		    {
+			    var pokemonResponse = await PokemonService.GetPokemonAndRaidbossAsync(textResource, pokemonNameOrLevel,
+				    interactiveLimit, 
+				    (selectedPokemonName) =>
+						GetRaidList(textResource, requestStartInUtc, userZone, selectedPokemonName, fences, orderType, interactiveLimit, formatResult));
+			    if (!pokemonResponse.IsSuccess)
+			    {
+				    return pokemonResponse;
+			    }
+
+			    var pokemonAndRaidboss = pokemonResponse.Result;
+			    var raidboss = pokemonAndRaidboss.Raidboss;
+			    // Query Raidboss
+			    var raids = await RaidRepository.FindAllWithGymsAsync(e => e.TimeSpawn > startTime && e.PokemonId == raidboss.Id);
+			    return await GetListResult(raidboss.Level, pokemonAndRaidboss, raids, order, formatResult);
+		    }
+	    }
+
+		private RaidListOrder GetRaidListOrder(string order)
+	    {
+		    switch (order.ToLowerInvariant())
+		    {
+				case "time":
+					return RaidListOrder.StartTime;
+				case "distance":
+					return RaidListOrder.Distance;
+				default:
+					return RaidListOrder.None;			
+		    }
+	    }
+
+	    private async Task<ServiceResponse> GetListResult(int level, RaidbossPokemon raidbossPokemon, List<IRaid> raids, RaidListOrder order, Func<RaidListInfo, string> formatResult)
+	    {
+		    var raidListInfo = new RaidListInfo
+		    {
+			    Level = level,
+			    RaidbossPokemon = raidbossPokemon,
+			    Raids = raids,
+			    Order = order
+		    };
+
+		    switch (order)
+		    {
+				case RaidListOrder.StartTime:
+					raidListInfo.Raids = raidListInfo.Raids.OrderBy(e => e.TimeSpawn).ToList();
+				    break;
+		    }
+
+		    var result = formatResult(raidListInfo);
+		    return await Task.FromResult(new ServiceResponse<RaidListInfo>(true, result, raidListInfo));
+	    }
+
+		#endregion
+	}
+
+	public class RaidListInfo
+	{
+		public int Level { get; set; }
+		public RaidbossPokemon RaidbossPokemon { get; set; }
+		public List<IRaid> Raids { get; set; }
+		public RaidListOrder Order { get; set; }
+	}
+
+	public enum RaidListOrder
+	{
+		None,
+		StartTime,
+		Distance,
+	}
 }

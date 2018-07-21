@@ -13,5 +13,7 @@
 		int? TimeBattle { get; set; }
 		int? TimeEnd { get; set; }
 		int? Cp { get; set; }
-	}
+
+	    IGym Gym { get; }
+    }
 }

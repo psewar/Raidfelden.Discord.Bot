@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 using Discord.Addons.Interactive;
 using Raidfelden.Discord.Bot.Resources;
 using Raidfelden.Data.Monocle;
+using Raidfelden.Data.Pokemon;
 using Raidfelden.Services;
 
 namespace Raidfelden.Discord.Bot
@@ -37,10 +38,12 @@ namespace Raidfelden.Discord.Bot
 			_commands = new CommandService();
 
             ConfigurationService = new ConfigurationService();
-            var connectionString = ConfigurationService.GetConnectionString("ScannerDatabase");
+            var monocleConnectionString = ConfigurationService.GetConnectionString("ScannerDatabase");
+			var pokemonConnectionString = ConfigurationService.GetConnectionString("PokemonDatabase");
 
-            ServiceProvider = new ServiceCollection()
-				.ConfigureMonocle(connectionString)
+			ServiceProvider = new ServiceCollection()
+				.ConfigureMonocle(monocleConnectionString)
+				.ConfigurePokemon(pokemonConnectionString)
 				.ConfigureServices()
                 .AddSingleton(_client)
                 .AddSingleton(_commands)

@@ -62,6 +62,12 @@
     <None Update="Resources\fr.pokemon.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\PogoAssets\decrypted_assets\feature-quests.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\quests.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="run.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -138,6 +144,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Discord.Addons.Interactive\Discord.Addons.Interactive.csproj" />
     <ProjectReference Include="..\Raidfelden.Data.Monocle\Raidfelden.Data.Monocle.csproj" />
+    <ProjectReference Include="..\Raidfelden.Data.Pokemon\Raidfelden.Data.Pokemon.csproj" />
     <ProjectReference Include="..\Raidfelden.Services\Raidfelden.Services.csproj" />
     <ProjectReference Include="..\Raidfelden\Raidfelden.csproj" />
   </ItemGroup>

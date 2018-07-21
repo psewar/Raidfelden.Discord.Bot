@@ -22,7 +22,7 @@ namespace Raidfelden.Services.Ocr
 	    protected virtual Rectangle GymNamePosition => new Rectangle(220, ModifiedHeight(110), 860, 100);
 		protected virtual Rectangle PokemonNamePosition => new Rectangle(0, ModifiedHeight(480), 1080, 140);
 		protected virtual Rectangle PokemonCpPosition => new Rectangle(220, ModifiedHeight(330), 700, 140);
-		protected virtual Rectangle RaidTimerPosition => new Rectangle(820, ModifiedHeight(1150), 180, 50);
+		protected virtual Rectangle RaidTimerPosition => new Rectangle(810, ModifiedHeight(1150), 180, 50);
         protected virtual Rectangle EggTimerPosition => new Rectangle(400, ModifiedHeight(385), 270, 70);
         protected virtual Rectangle EggLevelPosition => new Rectangle(285, ModifiedHeight(545), 510, 80);
 
@@ -93,23 +93,31 @@ namespace Raidfelden.Services.Ocr
 			{
 				Mode = ResizeMode.Stretch,
 				Size = size,
-				Compand = true,
-				Sampler = KnownResamplers.Welch
+				Compand = false,
+				Sampler = KnownResamplers.Bicubic // KnownResamplers.Welch
 			};
 
 			if (SaveDebugImages)
 			{
-				imageFragment.Save($"_{RaidImageFragmentType.GymName}_Step1_Resize.png");
+				imageFragment.Save($"_{RaidImageFragmentType.GymName}_Step1_BeforeResize.png");
 			}
+
+			// TODO: Versuch durch alle Pixel zu iterieren und dann ein FloodFill zu machen wenn weisse Pixel gefunden werden
+			//imageFragment.Mutate(m => m.Brightness(1.00f));
+
+			//if (SaveDebugImages)
+			//{
+			//	imageFragment.Save($"_{RaidImageFragmentType.GymName}_Step2_Brightness.png");
+			//}
 
 			imageFragment.Mutate(m => m.Invert().BinaryThreshold(0.2f).Resize(resizeOptions));
 
 			if (SaveDebugImages)
 			{
-				imageFragment.Save($"_{RaidImageFragmentType.GymName}_Step2_Binary.png");
+				imageFragment.Save($"_{RaidImageFragmentType.GymName}_Step3_Binary.png");
 			}
 
-		    return imageFragment;
+			return imageFragment;
 	    }
 
 	    public virtual Image<Rgba32> PreProcessPokemonNameFragment(Image<Rgba32> imageFragment)

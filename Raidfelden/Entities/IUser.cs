@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Raidfelden.Entities
+﻿namespace Raidfelden.Entities
 {
     public interface IUser
     {
@@ -10,9 +6,10 @@ namespace Raidfelden.Entities
 		string Name { get; set; }
 		double Latitude { get; set; }
 		double Longitude { get; set; }
-		sbyte Active { get; set; }
+		bool Active { get; set; }
 		ulong? DiscordId { get; set; }
 		string DiscordMention { get; set; }
-		sbyte IsTradeAllowed { get; set; }
+	    bool IsTradeAllowed { get; set; }
+		string FriendshipCode { get; set; }
 	}
 }
