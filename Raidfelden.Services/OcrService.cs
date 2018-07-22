@@ -115,19 +115,6 @@ namespace Raidfelden.Services
 				return new ServiceResponse(false, LocalizationService.Get(textResource, "Gyms_Errors_NothingFound", raidOcrResult.Gym.OcrValue));
 			}
 
-			// If the interactive response limit is reached try to select the all gyms with the same name as from the ocr result
-		    var gyms = raidOcrResult.Gym.Results.Select(e => e.Key).ToList();
-		    if (gyms.Count > interactiveLimit)
-		    {
-			    var ocrString = raidOcrResult.Gym.OcrValue.Trim().ToLowerInvariant();
-			    gyms = gyms.Where(e => e.Name.Trim().ToLowerInvariant() == ocrString).ToList();
-				// If we didn't found any return to the precious state
-			    if (gyms.Count == 0)
-			    {
-					gyms = raidOcrResult.Gym.Results.Select(e => e.Key).ToList();
-				}
-		    }
-
 			var gymCallbacks = InteractiveServiceHelper.GenericCreateCallbackAsync(interactiveLimit,
 				(selectedGym) =>
 					AddRaidAsync(textResource, requestStartInUtc, userZone, selectedGym, level, raidbossPokemon,
@@ -135,7 +122,8 @@ namespace Raidfelden.Services
 				gym => gym.Id,
 				(gym, list) => GymService.GetGymNameWithAdditionAsync(gym, list),
 				list => LocalizationService.Get(textResource, "Gyms_Errors_ToManyFound", list.Count, raidOcrResult.Gym.OcrValue, interactiveLimit),
-				list => LocalizationService.Get(textResource, "Gyms_Errors_InteractiveMode", list.Count, raidOcrResult.Gym.OcrValue), gyms);
+				list => LocalizationService.Get(textResource, "Gyms_Errors_InteractiveMode", list.Count, raidOcrResult.Gym.OcrValue),
+				raidOcrResult.Gym.Results.Select(e => e.Key).ToList());
 			return await gymCallbacks;
 		}
 
