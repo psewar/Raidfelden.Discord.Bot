@@ -132,6 +132,18 @@
         "MaxIvCp": 450
     },
     {
+        "Id": 26,
+        "Name": "Alolan Raichu",
+        "Level": 3,
+        "Cp": 16178,
+        "CatchRate": 10.0,
+        "IvAttack": 201,
+        "IvDefense": 172,
+        "IvStamina": 120,
+        "MinIvCp": 0,
+        "MaxIvCp": 1224
+    },
+    {
         "Id": 28,
         "Name": "Sandslash",
         "Level": 2,
@@ -397,6 +409,18 @@
     },
     {
         "Id": 103,
+        "Name": "Alolan Exeggutor",
+        "Level": 2,
+        "Cp": 13671,
+        "CatchRate": 20.0,
+        "IvAttack": 230,
+        "IvDefense": 158,
+        "IvStamina": 190,
+        "MinIvCp": 0,
+        "MaxIvCp": 1646
+    },
+    {
+        "Id": 103,
         "Name": "Exeggutor",
         "Level": 2,
         "Cp": 13839,
@@ -406,6 +430,18 @@
         "IvStamina": 190,
         "MinIvCp": 1589,
         "MaxIvCp": 1666
+    },
+    {
+        "Id": 105,
+        "Name": "Alolan Marowak",
+        "Level": 4,
+        "Cp": 20190,
+        "CatchRate": 15.0,
+        "IvAttack": 144,
+        "IvDefense": 200,
+        "IvStamina": 120,
+        "MinIvCp": 0,
+        "MaxIvCp": 966
     },
     {
         "Id": 105,
@@ -936,6 +972,18 @@
         "MaxIvCp": 1445
     },
     {
+        "Id": 232,
+        "Name": "Donphan",
+        "Level": 3,
+        "Cp": 18980,
+        "CatchRate": 12.5,
+        "IvAttack": 214,
+        "IvDefense": 214,
+        "IvStamina": 180,
+        "MinIvCp": 0,
+        "MaxIvCp": 1727
+    },
+    {
         "Id": 243,
         "Name": "Raikou",
         "Level": 5,
@@ -1032,6 +1080,18 @@
         "MaxIvCp": 924
     },
     {
+        "Id": 281,
+        "Name": "Kirlia",
+        "Level": 2,
+        "Cp": 6005,
+        "CatchRate": 10.0,
+        "IvAttack": 117,
+        "IvDefense": 100,
+        "IvStamina": 76,
+        "MinIvCp": 0,
+        "MaxIvCp": 481
+    },
+    {
         "Id": 286,
         "Name": "Breloom",
         "Level": 3,
@@ -1042,6 +1102,18 @@
         "IvStamina": 120,
         "MinIvCp": 0,
         "MaxIvCp": 1375
+    },
+    {
+        "Id": 296,
+        "Name": "Makuhita",
+        "Level": 1,
+        "Cp": 2319,
+        "CatchRate": 50.0,
+        "IvAttack": 99,
+        "IvDefense": 54,
+        "IvStamina": 144,
+        "MinIvCp": 0,
+        "MaxIvCp": 426
     },
     {
         "Id": 299,
@@ -1090,6 +1162,18 @@
         "IvStamina": 140,
         "MinIvCp": 1636,
         "MaxIvCp": 1716
+    },
+    {
+        "Id": 307,
+        "Name": "Meditite",
+        "Level": 1,
+        "Cp": 2516,
+        "CatchRate": 50.0,
+        "IvAttack": 78,
+        "IvDefense": 107,
+        "IvStamina": 60,
+        "MinIvCp": 0,
+        "MaxIvCp": 317
     },
     {
         "Id": 310,
