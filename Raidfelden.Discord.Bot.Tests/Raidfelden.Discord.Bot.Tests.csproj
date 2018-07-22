@@ -22,35 +22,103 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Ressources\Pictures\Raids\1080x2160Level4Instead5.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Ressources\Pictures\Raids\1080x1920\1080x1920WrongGymNameDetected.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Ressources\Pictures\Raids\BottomBar1080x1920Level5.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Ressources\Pictures\Raids\BottomBarSmall1080x1920Level5.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Ressources\Pictures\Raids\1080x1920\LevelWrong3Instead5.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Ressources\Pictures\Raids\BottomBarSmall1080x1920Level5Blumenrad.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Ressources\Pictures\Raids\BottomBarSmall1080x1920Regice.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\1080x1920\NullRefException1.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\1080x1920\RaidLevel1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\1080x1920\RaidLevel2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\1080x1920\RaidLevel3.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\1080x1920\RaidLevel4.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\1080x1920\RaidLevel5.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\1080x1920\WithoutMenu1080x1920.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\1080x2160\1080x2160Level4Instead5.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\1080x2220\BothMenu1080X2220Egg.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\1080x2220\Egg1080x2220.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\1080x2220\Egg1080X2220Herwig.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\1080x2220\GalaxyS9WithMenu2.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\1080x2220\HoOh1080X2220.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\1080x2220\ZurLandskrone-Karpador.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\1080x2240\1080x2240RaidNichtErkannt.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\1440x2960\1440x2960RaidNichtErkannt.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\1440x2960\GalaxyS9WithMenu.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\720x1280\720x1280Egg5.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\1080x1920\BottomBarSmall1080x1920Level5.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\750x1334\750x1334ArenaName.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\750x1334\A la Loko - Kyogre.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\750x1334\Absol-Theilsiefje.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\900x1600\Nexus900x1600Boss.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\900x1600\Nexus900x1600Boss.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Ressources\Pictures\Raids\900x1600\Nexus900x1600Egg.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Ressources\Pictures\Raids\BottomMenu1080x2160Boss.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Ressources\Pictures\Raids\BottomMenu854x1717_Boss.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Ressources\Pictures\Raids\720x1280\BottomMenu720x1280_Boss.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="Ressources\Pictures\Raids\BottomMenu854x1717_Egg.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\A la Loko - Kyogre.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\Absol-Theilsiefje.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Ressources\Pictures\Raids\720x1280\BottomMenu720x1280_Egg.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Ressources\Pictures\Raids\Amonitas.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -61,41 +129,23 @@
     <None Update="Ressources\Pictures\Raids\Boss1080X2220.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Ressources\Pictures\Raids\BossWithMenu1080X1920.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Ressources\Pictures\Raids\1080x1920\BossWithMenu1080X1920.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="Ressources\Pictures\Raids\BothMenu1080X2220Egg.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Ressources\Pictures\Raids\1080x1920\BottomMenuBar-Boss-1080x1920.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="Ressources\Pictures\Raids\BottomMenuBar-Boss-1080x1920.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Ressources\Pictures\Raids\1080x1920\BottomMenuBar-Egg4-1080x1920.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="Ressources\Pictures\Raids\BottomMenuBar-Egg4-1080x1920.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\BottomMenuBar-Egg5-1080x1920.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\Egg1080x2220.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\Egg1080X2220Herwig.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\GalaxyS9WithMenu.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\GalaxyS9WithMenu2.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Ressources\Pictures\Raids\1080x1920\BottomMenuBar-Egg5-1080x1920.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Ressources\Pictures\Raids\Gundeldinger Krippe - Ho-Oh.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Ressources\Pictures\Raids\GymNameNotRecognized1080X1920.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\HoOh1080X2220.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Update="Ressources\Pictures\Raids\1080x1920\GymNameNotRecognized1080X1920.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Ressources\Pictures\Raids\HoOhAsAmonitas.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -121,19 +171,7 @@
     <None Update="Ressources\Pictures\Raids\Kreuz - Kyogre %28Interactive%29.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Ressources\Pictures\Raids\LevelWrong3Instead5.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Ressources\Pictures\Raids\Monument de Strasbourg.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\Nexus900x1600Boss.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\Nexus900x1600Boss.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\Nexus900x1600Egg.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Ressources\Pictures\Raids\Ntx\1080x1920_BottomMenu_CumberlandPresbyterianChurch_Kyogre.png">
@@ -151,24 +189,6 @@
     <None Update="Ressources\Pictures\Raids\Ntx\BottomMenu1080x2160Level1Instead2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Ressources\Pictures\Raids\NullRefException1.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\RaidLevel1.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\RaidLevel2.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\RaidLevel3.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\RaidLevel4.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\RaidLevel5.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Ressources\Pictures\Raids\RestzeitNichtAuswertbar.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -179,12 +199,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Ressources\Pictures\Raids\Screenshot_20180519-172950.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\WithoutMenu1080x1920.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\ZurLandskrone-Karpador.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

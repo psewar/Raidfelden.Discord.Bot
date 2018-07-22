@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using NodaTime;
 using System.Linq;
+using System.Text;
 using Raidfelden.Services;
 using Raidfelden.Discord.Bot.Resources;
 using Raidfelden.Configuration;
@@ -146,5 +147,39 @@ namespace Raidfelden.Discord.Bot.Modules
 				await ReplyFailureAsync(LocalizationService.Get(typeof(i18n), "Raids_Errors_Unexpected", innerstEx.Message));
 			}
         }
+
+		[Command("list")]
+		public async Task ListRaidAsync(string pokemonNameOrRaidLevel)
+		{
+			try
+			{
+				// Only listen to commands in the configured channels or to exceptions
+				if (!CanProcessRequest)
+				{
+					return;
+				}
+
+				var utcNow = SystemClock.Instance.GetCurrentInstant().InUtc();
+				var response = RaidService.GetRaidList(typeof(i18n), utcNow, ChannelTimeZone, pokemonNameOrRaidLevel, Fences, "time", InteractiveReactionLimit, FormatRaidList);
+				await ReplyWithInteractive(() => response, LocalizationService.Get(typeof(i18n), "Raids_Messages_Successful_Title"));
+			}
+			catch (Exception ex)
+			{
+				var innerstEx = ex.GetInnermostException();
+				Console.WriteLine(innerstEx.Message);
+				Console.WriteLine(innerstEx.StackTrace);
+				await ReplyFailureAsync(LocalizationService.Get(typeof(i18n), "Raids_Errors_Unexpected", innerstEx.Message));
+			}
+		}
+
+	    private string FormatRaidList(RaidListInfo raidListInfo)
+	    {
+		    var builder = new StringBuilder();
+		    foreach (var raid in raidListInfo.Raids)
+		    {
+			    builder.AppendLine(string.Concat(raid.Gym.Name, " ", raid.PokemonId ?? raid.Level, " ", raid.TimeSpawn));
+		    }
+		    return builder.ToString();
+	    }
 	}
 }

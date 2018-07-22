@@ -15,7 +15,7 @@ namespace Raidfelden.Services
     {
 		IPokemon GetPokemonByName(string name);
 		Task<ServiceResponse<IPokemon>> GetPokemonAsync(Type textResource, string name, int interactiveLimit, Func<string, Task<ServiceResponse>> interactiveCallbackAction);
-        Task<ServiceResponse<KeyValuePair<IPokemon, IRaidboss>>> GetPokemonAndRaidbossAsync(Type textResource, string name, int interactiveLimit, Func<string, Task<ServiceResponse>> interactiveCallbackAction);
+        Task<ServiceResponse<RaidbossPokemon>> GetPokemonAndRaidbossAsync(Type textResource, string name, int interactiveLimit, Func<string, Task<ServiceResponse>> interactiveCallbackAction);
 	    Task<Dictionary<IPokemon, double>> GetSimilarPokemonByNameAsync(string name, int limit = int.MaxValue);
 	    Task<Dictionary<RaidbossPokemon, double>> GetSimilarRaidbossByNameAsync(string name, int limit = int.MaxValue);
     }
@@ -126,27 +126,27 @@ namespace Raidfelden.Services
 			);
 		}
 
-        public async Task<ServiceResponse<KeyValuePair<IPokemon, IRaidboss>>> GetPokemonAndRaidbossAsync(Type textResource, string name, int interactiveLimit, Func<string, Task<ServiceResponse>> interactiveCallback)
+        public async Task<ServiceResponse<RaidbossPokemon>> GetPokemonAndRaidbossAsync(Type textResource, string name, int interactiveLimit, Func<string, Task<ServiceResponse>> interactiveCallback)
         {
             return await InteractiveServiceHelper.GenericGetEntityWithCallback(
 				GetPossibleRaidbossPokemonAsync(name),
-                list => list.Where(e => e.Key.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).ToList(),
+                list => list.Where(e => e.Pokemon.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).ToList(),
                 interactiveLimit,
                 interactiveCallback,
-                pokemon => pokemon.Key.Name,
-                (pokemon, list) => Task.FromResult(pokemon.Key.Name),
-                pokemon => pokemon.Key.Name,
+                pokemon => pokemon.Pokemon.Name,
+                (pokemon, list) => Task.FromResult(pokemon.Pokemon.Name),
+                pokemon => pokemon.Pokemon.Name,
 				() => LocalizationService.Get(textResource, "Pokemon_Errors_NothingFound", name, "raidboss-"),
 				list => LocalizationService.Get(textResource, "Pokemon_Errors_ToManyFound", list.Count, name, interactiveLimit, "raidboss-"),
 				list => LocalizationService.Get(textResource, "Pokemon_Errors_InteractiveMode", list.Count, name, "raidboss-")
 			);
         }
 
-        public async Task<List<KeyValuePair<IPokemon, IRaidboss>>> GetPossibleRaidbossPokemonAsync(string name)
+        public async Task<List<RaidbossPokemon>> GetPossibleRaidbossPokemonAsync(string name)
         {
             var pokemon = Pokemon.Where(e => e.Name.ToLowerInvariant().Contains(name.ToLowerInvariant()));
-            var pokemonAndRaidboss = pokemon.Select(e => new KeyValuePair<IPokemon, IRaidboss>(e, RaidbossService.GetRaidbossOrDefaultById(e.Id)));
-            pokemonAndRaidboss = pokemonAndRaidboss.Where(e => e.Value != null);
+            var pokemonAndRaidboss = pokemon.Select(e => new RaidbossPokemon(e, RaidbossService.GetRaidbossOrDefaultById(e.Id)));
+            pokemonAndRaidboss = pokemonAndRaidboss.Where(e => e.Raidboss != null);
             return await Task.FromResult(pokemonAndRaidboss.ToList());
         }
 

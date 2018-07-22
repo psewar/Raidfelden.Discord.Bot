@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Raidfelden.Data.Monocle
+namespace Raidfelden.Data
 {
 	public class GenericCastRepository<TEntity, TIdentifier, TInterface> : GenericRepository<TEntity, TIdentifier>, IGenericRepository<TInterface, TIdentifier> where TEntity : class, TInterface, new() where TInterface : class
 	{

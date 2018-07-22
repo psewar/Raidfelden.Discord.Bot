@@ -1,12 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Raidfelden.Services
 {
     public static class InteractiveServiceHelper
     {
-        public static async Task<ServiceResponse<TEntity>> GenericGetEntityWithCallback<TEntity, TIdentifier>(Task<List<TEntity>> source, Func<List<TEntity>, List<TEntity>> findExactMatch, int interactiveLimit, Func<TIdentifier, Task<ServiceResponse>> interactiveCallback, Func<TEntity, TIdentifier> getEntityIdentifier, Func<TEntity, List<TEntity>, Task<string>> getEntityName, Func<TEntity, string> getSuccessMessage, Func<string> getErrorMessageNoEntityFound, Func<List<TEntity>, string> getErrorMessageInteractiveLimit, Func<List<TEntity>, string> getErrorMessageInteractive)
+		public static bool UseInteractiveMode<T>(KeyValuePair<T, double>[] results, double threshold = 0.3)
+		{
+			if (results == null || results.Length == 0)
+			{
+				return true;
+			}
+
+			var bestMatch = results.First().Value;
+			if (results.Skip(1).Select(e => e.Value).Any(e => e > (bestMatch - 0.05d)))
+			{
+				return true;
+			}
+			return results.First().Value < threshold;
+		}
+
+		public static async Task<ServiceResponse<TEntity>> GenericGetEntityWithCallback<TEntity, TIdentifier>(Task<List<TEntity>> source, Func<List<TEntity>, List<TEntity>> findExactMatch, int interactiveLimit, Func<TIdentifier, Task<ServiceResponse>> interactiveCallback, Func<TEntity, TIdentifier> getEntityIdentifier, Func<TEntity, List<TEntity>, Task<string>> getEntityName, Func<TEntity, string> getSuccessMessage, Func<string> getErrorMessageNoEntityFound, Func<List<TEntity>, string> getErrorMessageInteractiveLimit, Func<List<TEntity>, string> getErrorMessageInteractive)
         {
             var entities = await source;
             

@@ -11,6 +11,7 @@ namespace Raidfelden.Discord.Bot.Modules
 		[Command("ping")]
 		public async Task PingAsync()
 		{
+			
 			await ReplyAsync("pong");
 		}
     }

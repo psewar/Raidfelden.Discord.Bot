@@ -1,9 +1,9 @@
 using SixLabors.ImageSharp;
 using SixLabors.Primitives;
 
-namespace Raidfelden.Services.Ocr.RaidConfigurations
+namespace Raidfelden.Services.Ocr.RaidConfigurations.Ric1080X2220
 {
-	public class BothMenu1080X2220Configuration : RaidImageConfiguration
+	public class Ric1080X2220TopAndBottomBar : RaidImageConfiguration
 	{
 		protected override Rectangle GymNamePosition => new Rectangle(220, 230, 860, 90);
 		protected override Rectangle EggTimerPosition => new Rectangle(400, 500, 270, 70);
@@ -11,7 +11,7 @@ namespace Raidfelden.Services.Ocr.RaidConfigurations
 		protected override Rectangle PokemonNamePosition => new Rectangle(0, 590, 1080, 150);
 		protected override Rectangle RaidTimerPosition => new Rectangle(820, 1265, 180, 50);
 
-		public BothMenu1080X2220Configuration() : base(1080, 2220) { }
+		public Ric1080X2220TopAndBottomBar() : base(1080, 2220) { }
 
 		public override void PreProcessImage<TPixel>(Image<TPixel> image) { }
 	}

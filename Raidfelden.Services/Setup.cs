@@ -10,11 +10,15 @@ namespace Raidfelden.Services
 				.AddScoped<IConfigurationService, ConfigurationService>()
 				.AddScoped<IFileWatcherService, FileWatcherService>()
 				.AddScoped<IGymService, GymService>()
+				.AddScoped<IPokestopService, PokestopService>()
 				.AddScoped<ILocalizationService, LocalizationService>()
 				.AddScoped<IOcrService, OcrService>()
 				.AddScoped<IPokemonService, PokemonService>()
 				.AddScoped<IRaidbossService, RaidbossService>()
-				.AddScoped<IRaidService, RaidService>();
+				.AddScoped<IRaidService, RaidService>()
+				.AddScoped<IUserService, UserService>()
+				.AddScoped<ITradeService, TradeService>()
+				.AddScoped<IQuestService, QuestService>();
 			return services;
 		}
 	}

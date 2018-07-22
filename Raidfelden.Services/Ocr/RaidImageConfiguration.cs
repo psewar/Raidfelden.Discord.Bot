@@ -87,23 +87,31 @@ namespace Raidfelden.Services.Ocr
 			{
 				Mode = ResizeMode.Stretch,
 				Size = size,
-				Compand = true,
-				Sampler = KnownResamplers.Welch
+				Compand = false,
+				Sampler = KnownResamplers.Bicubic // KnownResamplers.Welch
 			};
 
 			if (SaveDebugImages)
 			{
-				imageFragment.Save($"_{RaidImageFragmentType.GymName}_Step1_Resize.png");
+				imageFragment.Save($"_{RaidImageFragmentType.GymName}_Step1_BeforeResize.png");
 			}
+
+			// TODO: Versuch durch alle Pixel zu iterieren und dann ein FloodFill zu machen wenn weisse Pixel gefunden werden
+			//imageFragment.Mutate(m => m.Brightness(1.00f));
+
+			//if (SaveDebugImages)
+			//{
+			//	imageFragment.Save($"_{RaidImageFragmentType.GymName}_Step2_Brightness.png");
+			//}
 
 			imageFragment.Mutate(m => m.Invert().BinaryThreshold(0.2f).Resize(resizeOptions));
 
 			if (SaveDebugImages)
 			{
-				imageFragment.Save($"_{RaidImageFragmentType.GymName}_Step2_Binary.png");
+				imageFragment.Save($"_{RaidImageFragmentType.GymName}_Step3_Binary.png");
 			}
 
-		    return imageFragment;
+			return imageFragment;
 	    }
 
 	    public virtual Image<Rgba32> PreProcessPokemonNameFragment(Image<Rgba32> imageFragment)
