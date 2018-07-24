@@ -124,7 +124,7 @@
     <value>Interactive reaction needed</value>
   </data>
   <data name="Base_Messages_Reply_Success" xml:space="preserve">
-    <value>Tank you {0}, I added the following informations:</value>
+    <value>Thank you {0}, I added the following informations:</value>
   </data>
   <data name="BotName" xml:space="preserve">
     <value>Raidfelden Info Bot</value>
