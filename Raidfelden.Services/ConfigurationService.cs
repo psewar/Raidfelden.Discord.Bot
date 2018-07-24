@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Raidfelden.Configuration;
@@ -94,7 +95,7 @@ namespace Raidfelden.Services
                         //var fences = configuration.Fences != null ? configuration.Fences.ToList() : new List<string>();
                         //fences.Add(channelName.Substring(configuration.Name.Length));
                         //configuration.Fences = fences.Distinct().ToArray();
-                        configuration.Fences = new[] { channelName.Substring(configuration.Name.Length) };
+                        configuration.Fences = channelName.Substring(configuration.Name.Length).Split('-');
                         yield return configuration;
                     }
                 }

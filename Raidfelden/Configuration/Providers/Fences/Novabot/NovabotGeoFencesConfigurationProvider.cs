@@ -23,7 +23,7 @@ namespace Raidfelden.Configuration.Providers.Fences.Novabot
                         var names = namesString.Split(',');
                         for (int i = 0; i < names.Length; i++)
                         {
-                            Data.Add($"FencesConfiguration:Fences:{counter}:Names:{i}", names[i]);
+                            Data.Add($"FencesConfiguration:Fences:{counter}:Names:{i}", names[i].ToLowerInvariant());
                         }
                         
                         counterCoordinates = 0;
