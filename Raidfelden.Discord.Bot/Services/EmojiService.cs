@@ -6,32 +6,69 @@ namespace Raidfelden.Discord.Bot.Services
 {
     public interface IEmojiService
     {
-        Emoji Get(int numer);
+        Emoji Get(int id);
     }
 
     public class EmojiService : IEmojiService
     {
         public EmojiService()
         {
-            string[] numbers = new[] { "0⃣", "1⃣", "2⃣", "3⃣", "4⃣", "5⃣", "6⃣", "7⃣", "8⃣", "9⃣" };
-            var numberEmojis = new List<Emoji>();
-            for (int i = 0; i < numbers.Length; i++)
+            string[] keycaps = new[] {
+                    "0⃣",
+                    "1⃣",
+                    "2⃣",
+                    "3⃣",
+                    "4⃣",
+                    "5⃣",
+                    "6⃣",
+                    "7⃣",
+                    "8⃣",
+                    "9⃣",
+                    "🇦",
+                    "🇧",
+                    "🇨",
+                    "🇩",
+                    "🇪",
+                    "🇫",
+                    "🇬",
+                    "🇭",
+                    "🇮",
+                    "🇯",
+                    "🇰",
+                    "🇱",
+                    "🇲",
+                    "🇳",
+                    "🇴",
+                    "🇵",
+                    "🇶",
+                    "🇷",
+                    "🇸",
+                    "🇹",
+                    "🇺",
+                    "🇻",
+                    "🇼",
+                    "🇽",
+                    "🇾",
+                    "🇿"
+            };
+            var keycapEmojis = new List<Emoji>();
+            for (int i = 0; i < keycaps.Length; i++)
             {
-                numberEmojis.Add(new Emoji(numbers[i]));
+                keycapEmojis.Add(new Emoji(keycaps[i]));
             }
-            NumberEmojis = numberEmojis.ToArray();
+            KeycapEmojis = keycapEmojis.ToArray();
         }
 
-        protected Emoji[] NumberEmojis { get; private set; }
+        protected Emoji[] KeycapEmojis { get; private set; }
 
-        public Emoji Get(int number)
+        public Emoji Get(int id)
         {
-            if (number < 0 || number > 9)
+            if (id < 0 || id >= KeycapEmojis.Length)
             {
-                throw new ArgumentException("The number has to be between 0 and 9");
+                throw new ArgumentException("Invalid keycap emoji id");
             }
 
-            return NumberEmojis[number];
+            return KeycapEmojis[id];
         }
     }
 }

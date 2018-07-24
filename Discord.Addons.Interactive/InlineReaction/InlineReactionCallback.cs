@@ -40,11 +40,13 @@ namespace Discord.Addons.Interactive
             Message = message;
             interactive.AddReactionCallback(message, this);
 
+            /* We can't do this -- we run into discord's rate limiting way too fast.
             _ = Task.Run(async () =>
             {
                 foreach (var item in data.Callbacks)
                     await message.AddReactionAsync(item.Reaction);
             });
+            */
 
             if (Timeout.HasValue)
             {
@@ -56,8 +58,10 @@ namespace Discord.Addons.Interactive
         public async Task<bool> HandleCallbackAsync(SocketReaction reaction)
         {
             var reactionCallbackItem = data.Callbacks.FirstOrDefault(t => t.Reaction.Equals(reaction.Emote));
-            if (reactionCallbackItem == null)
+            if (reactionCallbackItem == null) {
+                Console.WriteLine("Unrecognized reaction to interactive: " + reaction.Emote);        
                 return false;
+        }
 
             await reactionCallbackItem.Callback(Context);
             return true;
