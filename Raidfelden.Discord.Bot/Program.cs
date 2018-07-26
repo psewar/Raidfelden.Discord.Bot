@@ -15,6 +15,7 @@ using Raidfelden.Discord.Bot.Resources;
 using Raidfelden.Data.Monocle;
 using Raidfelden.Data.Pokemon;
 using Raidfelden.Services;
+using Raidfelden.Services.Extensions;
 
 namespace Raidfelden.Discord.Bot
 {
@@ -100,36 +101,50 @@ namespace Raidfelden.Discord.Bot
 
 		private async Task HandleCommandAsync(SocketMessage arg)
 		{
-			var message = arg as SocketUserMessage;
-			if (message == null || message.Author.IsBot) { return; }
-
-			int argPos = 0;
-            var context = new SocketCommandContext(_client, message);
-            ulong? guildId = null;
-            if (context.Guild != null)
+            try
             {
-                guildId = context.Guild.Id;
-            }
-            var guildConfiguration = ConfigurationService.GetGuildConfiguration(guildId);
-            var prefix = ConfigurationService.GetCommandPrefix(guildConfiguration);
-            if (message.HasStringPrefix(prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))
-			{
-				
-				var result = await _commands.ExecuteAsync(context, argPos, ServiceProvider);
-				if (!result.IsSuccess)
-				{
-					Console.WriteLine(result.ErrorReason);
-				}
-			}
+                Console.WriteLine("HandleCommandAsync started");
+                var message = arg as SocketUserMessage;
+                if (message == null || message.Author.IsBot) { return; }
 
-            var ocrChannels = ConfigurationService.GetChannelConfigurations(guildConfiguration, context.Channel.Name).Where(e => e.IsOcrAllowed).Select(e => e.Name.ToLowerInvariant()).ToArray();
-            if ((ocrChannels.Contains(message.Channel.Name.ToLowerInvariant()) || message.Author.Username == "psewar") && message.Attachments.Count > 0)
-            {
-                var result = await _commands.ExecuteAsync(context, "raids ocr", ServiceProvider);
-                if (!result.IsSuccess)
+                int argPos = 0;
+                var context = new SocketCommandContext(_client, message);
+                ulong? guildId = null;
+                if (context.Guild != null)
                 {
-                    Console.WriteLine(result.ErrorReason);
+                    guildId = context.Guild.Id;
                 }
+                var guildConfiguration = ConfigurationService.GetGuildConfiguration(guildId);
+                var prefix = ConfigurationService.GetCommandPrefix(guildConfiguration);
+                if (message.HasStringPrefix(prefix, ref argPos) || message.HasMentionPrefix(_client.CurrentUser, ref argPos))
+                {
+
+                    var result = await _commands.ExecuteAsync(context, argPos, ServiceProvider);
+                    if (!result.IsSuccess)
+                    {
+                        Console.WriteLine(result.ErrorReason);
+                    }
+                    return;
+                }
+
+                var ocrChannels = ConfigurationService.GetChannelConfigurations(guildConfiguration, context.Channel.Name).Where(e => e.IsOcrAllowed).Select(e => e.Name.ToLowerInvariant()).ToArray();
+                if ((ocrChannels.Contains(message.Channel.Name.ToLowerInvariant()) || message.Author.Username == "psewar") && message.Attachments.Count > 0)
+                {
+                    var result = await _commands.ExecuteAsync(context, "raids ocr", ServiceProvider);
+                    if (!result.IsSuccess)
+                    {
+                        Console.WriteLine(result.ErrorReason);
+                    }
+                    return;
+                }
+
+                Console.WriteLine($"No configured Channel found for prefix \"{prefix}\" and Channel \"{message.Channel.Name}\"");
+            }
+            catch (Exception ex)
+            {
+                var innerstEx = ex.GetInnermostException();
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
             }
 		}
 	}
