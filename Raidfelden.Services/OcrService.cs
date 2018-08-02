@@ -455,6 +455,7 @@ namespace Raidfelden.Services
 										 || c == '.'
 										 || c == '\''
 										 || c == '-'
+			                             || c == '/'
 										 || c == ':')));
 			return new string(arr).TrimEnd('\n').Trim();
 		}
