@@ -57,23 +57,26 @@ namespace Raidfelden.Services
 				}
 
 				var raidOcrResult = await GetRaidOcrResultAsync(image, configuration, interactiveLimit, fences);
-
+				ServiceResponse result;
 				if (!raidOcrResult.IsRaidImage)
 				{
-					return new ServiceResponse(false, LocalizationService.Get(textResource, "Raids_Errors_NotAnRaidImage"));
+					result = new ServiceResponse(false, LocalizationService.Get(textResource, "Raids_Errors_NotAnRaidImage"));
 				}
 
 				if (raidOcrResult.IsRaidBoss)
 				{
 					var timeLeft = raidOcrResult.RaidTimer.GetFirst();
-					return await InteractivePokemonResolve(textResource, requestStartInUtc, userZone, timeLeft, raidOcrResult, fences, interactiveLimit);
+					result = await InteractivePokemonResolve(textResource, requestStartInUtc, userZone, timeLeft, raidOcrResult, fences, interactiveLimit);
 				}
 				else
 				{
 					var timeLeft = raidOcrResult.EggTimer.GetFirst();
 					var level = raidOcrResult.EggLevel.GetFirst();
-					return await InteractiveGymResolve(textResource, requestStartInUtc, userZone, timeLeft, level, null, raidOcrResult, fences, interactiveLimit);
+					result = await InteractiveGymResolve(textResource, requestStartInUtc, userZone, timeLeft, level, null, raidOcrResult, fences, interactiveLimit);
 				}
+
+				var resultWithType = new ServiceResponse<RaidOcrResult>(result, raidOcrResult);
+				return resultWithType;
 			}
 	    }
 
@@ -208,7 +211,7 @@ namespace Raidfelden.Services
 		    if (result.PokemonCp.IsSuccess && result.Pokemon.IsSuccess && result.Pokemon.Results.Length > 1)
 			{
 				var pokemonWithCp =
-					result.Pokemon.Results.Where(e => e.Value == 1d || e.Key.Raidboss.Cp == result.PokemonCp.GetFirst())
+					result.Pokemon.Results.Where(e => e.Key.Raidboss.Cp == result.PokemonCp.GetFirst())
 						.Select(e => new KeyValuePair<RaidbossPokemon, double>(e.Key, Math.Max(e.Value * 2, 1)))
 						.ToArray();
 

@@ -147,7 +147,8 @@ namespace Raidfelden.Services.Ocr.RaidConfigurations
 			var color = image[0, image.Height - 1];
 			for (int i = image.Height - 2; i >= 0; i--)
 			{
-				if (image[0, i] == color)
+				//if (image[0, i] == color)
+				if (RaidImageConfiguration.IsColorWithinTolerance(image[0, i], color, 5))
 				{
 					counter++;
 				}

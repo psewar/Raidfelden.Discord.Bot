@@ -43,7 +43,7 @@ namespace Raidfelden.Discord.Bot.Tests.Ocr
 		    return OcrTestsHelper.GetOcrService(ConfigurationService, context);
 	    }
 
-	    protected ServiceResponse GetOcrResult(OcrService ocrService, string fileName)
+	    protected ServiceResponse<OcrService.RaidOcrResult> GetOcrResult(OcrService ocrService, string fileName)
 	    {
 		    var filePath = Path.Combine(BasePath, FolderName, fileName);
 		    return OcrTestsHelper.GetOcrResult(ocrService, filePath);

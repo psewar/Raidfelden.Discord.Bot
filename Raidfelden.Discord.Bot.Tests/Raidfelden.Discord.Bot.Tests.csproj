@@ -25,6 +25,9 @@
     <None Update="Ressources\Pictures\Raids\1080x1920\1080x1920WrongGymNameDetected.jpg">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
+    <None Update="Ressources\Pictures\Raids\1080x2160\BottomMenu1080x2160Boss.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
     <None Update="Ressources\Pictures\Raids\BottomBar1080x1920Level5.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -110,9 +113,6 @@
     </None>
     <None Update="Ressources\Pictures\Raids\900x1600\Nexus900x1600Egg.jpg">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Ressources\Pictures\Raids\BottomMenu1080x2160Boss.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Ressources\Pictures\Raids\720x1280\BottomMenu720x1280_Boss.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>

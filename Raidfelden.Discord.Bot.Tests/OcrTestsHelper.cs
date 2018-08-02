@@ -30,11 +30,12 @@ namespace Raidfelden.Discord.Bot.Tests
 			return result.Message;
 		}
 
-		public static ServiceResponse GetOcrResult(OcrService ocrService, string filePath, FenceConfiguration[] fences = null)
+		public static ServiceResponse<OcrService.RaidOcrResult> GetOcrResult(OcrService ocrService, string filePath, FenceConfiguration[] fences = null)
 		{
 			var utcNow = SystemClock.Instance.GetCurrentInstant().InUtc();
 			var channelTimeZone = DateTimeZoneProviders.Tzdb["Europe/Zurich"];
-			return ocrService.AddRaidAsync(typeof(i18n), utcNow, channelTimeZone, filePath, 4, fences, true).Result;
+			var result = ocrService.AddRaidAsync(typeof(i18n), utcNow, channelTimeZone, filePath, 4, fences, true).Result;
+			return (ServiceResponse<OcrService.RaidOcrResult>) result;
 		}
 	}
 }

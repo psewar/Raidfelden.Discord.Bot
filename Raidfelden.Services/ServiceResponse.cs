@@ -11,7 +11,12 @@ namespace Raidfelden.Services
             Result = result;
         }
 
-        public T Result { get; }
+	    public ServiceResponse(ServiceResponse serviceResponse, T result) : base(serviceResponse.IsSuccess, serviceResponse.Message, serviceResponse.InterActiveCallbacks)
+	    {
+		    Result = result;
+		}
+
+		public T Result { get; }
     }
 
     public class ServiceResponse
