@@ -107,6 +107,36 @@ namespace Raidfelden.Discord.Bot
                 var message = arg as SocketUserMessage;
                 if (message == null || message.Author.IsBot) { return; }
 
+
+                        //Do some preprocessing on the message to handle ios /
+                        //android differences. This has to be done with
+                        //reflection unfortunately.
+                        foreach(PropertyInfo info in typeof(SocketMessage).GetProperties())
+                        {
+                                if (info.Name == "Content")
+                                {
+                                        info.SetValue(
+                                                message,
+                                                message.Content
+                                                        .Replace('ʺ', '"')
+                                                        .Replace('˝', '"')
+                                                        .Replace('ˮ', '"')
+                                                        .Replace('˶', '"')
+                                                        .Replace('ײ', '"')
+                                                        .Replace('״', '"')
+                                                        .Replace('“', '"')
+                                                        .Replace('”', '"')
+                                                        .Replace('‟', '"')
+                                                        .Replace('″', '"')
+                                                        .Replace('‶', '"')
+                                                        .Replace('〃', '"')
+                                                        .Replace('＂', '"')
+                                                        .Replace('<', '"')
+                                                        .Replace('>', '"')
+                                        );
+                                }
+                        }
+
                 int argPos = 0;
                 var context = new SocketCommandContext(_client, message);
                 ulong? guildId = null;
