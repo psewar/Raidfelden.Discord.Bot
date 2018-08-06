@@ -1,4 +1,5 @@
-﻿using Raidfelden.Services.Ocr.RaidConfigurations.Ric1080X2220;
+﻿using Raidfelden.Services.Ocr.RaidConfigurations.Ric1080X2160;
+using Raidfelden.Services.Ocr.RaidConfigurations.Ric1080X2220;
 using Raidfelden.Services.Ocr.RaidConfigurations.Ric1440X2960;
 using Raidfelden.Services.Ocr.RaidConfigurations.Ric750X1334;
 using SixLabors.ImageSharp;
@@ -54,8 +55,12 @@ namespace Raidfelden.Services.Ocr.RaidConfigurations
 				case 2160:
 				    if (image.HasBottomBar())
 				    {
-					    configuration = new BottomMenu1080X2160Configuration();
+					    configuration = new Ric1080X2160BottomBar();
 					    configuration.BottomMenuHeight = GetBottomBarHeight(image);
+				    }
+				    else
+				    {
+					    configuration = new Ric1080X2160WithoutBar();
 				    }
 				    break;
 				case 1920:

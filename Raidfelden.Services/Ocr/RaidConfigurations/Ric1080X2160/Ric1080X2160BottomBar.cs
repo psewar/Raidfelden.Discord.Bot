@@ -2,9 +2,9 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.Primitives;
 
-namespace Raidfelden.Services.Ocr.RaidConfigurations
+namespace Raidfelden.Services.Ocr.RaidConfigurations.Ric1080X2160
 {
-	public class BottomMenu1080X2160Configuration : RaidImageConfiguration
+	public class Ric1080X2160BottomBar : RaidImageConfiguration
 	{
 		// - 144
 		//protected override Rectangle EggTimerPosition => new Rectangle(410, 579 - BottomMenuHeight, 260, 70);
@@ -25,7 +25,7 @@ namespace Raidfelden.Services.Ocr.RaidConfigurations
 
 		protected override Rectangle RaidTimerPosition => new Rectangle(825, 1334 - BottomMenuHeight, 170, 50);
 
-		public BottomMenu1080X2160Configuration() : base(1080, 2160) { }
+		public Ric1080X2160BottomBar() : base(1080, 2160) { }
 
 		public override void PreProcessImage<TPixel>(Image<TPixel> image)
 		{

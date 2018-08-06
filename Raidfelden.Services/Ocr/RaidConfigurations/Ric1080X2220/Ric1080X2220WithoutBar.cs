@@ -1,7 +1,7 @@
 using SixLabors.ImageSharp;
 using SixLabors.Primitives;
 
-namespace Raidfelden.Services.Ocr.RaidConfigurations
+namespace Raidfelden.Services.Ocr.RaidConfigurations.Ric1080X2220
 {
 	public class Ric1080X2220WithoutBar : RaidImageConfiguration
 	{

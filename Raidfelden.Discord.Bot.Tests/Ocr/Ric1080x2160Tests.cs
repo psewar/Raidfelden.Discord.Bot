@@ -11,7 +11,7 @@ namespace Raidfelden.Discord.Bot.Tests.Ocr
 	    protected override string FolderName => "1080x2160";
 
 	    [TestMethod]
-	    public void BottomMenu1080X2160()
+	    public void Ric1080X2160BottomBar()
 	    {
 		    using (var context = new Hydro74000Context(ContextOptions))
 		    {
@@ -37,5 +37,27 @@ namespace Raidfelden.Discord.Bot.Tests.Ocr
 			    Assert.AreEqual(interactiveResult.Result.RaidTimer.GetFirst(), new TimeSpan(0, 35, 31));
 			}
 	    }
-	}
+
+	    [TestMethod]
+	    public void Ric1080X2160WithoutBar()
+	    {
+		    using (var context = new Hydro74000Context(ContextOptions))
+		    {
+			    var ocrService = OcrTestsHelper.GetOcrService(ConfigurationService, context);
+
+			    // The gyms for the following tests do not exist, so just test the results on their own
+			    var interactiveResult = GetOcrResult(ocrService, "WithoutBottomBarEgg5.jpg");
+			    Assert.AreEqual(interactiveResult.Result.EggLevel.GetFirst(), 5);
+			    Assert.AreEqual(interactiveResult.Result.EggTimer.GetFirst(), new TimeSpan(0, 21, 6));
+
+			    interactiveResult = GetOcrResult(ocrService, "WithoutBottomBarEgg4.jpg");
+			    Assert.AreEqual(interactiveResult.Result.EggLevel.GetFirst(), 4);
+			    Assert.AreEqual(interactiveResult.Result.EggTimer.GetFirst(), new TimeSpan(0, 47, 52));
+
+			    interactiveResult = GetOcrResult(ocrService, "WithoutBottomBarBossDespotar.jpg");
+				Assert.AreEqual(interactiveResult.Result.Pokemon.OcrValue, "Despotar");
+			    Assert.AreEqual(interactiveResult.Result.RaidTimer.GetFirst(), new TimeSpan(0, 9, 52));
+			}
+	    }
+    }
 }
