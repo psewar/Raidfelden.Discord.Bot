@@ -131,7 +131,8 @@ namespace Raidfelden.Services
 			}
 
             await RaidRepository.SaveAsync();
-            return new ServiceResponse(true, message);
+	        await GymService.UpdateGymAsync(gym);
+			return new ServiceResponse(true, message);
         }
 
         private TimeSpan? GetTimeSpan(string timeLeft)
@@ -205,6 +206,7 @@ namespace Raidfelden.Services
 
             raid.PokemonId = (short)raidboss.Id;
             await RaidRepository.SaveAsync();
+	        await GymService.UpdateGymAsync(gym);
 			return new ServiceResponse(true, LocalizationService.Get(textResource, "Raids_Messages_BossHatched", pokemon.Name, gym.Name));
 		}
 

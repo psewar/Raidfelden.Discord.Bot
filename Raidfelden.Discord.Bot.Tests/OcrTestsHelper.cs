@@ -13,8 +13,9 @@ namespace Raidfelden.Discord.Bot.Tests
 		{
             IGymRepository gymRepository = new GymRepository(context);
             IRaidRepository raidRepository = new RaidRepository(context);
+			IFortSightingRepository fortSightingRepository = new FortSightingRepository(context);
 			var localizationService = new LocalizationService();
-			var gymService = new GymService(gymRepository, localizationService, configurationService);
+			var gymService = new GymService(gymRepository, fortSightingRepository, localizationService, configurationService);
 			var raidbossService = new RaidbossService();
 			var fileWatcherService = new FileWatcherService();
 			var pokemonService = new PokemonService(raidbossService, localizationService, fileWatcherService);

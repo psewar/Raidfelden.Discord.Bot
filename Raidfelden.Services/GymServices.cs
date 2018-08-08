@@ -25,19 +25,23 @@ namespace Raidfelden.Services
 
 		Task<string> GetGymNameWithAdditionAsync(IGym gym, List<IGym> gymList);
 
+		Task UpdateGymAsync(IGym gym);
 	}
 
 	public class GymService : IGymService
 	{
 		protected IGymRepository GymRepository { get; }
+		protected IFortSightingRepository FortSightingRepository { get; }
 		protected ILocalizationService LocalizationService { get; }
 		protected IConfigurationService ConfigurationService { get; }
+		
 
-		public GymService(IGymRepository gymRepository, ILocalizationService localizationService, IConfigurationService configurationService)
+		public GymService(IGymRepository gymRepository, IFortSightingRepository fortSightingRepository, ILocalizationService localizationService, IConfigurationService configurationService)
 		{
 			GymRepository = gymRepository;
+			FortSightingRepository = fortSightingRepository;
 			LocalizationService = localizationService;
-			ConfigurationService = configurationService;
+			ConfigurationService = configurationService;			
 			GymsByFences = new LazyConcurrentDictionary<FenceConfiguration, int[]>();
 		}
 
@@ -211,6 +215,29 @@ namespace Raidfelden.Services
 				return value;
 			}
 			return value.Trim();
+		}
+
+		public async Task UpdateGymAsync(IGym gym)
+		{
+			var fortSightings = await FortSightingRepository.FindAll(e => e.FortId == gym.Id).Take(1).ToListAsync();
+			//Yuck -- we only store unix time as an int in this table!
+			int now = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+			if (fortSightings == null || fortSightings.Count == 0)
+			{
+				var fortSighting = FortSightingRepository.CreateInstance();
+				fortSighting.FortId = gym.Id;
+				fortSighting.Team = 0;
+				fortSighting.LastModified = now;
+				fortSighting.Updated = now;
+				FortSightingRepository.Add(fortSighting);
+			}
+			else
+			{
+				var fortSighting = fortSightings[0];
+				fortSighting.LastModified = now;
+				fortSighting.Updated = now;
+			}
+			await FortSightingRepository.SaveAsync();
 		}
 	}
 }

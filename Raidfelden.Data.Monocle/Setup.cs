@@ -9,7 +9,8 @@ namespace Raidfelden.Data.Monocle
         {
             services.AddDbContext<Hydro74000Context>(options => options.UseMySql(connectionString));
             services.AddScoped<IGymRepository, GymRepository>();
-            services.AddScoped<IRaidRepository, RaidRepository>();
+	        services.AddScoped<IFortSightingRepository, FortSightingRepository>();
+			services.AddScoped<IRaidRepository, RaidRepository>();
 	        services.AddScoped<IPokestopRepository, PokestopRepository>();
 			return services;
 		}
