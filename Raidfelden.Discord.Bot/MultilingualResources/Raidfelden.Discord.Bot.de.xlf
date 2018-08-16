@@ -95,8 +95,9 @@
           <target state="final">Interaktive Reaktion benötigt</target>
         </trans-unit>
         <trans-unit id="Base_Messages_Reply_Success" translate="yes" xml:space="preserve">
-          <source>Tank you {0}, I added the following informations:</source>
-          <target state="final">Vielen Dank {0}, ich habe die folgenden Informationen eingetragen:</target>
+          <source>Thank you {0}, I added the following informations:</source>
+          <target state="needs-review-translation">Vielen Dank {0}, ich habe die folgenden Informationen eingetragen:</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Raids_Errors_Unexpected" translate="yes" xml:space="preserve">
           <source>An unexcpected error occured: {0}</source>

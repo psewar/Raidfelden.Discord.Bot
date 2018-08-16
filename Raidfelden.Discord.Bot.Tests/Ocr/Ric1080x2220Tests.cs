@@ -22,7 +22,10 @@ namespace Raidfelden.Discord.Bot.Tests.Ocr
 
 			    text = GetOcrResultString(ocrService, "GalaxyS9WithMenu2.jpg");
 			    Assert.AreEqual(".raids add \"Rheinfelden Bahnhof\" \"5\" 48:59", text, true);
-		    }
+
+			    text = GetOcrResultString(ocrService, "BottomBarAugustaRauricaOsttor1454Egg3.jpg");
+			    Assert.AreEqual(".raids add \"Augusta Raurica - Osttor\" \"3\" 14:54", text, true);
+			}
 	    }
 
 	    [TestMethod]

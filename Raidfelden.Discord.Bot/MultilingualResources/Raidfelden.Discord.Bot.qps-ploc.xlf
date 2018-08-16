@@ -95,8 +95,8 @@
           <target state="new">Interactive reaction needed</target>
         </trans-unit>
         <trans-unit id="Base_Messages_Reply_Success" translate="yes" xml:space="preserve">
-          <source>Tank you {0}, I added the following informations:</source>
-          <target state="new">Tank you {0}, I added the following informations:</target>
+          <source>Thank you {0}, I added the following informations:</source>
+          <target state="new">Thank you {0}, I added the following informations:</target>
         </trans-unit>
         <trans-unit id="Raids_Errors_Unexpected" translate="yes" xml:space="preserve">
           <source>An unexcpected error occured: {0}</source>

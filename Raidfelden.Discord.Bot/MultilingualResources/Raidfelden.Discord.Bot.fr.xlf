@@ -15,8 +15,9 @@
           <target state="final">Intéraction manuelle requise</target>
         </trans-unit>
         <trans-unit id="Base_Messages_Reply_Success" translate="yes" xml:space="preserve">
-          <source>Tank you {0}, I added the following informations:</source>
-          <target state="final">Merci {0}, je viens d'ajouter les informations suivantes:</target>
+          <source>Thank you {0}, I added the following informations:</source>
+          <target state="needs-review-translation">Merci {0}, je viens d'ajouter les informations suivantes:</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="BotName" translate="yes" xml:space="preserve">
           <source>Raidfelden Info Bot</source>
