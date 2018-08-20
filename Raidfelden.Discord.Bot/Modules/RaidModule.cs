@@ -17,15 +17,10 @@ namespace Raidfelden.Discord.Bot.Modules
     [Group("raids")]
     public class RaidModule : BaseModule<SocketCommandContext, RaidChannel>
     {
-        protected IRaidService RaidService { get; }
-	    protected IOcrService OcrService;
+	    protected IRaidService RaidService => ServiceFactory.Build<IRaidService>();
+	    protected IOcrService OcrService => ServiceFactory.Build<IOcrService>();
 
-        public RaidModule(IRaidService raidService, IEmojiService emojiService, IConfigurationService configurationService, IOcrService ocrService, ILocalizationService localizationService)
-            : base(configurationService, emojiService, localizationService)
-        {
-            RaidService = raidService;
-	        OcrService = ocrService;
-        }
+        public RaidModule(IServiceFactory serviceFactory) : base(serviceFactory) { }
 
 	    [Command("ocr")]
 	    public async Task OcrAsync()

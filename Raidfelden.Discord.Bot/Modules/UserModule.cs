@@ -14,12 +14,9 @@ namespace Raidfelden.Discord.Bot.Modules
 	[Group("users")]
     public class UserModule : BaseModule<SocketCommandContext, RaidChannel>
 	{
-		protected IUserService UserService { get; }
+		protected IUserService UserService => ServiceFactory.Build<IUserService>();
 
-		public UserModule(IUserService userService, IConfigurationService configurationService, IEmojiService emojiService, ILocalizationService localizationService) : base(configurationService, emojiService, localizationService)
-		{
-			UserService = userService;
-		}
+		public UserModule(IServiceFactory serviceFactory) : base(serviceFactory) { }
 
 		[Command("register")]
 		public async Task RegisterAsync(string trainerName, double latitude, double longitude, string friendshipCode)

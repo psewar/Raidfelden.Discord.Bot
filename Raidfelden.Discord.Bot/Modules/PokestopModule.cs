@@ -14,12 +14,9 @@ namespace Raidfelden.Discord.Bot.Modules
 	[Group("pokestops")]
     public class PokestopModule : BaseModule<SocketCommandContext, RaidChannel>
 	{
-		protected IPokestopService PokestopService { get; }
-		
-		public PokestopModule(IPokestopService pokestopService, IConfigurationService configurationService, IEmojiService emojiService, ILocalizationService localizationService) : base(configurationService, emojiService, localizationService)
-		{
-			PokestopService = pokestopService;
-		}
+		protected IPokestopService PokestopService => ServiceFactory.Build<IPokestopService>();
+
+		public PokestopModule(IServiceFactory serviceFactory) : base(serviceFactory) { }
 
 		[Command("convert")]
 		public async Task RegisterAsync(string name, string newName = null)

@@ -22,11 +22,9 @@ namespace Raidfelden.Discord.Bot.Modules
         where TModule : SocketCommandContext
         where TConfiguration : ChannelConfiguration
     {
-        protected BaseModule(IConfigurationService configurationService, IEmojiService emojiService, ILocalizationService localizationService) : base()
+        protected BaseModule(IServiceFactory serviceFactory) : base()
         {
-            ConfigurationService = configurationService;
-            EmojiService = emojiService;
-	        LocalizationService = localizationService;
+	        ServiceFactory = serviceFactory;
 	        InteractiveReactionLimit = ConfigurationService.GetAppConfiguration().InteractiveReactionLimit;
 	        if (InteractiveReactionLimit == 0)
 	        {
@@ -47,9 +45,10 @@ namespace Raidfelden.Discord.Bot.Modules
             base.BeforeExecute(command);
         }
 
-		protected IConfigurationService ConfigurationService { get; }
-        protected IEmojiService EmojiService { get; }
-	    protected ILocalizationService LocalizationService { get; }
+	    protected IServiceFactory ServiceFactory { get; }
+	    protected IConfigurationService ConfigurationService => ServiceFactory.Build<IConfigurationService>();
+	    protected IEmojiService EmojiService => ServiceFactory.Build<IEmojiService>();
+	    protected ILocalizationService LocalizationService => ServiceFactory.Build<ILocalizationService>();
 	    protected ChannelConfiguration[] ChannelConfigurations { get; set; }
 	    protected DateTimeZone ChannelTimeZone { get; private set; }
 	    protected int InteractiveReactionLimit { get; private set; }

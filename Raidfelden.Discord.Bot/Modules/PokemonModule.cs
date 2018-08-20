@@ -15,17 +15,11 @@ namespace Raidfelden.Discord.Bot.Modules
     [Group("pokemon")]
     public class PokemonModule : BaseModule<SocketCommandContext, PokemonChannel>
     {
-        protected ISpawnpointRepository SpawnpointRepository { get; private set; }
-        protected ISightingRepository SightingRepository { get; private set; }
-        private readonly IPokemonService _pokemonService;
+	    protected ISpawnpointRepository SpawnpointRepository => ServiceFactory.Build<ISpawnpointRepository>();
+	    protected ISightingRepository SightingRepository => ServiceFactory.Build<ISightingRepository>();
+	    private IPokemonService _pokemonService => ServiceFactory.Build<IPokemonService>();
 
-        public PokemonModule(ISpawnpointRepository spawnpointRepository, ISightingRepository sightingRepository, IPokemonService pokemonService, IConfigurationService configurationService, IEmojiService emojiService, ILocalizationService localizationService)
-            :base(configurationService, emojiService, localizationService)
-        {
-            SpawnpointRepository = spawnpointRepository;
-            SightingRepository = sightingRepository;
-            _pokemonService = pokemonService;
-        }
+        public PokemonModule(IServiceFactory serviceFactory) : base(serviceFactory) { }
 
         [Command("add"), Summary("Erlaubt es manuell Pokemon zu erfassen, die dann auf den Karten angezeigt werden.")]
         public async Task AddPokemonAsync([Summary("Der Name des Pokemon.")]string pokemonName, string latitude, string longitude, short cp, int level = 1, byte atkIv = 0, byte defIv = 0, byte staIv = 0)

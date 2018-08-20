@@ -50,6 +50,7 @@ namespace Raidfelden.Discord.Bot
                 .AddSingleton(_commands)
 				.AddSingleton<IEmojiService, EmojiService>()
                 .AddSingleton<InteractiveService>()
+				.AddSingleton<IServiceFactory, ServiceFactory>()
                 .BuildServiceProvider();
 
             ConfigurationService = ServiceProvider.GetService<IConfigurationService>();

@@ -14,12 +14,9 @@ namespace Raidfelden.Discord.Bot.Modules
 	[Group("quests")]
     public class QuestModule : BaseModule<SocketCommandContext, QuestChannel>
 	{
-		protected IQuestService QuestService { get; }
+		protected IQuestService QuestService => ServiceFactory.Build<IQuestService>();
 
-		public QuestModule(IQuestService questService, IConfigurationService configurationService, IEmojiService emojiService, ILocalizationService localizationService) : base(configurationService, emojiService, localizationService)
-		{
-			QuestService = questService;
-		}
+		public QuestModule(IServiceFactory serviceFactory) : base(serviceFactory) { }
 
 		[Command("add")]
 		public async Task AddQuestAsync(string pokestopName, string questNameOrAlias)
