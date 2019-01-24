@@ -19,7 +19,7 @@ namespace Raidfelden.Discord.Bot.Attributes
         public RequireRoleAttribute(params string[] roleNames) : base(ContextType.Guild)
             => _roleNames = roleNames;
 
-        public override Task<PreconditionResult> CheckPermissions(ICommandContext context, CommandInfo command, IServiceProvider services)
+	    public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider services)
         {
             var allowedRoleIds = new List<ulong>();
 

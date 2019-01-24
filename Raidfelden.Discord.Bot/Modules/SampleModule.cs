@@ -48,12 +48,12 @@ namespace Raidfelden.Discord.Bot.Modules
         // You can customize the paginator by creating a PaginatedMessage object
         // You can customize the criteria for the paginator as well, which defaults to restricting to the source user
         // This method will not block.
-        [Command("paginator")]
-        public async Task Test_Paginator()
-        {
-            var pages = new[] { "Page 1", "Page 2", "Page 3", "aaaaaa", "Page 5" };
-            await PagedReplyAsync(pages);
-        }
+        //[Command("paginator")]
+        //public async Task Test_Paginator()
+        //{
+        //    var pages = new[] { "Page 1", "Page 2", "Page 3", "aaaaaa", "Page 5" };
+        //    await PagedReplyAsync(pages);
+        //}
 
         // InlineReactionReplyAsync will send a message and adds reactions on it.
         // Once an user adds a reaction, the callback is fired.
@@ -63,8 +63,8 @@ namespace Raidfelden.Discord.Bot.Modules
         public async Task Test_ReactionReply()
         {
             await InlineReactionReplyAsync(new ReactionCallbackData("text")
-                .WithCallback(new Emoji("👍"), c => c.Channel.SendMessageAsync("You've replied with 👍"))
-                .WithCallback(new Emoji("👎"), c => c.Channel.SendMessageAsync("You've replied with 👎"))
+                .WithCallback(new Emoji("👍"), (c, r) => c.Channel.SendMessageAsync("You've replied with 👍"))
+                .WithCallback(new Emoji("👎"), (c, r) => c.Channel.SendMessageAsync("You've replied with 👎"))
                 );
         }
         [Command("embedreaction")]
@@ -75,13 +75,13 @@ namespace Raidfelden.Discord.Bot.Modules
 
             var embed = new EmbedBuilder()
                 .WithTitle("Choose one")
-                .AddInlineField(one.Name, "Beer")
-                .AddInlineField(two.Name, "Drink")
+                .AddField(one.Name, "Beer", true)
+                .AddField(two.Name, "Drink", true)
                 .Build();
 
             await InlineReactionReplyAsync(new ReactionCallbackData("text", embed)
-                .WithCallback(one, c => c.Channel.SendMessageAsync("Here you go :beer:"))
-                .WithCallback(two, c => c.Channel.SendMessageAsync("Here you go :tropical_drink:"))
+                .WithCallback(one, (c, r) => c.Channel.SendMessageAsync("Here you go :beer:"))
+                .WithCallback(two, (c, r) => c.Channel.SendMessageAsync("Here you go :tropical_drink:"))
                 );
         }
 
@@ -101,7 +101,7 @@ namespace Raidfelden.Discord.Bot.Modules
             for (int i = 1; i <= count; i++)
             {
                 var counter = i;
-                reply.WithCallback(numberEmojis[counter], c => c.Channel.SendMessageAsync("You have choosen option: " + counter));
+                reply.WithCallback(numberEmojis[counter], (c, r) => c.Channel.SendMessageAsync("You have choosen option: " + counter));
             }
 
             await InlineReactionReplyAsync(reply);

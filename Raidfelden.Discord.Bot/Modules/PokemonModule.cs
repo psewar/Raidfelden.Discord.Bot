@@ -58,7 +58,7 @@ namespace Raidfelden.Discord.Bot.Modules
                 sighting.StaIv = staIv;
 
                 var utcNow = SystemClock.Instance.GetCurrentInstant().InUtc();
-                var seconds = (utcNow.Minute * 60) + utcNow.Second;
+                //var seconds = (utcNow.Minute * 60) + utcNow.Second;
 
                 var spawnpoints = await SpawnpointRepository.GetNearestSpawnpointsAsync(lat, lon);
                 foreach (var spawnpoint in spawnpoints)

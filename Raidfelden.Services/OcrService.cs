@@ -17,7 +17,7 @@ using Raidfelden.Services.Ocr.RaidConfigurations.Ric1440X2960;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.Processing.Transforms;
+
 
 namespace Raidfelden.Services
 {

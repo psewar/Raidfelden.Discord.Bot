@@ -139,25 +139,21 @@ namespace Raidfelden.Services
 				var gymId = aliasCache[name.ToLower()];
 				return await Task.FromResult(GymRepository.FindAll(e => e.Id == gymId).ToList());
 			}
-			else
-			{
-				if (fences != null && fences.Any())
-				{
-					var fortIds = new List<int>();
-					foreach (var fence in fences)
-					{
-						var ids = GymsByFences.GetOrAdd(fence, GetFortIdsForFence);
-						fortIds.AddRange(ids);
-					}
-					fortIds = fortIds.Distinct().ToList();
 
-					return await GymRepository.FindAll(e => fortIds.Contains(e.Id) && e.Name.Contains(name)).ToListAsync();
-				}
-				else
-				{
-					return await GymRepository.FindAll(e => e.Name.Contains(name)).ToListAsync();
-				}
+			if (fences == null || !fences.Any())
+			{
+				return await GymRepository.FindAll(e => e.Name.Contains(name)).ToListAsync();
 			}
+
+			var fortIds = new List<int>();
+			foreach (var fence in fences)
+			{
+				var ids = GymsByFences.GetOrAdd(fence, GetFortIdsForFence);
+				fortIds.AddRange(ids);
+			}
+			fortIds = fortIds.Distinct().ToList();
+
+			return await GymRepository.FindAll(e => fortIds.Contains(e.Id) && e.Name.Contains(name)).ToListAsync();
 		}
 
 		private int[] GetFortIdsForFence(FenceConfiguration fence)
@@ -177,19 +173,20 @@ namespace Raidfelden.Services
 
 		private IQueryable<IGym> GetGyms(FenceConfiguration[] fences = null)
 		{
-			if (fences != null && fences.Any())
+			if (fences == null || !fences.Any())
 			{
-				var fortIds = new List<int>();
-				foreach (var fence in fences)
-				{
-					var ids = GymsByFences.GetOrAdd(fence, GetFortIdsForFence);
-					fortIds.AddRange(ids);
-				}
-				fortIds = fortIds.Distinct().ToList();
-
-				return GymRepository.FindAll(e => fortIds.Contains(e.Id));
+				return GymRepository.GetAll();
 			}
-			return GymRepository.GetAll();
+
+			var fortIds = new List<int>();
+			foreach (var fence in fences)
+			{
+				var ids = GymsByFences.GetOrAdd(fence, GetFortIdsForFence);
+				fortIds.AddRange(ids);
+			}
+			fortIds = fortIds.Distinct().ToList();
+
+			return GymRepository.FindAll(e => fortIds.Contains(e.Id));
 		}
 
 		public async Task<Dictionary<IGym, double>> GetSimilarGymsByNameAsync(string name, FenceConfiguration[] fences = null, int limit = int.MaxValue)
@@ -210,11 +207,7 @@ namespace Raidfelden.Services
 
 		private static string TrimString(string value)
 		{
-			if (string.IsNullOrWhiteSpace(value))
-			{
-				return value;
-			}
-			return value.Trim();
+			return string.IsNullOrWhiteSpace(value) ? value : value.Trim();
 		}
 
 		public async Task UpdateGymAsync(IGym gym)

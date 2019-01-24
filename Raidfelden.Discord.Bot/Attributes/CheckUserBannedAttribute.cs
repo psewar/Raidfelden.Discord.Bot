@@ -6,22 +6,20 @@ using System.Threading.Tasks;
 
 namespace Raidfelden.Discord.Bot.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public class CheckUserBannedAttribute : PreconditionAttribute
     {
-        public override Task<PreconditionResult> CheckPermissions(ICommandContext context, CommandInfo command, IServiceProvider services)
+        public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider services)
         {
-            var user = context.User as SocketGuildUser;
-            if (user != null)
-            {
-                var userIsBanned = user.Roles.Any(e => e.Name.ToLower() == "infobotbanned");
-                if (userIsBanned)
-                {
-                    return Task.FromResult(PreconditionResult.FromError($"User {user.Username} is banned"));
-                }
-            }
+	        if (!(context.User is SocketGuildUser user))
+	        {
+		        return Task.FromResult(PreconditionResult.FromSuccess());
+	        }
 
-            return Task.FromResult(PreconditionResult.FromSuccess());
+	        var userIsBanned = user.Roles.Any(e => e.Name.ToLower() == "infobotbanned");
+	        return Task.FromResult(userIsBanned 
+		        ? PreconditionResult.FromError($"User {user.Username} is banned") 
+		        : PreconditionResult.FromSuccess());
         }
     }
 }

@@ -97,7 +97,7 @@ namespace Raidfelden.Discord.Bot
 		public async Task RegisterCommandsAsync()
 		{
 			_client.MessageReceived += HandleCommandAsync;
-			await _commands.AddModulesAsync(Assembly.GetEntryAssembly());
+			await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), ServiceProvider);
 		}
 
 		private async Task HandleCommandAsync(SocketMessage arg)

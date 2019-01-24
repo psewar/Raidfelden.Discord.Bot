@@ -1,7 +1,6 @@
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.Processing.Filters;
 using SixLabors.Primitives;
 
 namespace Raidfelden.Services.Ocr.RaidConfigurations

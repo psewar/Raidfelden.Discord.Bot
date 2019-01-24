@@ -22,7 +22,7 @@ namespace Raidfelden.Discord.Bot.Modules
         where TModule : SocketCommandContext
         where TConfiguration : ChannelConfiguration
     {
-        protected BaseModule(IServiceFactory serviceFactory) : base()
+        protected BaseModule(IServiceFactory serviceFactory)
         {
 	        ServiceFactory = serviceFactory;
 	        InteractiveReactionLimit = ConfigurationService.GetAppConfiguration().InteractiveReactionLimit;
@@ -51,37 +51,15 @@ namespace Raidfelden.Discord.Bot.Modules
 	    protected ILocalizationService LocalizationService => ServiceFactory.Build<ILocalizationService>();
 	    protected ChannelConfiguration[] ChannelConfigurations { get; set; }
 	    protected DateTimeZone ChannelTimeZone { get; private set; }
-	    protected int InteractiveReactionLimit { get; private set; }
+	    protected int InteractiveReactionLimit { get; }
 
-	    protected TConfiguration ChannelConfiguration
-        {
-            get
-            {
-                return ChannelConfigurations.OfType<TConfiguration>().FirstOrDefault();
-            }
-        }
+	    protected TConfiguration ChannelConfiguration => ChannelConfigurations.OfType<TConfiguration>().FirstOrDefault();
 
-        protected FenceConfiguration[] Fences
-        {
-            get
-            {
-                return ConfigurationService.GetFencesConfigurationForChannel(ChannelConfiguration).ToArray();
-            }
-        }
+	    protected FenceConfiguration[] Fences => ConfigurationService.GetFencesConfigurationForChannel(ChannelConfiguration).ToArray();
 
-        protected bool CanProcessRequest
-        {
-            get
-            {
-                if (ChannelConfiguration == null && !ConfigurationService.ShouldProcessRequestAnyway(Context.Message.Author.Username))
-                {
-                    return false;
-                }
-                return true;
-            }
-        }
+	    protected bool CanProcessRequest => ChannelConfiguration != null || ConfigurationService.ShouldProcessRequestAnyway(Context.Message.Author.Username);
 
-        protected async Task ReplyWithInteractive(Func<Task<ServiceResponse>> interactiveCallback, string titleSuccess)
+	    protected async Task ReplyWithInteractive(Func<Task<ServiceResponse>> interactiveCallback, string titleSuccess)
         {
             var result = await interactiveCallback();
             if (result.IsSuccess)
@@ -125,12 +103,12 @@ namespace Raidfelden.Discord.Bot.Modules
                 callbackCounter++;
             }
             var embed = BuildEmbed(LocalizationService.Get(typeof(i18n), "Base_Messages_Reply_Interactive"), messageBuilder.ToString(), Color.Orange);
-            var reply = new ReactionCallbackData(string.Empty, embed, TimeSpan.FromSeconds(30));
+            var reply = new ReactionCallbackData(string.Empty, embed, timeout: TimeSpan.FromSeconds(30));
             callbackCounter = 1;
             foreach (var resultInterActiveCallback in response.InterActiveCallbacks)
             {
                 var emoji = EmojiService.Get(callbackCounter);
-                reply.WithCallback(emoji, c => ReplyWithInteractive(resultInterActiveCallback.Value, titleSuccess));
+	            reply.WithCallback(emoji, (context, reaction) => ReplyWithInteractive(resultInterActiveCallback.Value, titleSuccess));
                 callbackCounter++;
             }
             await InlineReactionReplyAsync(reply);

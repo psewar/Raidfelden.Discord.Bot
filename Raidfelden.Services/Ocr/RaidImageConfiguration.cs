@@ -4,9 +4,6 @@ using Raidfelden.Services.Extensions.ImageSharp;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.Processing.Binarization;
-using SixLabors.ImageSharp.Processing.Filters;
-using SixLabors.ImageSharp.Processing.Transforms;
 using SixLabors.Primitives;
 
 namespace Raidfelden.Services.Ocr
